@@ -8,7 +8,12 @@ metadata:
   name: google-cert
 spec:
   domains:
+    {{- if eq .Values.lifecycle "prod" }}
     - {{ required "Google Domain Required" .Values.google.domain }}
+    {{- else }}
+    - '{{ .Values.lifecycle -}}.{{- required "Google Domain Required" .Values.google.domain }}'
+
+    {{- end }}
 
 ---
 
