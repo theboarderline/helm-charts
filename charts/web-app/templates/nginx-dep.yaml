@@ -22,7 +22,7 @@ spec:
       serviceAccountName: {{ .Values.app_code -}}-sa
       containers:
       - name: nginx
-        image: {{ include "walker-chart.nginx_image" . | indent 2}}
+        image: {{ include "walker-chart.nginx_image" . }}
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
@@ -63,7 +63,7 @@ spec:
         - name: DOMAIN
           value: {{ required "Google Domain Required" .Values.google.domain }}
         - name: STATIC_BUCKET
-          value: {{ include "walker-chart.bucket" . | indent 2 }}
+          value: {{ include "walker-chart.bucket" . }}
 
         {{- if .Values.django.oauth }}
         - name: OAUTH_ID
@@ -72,7 +72,7 @@ spec:
 
         {{- if .Values.firebase.enabled }}
         - name: AUTH_DOMAIN
-          value: {{ include "walker-chart.app_project" . | indent 2 -}}.firebaseapp.com
+          value: {{ include "walker-chart.app_project" . -}}.firebaseapp.com
         - name: FIREBASE_KEY
           valueFrom:
             secretKeyRef:
