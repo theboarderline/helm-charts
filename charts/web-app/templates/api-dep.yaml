@@ -127,9 +127,9 @@ spec:
 
         {{- if eq .Values.app_code "cgs" }}
         - name: TWILIO_NUMBER_IL
-          value: {{ required "IL Phone number required for CGS" .Values.twilio.numbers.il }}
+          value: '{{ required "IL Phone number required for CGS" .Values.twilio.numbers.il }}'
         - name: TWILIO_NUMBER_WA
-          value: {{ required "WA Phone number required for CGS" .Values.twilio.numbers.wa }}
+          value: '{{ required "WA Phone number required for CGS" .Values.twilio.numbers.wa }}'
         - name: TWILIO_NUMBER_SID_IL
           valueFrom:
             secretKeyRef:
@@ -143,7 +143,7 @@ spec:
 
         {{- else }}
         - name: TWILIO_NUMBER
-          value: {{ required "Phone number required if using Twilio" .Values.twilio.number }}
+          value: '{{ required "Phone number required if using Twilio" .Values.twilio.number }}'
         - name: TWILIO_NUMBER_SID
           valueFrom:
             secretKeyRef:
@@ -155,7 +155,7 @@ spec:
 
         {{- if eq .Values.app_code "bl" }}
         - name: BASE_ID
-          value: {{ required "Base ID required to use Airtable" .Values.airtable.base_id }}
+          value: '{{ required "Base ID required to use Airtable" .Values.airtable.base_id }}'
         - name: API_KEY
           valueFrom:
             secretKeyRef:
