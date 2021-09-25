@@ -110,7 +110,7 @@ spec:
         - name: DB_NAME
           value: {{ include "walker-chart.db_name" . | indent 2 }}
         - name: DB_USER
-          value: {{ include "walker-chart.db_user" . | indent 2 }}
+          value: {{ include "walker-chart.app_sa" . | indent 2 }}
         {{- end }}
 
         {{- if .Values.twilio.enabled }}
