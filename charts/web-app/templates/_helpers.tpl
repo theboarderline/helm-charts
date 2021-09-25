@@ -14,12 +14,12 @@
 
 
 {{- define "walker-chart.gke_project" -}}
-  {{- .Values.lifecycle -}}-{{- .Values.project_identifier -}}-gke-project
+  {{- .Values.lifecycle -}}-{{- .Values.proj_identifier -}}-gke-project
 {{- end -}}
 
 
 {{- define "walker-chart.app_project" -}}
-  {{- .Values.app_code -}}-{{- .Values.project_identifier -}}-app-project
+  {{- .Values.app_code -}}-{{- .Values.proj_identifier -}}-app-project
 {{- end -}}
 
 
