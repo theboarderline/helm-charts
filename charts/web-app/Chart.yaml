@@ -3,4 +3,4 @@ name: walker-chart
 description: A Helm chart for deploying Walker's Kubernetes Applications
 type: application
 appVersion: 1.16.5
-version: 0.0.7
+version: 0.0.8

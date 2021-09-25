@@ -29,11 +29,11 @@ spec:
           allowPrivilegeEscalation: false
         resources:
           requests:
-            memory: '{{ required "API Memory Requests Required" .Values.api.memory.request }}'
-            cpu: '{{ required "API CPU Requests Required" .Values.api.cpu.request }}'
+            memory: {{ required "API Memory Requests Required" .Values.api.memory.request }}
+            cpu: {{ required "API CPU Requests Required" .Values.api.cpu.request }}
           limits:
-            memory: '{{ required "API Memory Limits Required" .Values.api.memory.limit }}'
-            cpu: '{{ required "API CPU Limits Required" .Values.api.cpu.limit }}'
+            memory: {{ required "API Memory Limits Required" .Values.api.memory.limit }}
+            cpu: {{ required "API CPU Limits Required" .Values.api.cpu.limit }}
 
         {{- if ne .Values.app_code "bl" }}
         livenessProbe:
@@ -53,18 +53,18 @@ spec:
 
         {{- if and (not .Values.db.proxy) (.Values.db.local) }}
         command: ["/bin/sh"]
-        args: ["-c", "./init_db.sh && gunicorn -b 0.0.0.0:8000 {{ required 'API Label Required' .Values.api.label -}}.wsgi"]
+        args: ["-c", "./init_db.sh && gunicorn -b 0.0.0.0:8000 {{ .Values.api.label -}}.wsgi"]
         {{- end }}
 
         env:
         - name: LIFECYCLE
-          value: '{{ required "Lifecycle Required" .Values.lifecycle }}'
+          value: {{ .Values.lifecycle }}
         - name: USE_GCS
           value: "true"
         - name: DOMAIN
-          value: '{{ include "walker-chart.domain" . }}'
+          value: {{ include "walker-chart.domain" . | indent 2 }}
         - name: STATIC_BUCKET
-          value: '{{ include "walker-chart.bucket" . }}'
+          value: {{ include "walker-chart.bucket" . | indent 2 }}
 
         {{- if .Values.django.enabled }}
         - name: DJANGO_KEY
@@ -75,7 +75,7 @@ spec:
 
         {{- if .Values.django.email }}
         - name: DJANGO_EMAIL
-          value: "{{ .Values.django.email }}"
+          value: {{ .Values.django.email }}
         - name: EMAIL_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -85,7 +85,7 @@ spec:
 
         {{- if .Values.sendgrid.email }}
         - name: SENDGRID_EMAIL
-          value: "{{ .Values.sendgrid.email }}"
+          value: {{ .Values.sendgrid.email }}
         - name: SENDGRID_KEY
           valueFrom:
             secretKeyRef:
@@ -95,7 +95,7 @@ spec:
 
         {{- if .Values.django.oauth }}
         - name: OAUTH_ID
-          value: "{{ .Values.google.oauth.id }}"
+          value: {{ .Values.google.oauth.id }}
         - name: OAUTH_SECRET
           valueFrom:
             secretKeyRef:
@@ -108,9 +108,9 @@ spec:
         - name: USE_PROXY
           value: "true"
         - name: DB_NAME
-          value: {{ include "walker-chart.db_name" . }}
+          value: {{ include "walker-chart.db_name" . | indent 2 }}
         - name: DB_USER
-          value: {{ include "walker-chart.db_user" . }}
+          value: {{ include "walker-chart.db_user" . | indent 2 }}
         {{- end }}
 
         {{- if .Values.twilio.enabled }}
@@ -127,9 +127,9 @@ spec:
 
         {{- if eq .Values.app_code "cgs" }}
         - name: TWILIO_NUMBER_IL
-          value: '{{ required "IL Phone number required for CGS" .Values.twilio.numbers.il }}'
+          value: {{ required "IL Phone number required for CGS" .Values.twilio.numbers.il }}
         - name: TWILIO_NUMBER_WA
-          value: '{{ required "WA Phone number required for CGS" .Values.twilio.numbers.wa }}'
+          value: {{ required "WA Phone number required for CGS" .Values.twilio.numbers.wa }}
         - name: TWILIO_NUMBER_SID_IL
           valueFrom:
             secretKeyRef:
@@ -143,7 +143,7 @@ spec:
 
         {{- else }}
         - name: TWILIO_NUMBER
-          value: '{{ required "Phone number required if using Twilio" .Values.twilio.number }}'
+          value: {{ required "Phone number required if using Twilio" .Values.twilio.number }}
         - name: TWILIO_NUMBER_SID
           valueFrom:
             secretKeyRef:
@@ -155,7 +155,7 @@ spec:
 
         {{- if eq .Values.app_code "bl" }}
         - name: BASE_ID
-          value: '{{ required "Base ID required to use Airtable" .Values.airtable.base_id }}'
+          value: {{ required "Base ID required to use Airtable" .Values.airtable.base_id }}
         - name: API_KEY
           valueFrom:
             secretKeyRef:

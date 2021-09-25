@@ -19,20 +19,20 @@ spec:
       labels:
         app: nginx-dep
     spec:
-      serviceAccountName: {{ .Values.app_code }}-sa
+      serviceAccountName: {{ .Values.app_code -}}-sa
       containers:
       - name: nginx
-        image: {{ include "walker-chart.nginx_image" . }}
+        image: {{ include "walker-chart.nginx_image" . | indent 2}}
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
         resources:
           requests:
-            memory: '{{ required "Nginx Memory Requests Required" .Values.nginx.memory.request }}'
-            cpu: '{{ required "Nginx CPU Requests Required" .Values.nginx.cpu.request }}'
+            memory: {{ required "Nginx Memory Requests Required" .Values.nginx.memory.request }}
+            cpu: {{ required "Nginx CPU Requests Required" .Values.nginx.cpu.request }}
           limits:
-            memory: '{{ required "Nginx Memory Limits Required" .Values.nginx.memory.limit }}'
-            cpu: '{{ required "Nginx CPI Limits Required" .Values.nginx.cpu.limit }}'
+            memory: {{ required "Nginx Memory Limits Required" .Values.nginx.memory.limit }}
+            cpu: {{ required "Nginx CPI Limits Required" .Values.nginx.cpu.limit }}
 
         startupProbe:
           httpGet:
@@ -63,7 +63,7 @@ spec:
         - name: DOMAIN
           value: {{ required "Google Domain Required" .Values.google.domain }}
         - name: STATIC_BUCKET
-          value: {{ include "walker-chart.bucket" . }}
+          value: {{ include "walker-chart.bucket" . | indent 2 }}
 
         {{- if .Values.django.oauth }}
         - name: OAUTH_ID
@@ -72,7 +72,7 @@ spec:
 
         {{- if .Values.firebase.enabled }}
         - name: AUTH_DOMAIN
-          value: {{- include "walker-chart.app_project" . -}}.firebaseapp.com
+          value: {{ include "walker-chart.app_project" . | indent 2 -}}.firebaseapp.com
         - name: FIREBASE_KEY
           valueFrom:
             secretKeyRef:
