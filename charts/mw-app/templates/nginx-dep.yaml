@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-dep
+    tier: frontend
+  name: nginx-dep
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-dep
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nginx-dep
+    spec:
+      containers:
+      - name: nginx
+        image: {{ include "mw-app.nginx_image" . }}
+        imagePullPolicy: Always
+
+        startupProbe:
+          httpGet:
+            path: /
+            port: 80
+          failureThreshold: 5
+          periodSeconds: 5
+
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+        env:
+        - name: LIFECYCLE
+          value: {{ .Values.k8s.lifecycle }}
+        - name: DOMAIN
+          value: {{ .Values.google.domain }}
+        - name: STATIC_BUCKET
+          value: {{ .Values.google.static_bucket }}
+        ports:
+        - containerPort: 80
+          name: https
+          protocol: TCP
+

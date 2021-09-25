@@ -1,0 +1,16 @@
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: gke-backendconfig
+spec:
+  securityPolicy:
+    name: no-bad-guys
+
+  {{ if .Values.cdn }}
+  cdn:
+    enabled: true
+    cachePolicy:
+      includeHost: true
+      includeProtocol: true
+  {{ end }}
+

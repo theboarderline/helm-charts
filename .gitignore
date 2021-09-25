@@ -1,0 +1,57 @@
+**/env.js
+**/*.log
+**/build/
+**/secrets/
+**/service-accounts/
+
+**/env.sh
+
+
+
+
+**/.DS_Store
+
+# Python
+**/*.pyc
+**/__pycache__
+**/*.egg-info*
+**/dist/
+**/env/
+**/venv/
+**/venv3/
+**/.pytest_cache
+**/.idea/
+
+# JavaScript
+**/node_modules/
+
+
+# Virtual Machine
+**/.vagrant/
+
+# Text editors and IDEs
+**/*~
+**/*.lock
+**/*.swp
+**/.vscode
+**/.ropeproject/
+**/.vscode/
+
+# Google drive and dropbox
+**/Icon
+**/.dropbox*
+
+# testing
+**/coverage
+
+# production
+
+# misc
+**/.env.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*

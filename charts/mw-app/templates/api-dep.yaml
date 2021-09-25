@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-dep
+  labels:
+    app: api-dep
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-dep
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: api-dep
+    spec:
+
+      restartPolicy: Always
+      containers:
+      - name: api
+        image: {{ include "mw-app.api_image" . }}
+        imagePullPolicy: Always
+
+        env:
+        - name: DJANGO_KEY
+          value: "fake-secret-key"
+        - name: DOMAIN
+          value: {{ .Values.google.domain }}
+        - name: LIFECYCLE
+          value: {{ .Values.k8s.lifecycle }}
+
+        ports:
+        - containerPort: 8000
+          name: api-port
+

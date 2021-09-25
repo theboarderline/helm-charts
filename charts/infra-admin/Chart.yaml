@@ -1,0 +1,6 @@
+apiVersion: v2
+name: infra-admin
+description: A Helm chart for deploying Walker's Infra with Config Connect
+type: application
+appVersion: 1.0.0
+version: 0.0.2

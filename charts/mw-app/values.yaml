@@ -1,0 +1,43 @@
+k8s:
+  api:
+    memory:
+      request: "128Mi"
+      limit: "512Mi"
+    cpu:
+      request: .2
+      limit: 1
+    replicas: 1
+    max_replicas: 1
+    target_cpu: 80
+    target_mem: 512Mi
+
+  nginx:
+    memory:
+      request: "5Mi"
+      limit: "50Mi"
+    cpu:
+      request: .1
+      limit: .5
+    replicas: 1
+    max_replicas: 1
+    target_cpu: 80
+    target_mem: 50Mi
+
+google:
+  region: us-central1
+
+images:
+  api:
+    name: django
+    tag: latest
+  nginx:
+    name: nginx
+    tag: latest
+ 
+frontend: false
+backend: false
+ingress: false
+
+cdn: false
+
+

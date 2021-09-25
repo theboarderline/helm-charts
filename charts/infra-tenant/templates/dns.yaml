@@ -1,0 +1,52 @@
+
+{{ if .Values.config_connect.provision_ip }}
+
+apiVersion: compute.cnrm.cloud.google.com/v1beta1
+kind: ComputeAddress
+metadata:
+  name: {{ .Values.ip_name }}
+  annotations:
+    cnrm.cloud.google.com/project-id: {{ required "gke_project REQUIRED" .Values.gke_project }}
+spec:
+  location: global
+  ipVersion: IPV4
+
+{{ end }}
+
+---
+
+{{ if .Values.config_connect.dns_zone }}
+
+apiVersion: dns.cnrm.cloud.google.com/v1beta1
+kind: DNSManagedZone
+metadata:
+  name: dns-zone
+  annotations:
+    cnrm.cloud.google.com/project-id: {{ required "dns_project REQUIRED" .Values.dns_project }}
+spec:
+  description: "{{ .Values.app_code }} DNS zone"
+  dnsName: "{{ .Values.google.domain }}."
+
+{{ end }}
+
+---
+
+{{ if .Values.config_connect.dns_record }}
+
+apiVersion: dns.cnrm.cloud.google.com/v1beta1
+kind: DNSRecordSet
+metadata:
+  name: {{ .Values.app.lifecycle }}-dns-record
+  annotations:
+    cnrm.cloud.google.com/project-id: {{ required "dns_project REQUIRED" .Values.dns_project }}
+spec:
+  name: "{{ required "Google Domain Required" .Values.google.domain }}."
+  type: "A"
+  ttl: 8600
+  managedZoneRef:
+    name: dns-zone
+  rrdatas:
+  - {{ required "ip_address REQUIRED" .Values.ip_address }}
+# how can i get the ip output? manually adding to values for now
+
+{{ end }}

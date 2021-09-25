@@ -1,0 +1,81 @@
+{{- if .Values.enabled }}
+{{- if .Values.cilium.enabled }}
+
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: cilium-controller
+spec:
+  endpointSelector: {}
+
+  ingress:
+    - fromEndpoints:
+        - {}
+
+    - fromCIDRSet:
+        - cidr: 10.0.0.0/8
+
+    - fromCIDRSet:
+        - cidr: 130.211.0.0/22
+      toPorts:
+        - ports:
+            - port: "443"
+        - ports:
+            - port: "80"
+
+    - fromCIDRSet:
+        - cidr: 35.191.0.0/16
+      toPorts:
+        - ports:
+            - port: "443"
+        - ports:
+            - port: "80"
+
+  egress:
+    - toEndpoints:
+        - {}
+
+    - toFQDNs:
+        - matchPattern: "*.google.com"
+        - matchPattern: "*.googleapis.com"
+        - matchName: "google.com"
+        - matchName: "googleapis.com"
+      toPorts:
+        - ports:
+            - port: "443"
+        - ports:
+            - port: "80"
+            
+    - toCIDRSet:
+        - cidr: 10.0.0.0/8
+
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+
+    - toCIDRSet:
+        - cidr: 130.211.0.0/22
+      toPorts:
+        - ports:
+            - port: "443"
+        - ports:
+            - port: "80"
+
+    - toCIDRSet:
+        - cidr: 35.191.0.0/16
+      toPorts:
+        - ports:
+            - port: "443"
+        - ports:
+            - port: "80"
+
+{{- end }}
+{{- end }}
