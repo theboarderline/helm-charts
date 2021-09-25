@@ -19,7 +19,7 @@ spec:
       labels:
         app: api-dep
     spec:
-      serviceAccountName: {{ .Values.app_code }}-sa
+      serviceAccountName: {{ .Values.app_code -}}-sa
       restartPolicy: Always
       containers:
       - name: api
@@ -49,22 +49,22 @@ spec:
             port: 8000
           initialDelaySeconds: 30
           periodSeconds: 10
-        {{- end -}}
+        {{- end }}
 
         {{- if and (not .Values.db.proxy) (.Values.db.local) }}
         command: ["/bin/sh"]
-        args: ["-c", "./init_db.sh && gunicorn -b 0.0.0.0:8000 {{ required "API Label Required" .Values.api.label -}}.wsgi"]
-        {{- end -}}
+        args: ["-c", "./init_db.sh && gunicorn -b 0.0.0.0:8000 {{ required 'API Label Required' .Values.api.label -}}.wsgi"]
+        {{- end }}
 
         env:
         - name: LIFECYCLE
-          value: {{ required "Lifecycle Required" .Values.lifecycle }}
+          value: '{{ required "Lifecycle Required" .Values.lifecycle }}'
         - name: USE_GCS
           value: "true"
         - name: DOMAIN
-          value: {{ include "walker-chart.domain" . }}
+          value: '{{ include "walker-chart.domain" . }}'
         - name: STATIC_BUCKET
-          value: {{ include "walker-chart.bucket" . -}}
+          value: '{{ include "walker-chart.bucket" . }}'
 
         {{- if .Values.django.enabled }}
         - name: DJANGO_KEY
@@ -81,7 +81,7 @@ spec:
             secretKeyRef:
               name: secrets-manager
               key: email-password
-        {{- end -}}
+        {{- end }}
 
         {{- if .Values.sendgrid.email }}
         - name: SENDGRID_EMAIL
@@ -91,7 +91,7 @@ spec:
             secretKeyRef:
               name: secrets-manager
               key: sendgrid-key
-        {{- end -}}
+        {{- end }}
 
         {{- if .Values.django.oauth }}
         - name: OAUTH_ID
@@ -101,8 +101,8 @@ spec:
             secretKeyRef:
               name: secrets-manager
               key: oauth-secret
-        {{- end -}}
-        {{- end -}}
+        {{- end }}
+        {{- end }}
 
         {{- if .Values.db.proxy }}
         - name: USE_PROXY
@@ -111,7 +111,7 @@ spec:
           value: {{ include "walker-chart.db_name" . }}
         - name: DB_USER
           value: {{ include "walker-chart.db_user" . }}
-        {{- end -}}
+        {{- end }}
 
         {{- if .Values.twilio.enabled }}
         - name: TWILIO_AUTH_TOKEN
@@ -149,9 +149,9 @@ spec:
             secretKeyRef:
               name: secrets-manager
               key: twilio-number-sid
-        {{- end -}}
+        {{- end }}
 
-        {{- end -}}
+        {{- end }}
 
         {{- if eq .Values.app_code "bl" }}
         - name: BASE_ID
@@ -161,7 +161,7 @@ spec:
             secretKeyRef:
               name: secrets-manager
               key: api-key
-        {{- end -}}
+        {{- end }}
 
         ports:
         - containerPort: 8000
@@ -178,6 +178,6 @@ spec:
         securityContext:
           runAsNonRoot: true
           allowPrivilegeEscalation: false
-      {{- end -}}
+      {{- end }}
 
-{{- end -}}
+{{- end }}
