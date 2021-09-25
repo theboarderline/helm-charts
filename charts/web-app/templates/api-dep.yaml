@@ -49,12 +49,12 @@ spec:
             port: 8000
           initialDelaySeconds: 30
           periodSeconds: 10
-        {{- end }}
+        {{- end -}}
 
         {{- if and (not .Values.db.proxy) (.Values.db.local) }}
         command: ["/bin/sh"]
         args: ["-c", "./init_db.sh && gunicorn -b 0.0.0.0:8000 {{ required "API Label Required" .Values.api.label -}}.wsgi"]
-        {{- end }}
+        {{- end -}}
 
         env:
         - name: LIFECYCLE
@@ -62,7 +62,7 @@ spec:
         - name: USE_GCS
           value: "true"
         - name: DOMAIN
-          value: {{ required "Domain Name Required" .Values.google.domain }}
+          value: {{ include "walker-chart.domain" . }}
         - name: STATIC_BUCKET
           value: {{ include "walker-chart.bucket" . -}}
 
@@ -81,7 +81,7 @@ spec:
             secretKeyRef:
               name: secrets-manager
               key: email-password
-        {{- end }}
+        {{- end -}}
 
         {{- if .Values.sendgrid.email }}
         - name: SENDGRID_EMAIL
@@ -91,7 +91,7 @@ spec:
             secretKeyRef:
               name: secrets-manager
               key: sendgrid-key
-        {{- end }}
+        {{- end -}}
 
         {{- if .Values.django.oauth }}
         - name: OAUTH_ID
@@ -101,8 +101,8 @@ spec:
             secretKeyRef:
               name: secrets-manager
               key: oauth-secret
-        {{- end }}
-        {{- end }}
+        {{- end -}}
+        {{- end -}}
 
         {{- if .Values.db.proxy }}
         - name: USE_PROXY
@@ -111,7 +111,7 @@ spec:
           value: {{ include "walker-chart.db_name" . }}
         - name: DB_USER
           value: {{ include "walker-chart.db_user" . }}
-        {{- end }}
+        {{- end -}}
 
         {{- if .Values.twilio.enabled }}
         - name: TWILIO_AUTH_TOKEN
@@ -149,9 +149,9 @@ spec:
             secretKeyRef:
               name: secrets-manager
               key: twilio-number-sid
-        {{- end }}
+        {{- end -}}
 
-        {{- end }}
+        {{- end -}}
 
         {{- if eq .Values.app_code "bl" }}
         - name: BASE_ID
@@ -161,7 +161,7 @@ spec:
             secretKeyRef:
               name: secrets-manager
               key: api-key
-        {{- end }}
+        {{- end -}}
 
         ports:
         - containerPort: 8000
@@ -173,11 +173,11 @@ spec:
         imagePullPolicy: Always
         command:
         - /cloud_sql_proxy
-        - -instances={{- include "walker-chart.db_project" . -}}:{{- required "Region Required" .Values.google.region -}}:{{- required "DB Instance Required" .Values.db.instance -}}=tcp:127.0.0.1:5432
+        - -instances={{- include "walker-chart.app_project" . -}}:{{- required "Region Required" .Values.google.region -}}:{{- required "DB Instance Required" .Values.db.instance -}}=tcp:127.0.0.1:5432
         - -enable_iam_login
         securityContext:
           runAsNonRoot: true
           allowPrivilegeEscalation: false
-      {{- end }}
+      {{- end -}}
 
-{{- end }}
+{{- end -}}

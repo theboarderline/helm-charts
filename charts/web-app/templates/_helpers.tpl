@@ -1,52 +1,56 @@
-{{- define "walker-chart.api_image" -}}
-  "{{ .Values.google.region }}-docker.pkg.dev/{{ .Values.app_code }}-{{ .Values.lifecycle }}-cicd-proj/api-repo/api:{{ .Values.api.tag }}"
-{{- end -}}
 
-{{- define "walker-chart.nginx_image" -}}
-  "{{ .Values.google.region }}-docker.pkg.dev/{{ .Values.app_code }}-{{ .Values.lifecycle }}-cicd-proj/nginx-repo/nginx:{{ .Values.nginx.tag }}"
-{{- end -}}
 
-{{- define "walker-chart.iac_project" -}}
-  {{ .Values.lifecycle }}-iac-proj
-{{- end -}}
+{{- define "walker-chart.domain" -}}
+
+  {{- if eq .Values.lifecycle "prod" }}
+  {{ required "Google Domain Required" .Values.google.domain }}
+
+  {{- else }}
+  '{{ .Values.lifecycle -}}.{{- required "Google Domain Required" .Values.google.domain }}'
+
+  {{- end }}
+
+{{- end }}
+
 
 {{- define "walker-chart.gke_project" -}}
-  {{ .Values.lifecycle }}-gke-proj
+  {{ .Values.lifecycle -}}-{{- .Values.project_identifier -}}-gke-project
 {{- end -}}
 
-{{- define "walker-chart.db_project" -}}
-  {{ .Values.lifecycle }}-db-proj
+
+{{- define "walker-chart.app_project" -}}
+  {{ .Values.app_code -}}-{{- .Values.project_identifier -}}-app-project
 {{- end -}}
 
-{{- define "walker-chart.cicd_project" -}}
-  {{ .Values.app_code }}-{{ .Values.lifecycle }}-cicd-proj
+
+{{- define "walker-chart.api_image" -}}
+  "{{ .Values.google.region -}}-docker.pkg.dev/{{- include "walker-chart.app_project" . -}}/api-repo/{{- .Values.lifecycle -}}:{{- .Values.api.tag }}"
 {{- end -}}
 
-{{- define "walker-chart.dns_project" -}}
-  {{ .Values.app_code }}-{{ .Values.lifecycle }}-dns-proj
+
+{{- define "walker-chart.nginx_image" -}}
+  "{{ .Values.google.region -}}-docker.pkg.dev/{{- include "walker-chart.app_project" . -}}/nginx-repo/{{- .Values.lifecycle -}}:{{- .Values.nginx.tag }}"
 {{- end -}}
+
 
 {{- define "walker-chart.db_name" -}}
-  "{{ .Values.app_code }}-db"
+  "{{ .Values.app_code -}}-db"
 {{- end -}}
+
 
 {{- define "walker-chart.db_user" -}}
-  "gke-worker@{{ .Values.lifecycle }}-gke-proj.iam"
+  {{ .Values.app_code -}}-app@{{- include "walker-chart.app_project" . -}}.iam.gserviceaccount.com
 {{- end -}}
+
 
 {{- define "walker-chart.bucket" -}}
-  "{{ .Values.app_code }}-{{ .Values.lifecycle }}-static"
+  "{{ .Values.app_code -}}-{{ .Values.lifecycle -}}-static"
 {{- end -}}
+
 
 {{- define "walker-chart.ip_name" -}}
-  "{{ .Values.app_code }}-ip"
+  "{{ .Values.app_code -}}-ip"
 {{- end -}}
 
-{{- define "walker-chart.firebase_domain" -}}
-  "{{ .Values.app_code }}-{{ .Values.lifecycle }}-oauth-proj.firebaseapp.com"
-{{- end -}}
 
-{{- define "walker-chart.config_connect.service_account" -}}
-  {{ .Values.app_code }}-app@{{ include "walker-chart.iac_project" . }}.iam.gserviceaccount.com
-{{- end -}}
 

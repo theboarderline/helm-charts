@@ -72,7 +72,7 @@ spec:
 
         {{- if .Values.firebase.enabled }}
         - name: AUTH_DOMAIN
-          value: {{ include "walker-chart.firebase_domain" . }}
+          value: {{- include "walker-chart.app_project" . -}}.firebaseapp.com
         - name: FIREBASE_KEY
           valueFrom:
             secretKeyRef:
