@@ -9,6 +9,9 @@ jobs:
   lint-test:
     runs-on: ubuntu-latest
     steps:
+      - name: Fetch history
+        run: git fetch --prune --unshallow
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
