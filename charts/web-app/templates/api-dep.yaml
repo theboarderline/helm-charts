@@ -83,7 +83,7 @@ spec:
               key: email-password
         {{- end }}
 
-        {{- if .Values.sendgrid.email }}
+        {{- if .Values.sendgrid.enabled }}
         - name: SENDGRID_EMAIL
           value: {{ .Values.sendgrid.email }}
         - name: SENDGRID_KEY
