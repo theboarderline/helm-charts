@@ -18,6 +18,11 @@
 {{- end -}}
 
 
+{{- define "walker-chart.db_project" -}}
+  {{- .Values.lifecycle -}}-{{- .Values.proj_identifier -}}-db-project
+{{- end -}}
+
+
 {{- define "walker-chart.app_project" -}}
   {{- .Values.app_code -}}-{{- .Values.proj_identifier -}}-app-project
 {{- end -}}
