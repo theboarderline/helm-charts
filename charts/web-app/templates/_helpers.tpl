@@ -44,7 +44,7 @@
 
 
 {{- define "walker-chart.bucket" -}}
-  {{- .Values.app_code -}}-{{ .Values.lifecycle -}}-static
+  {{- .Values.app_code -}}-app-static
 {{- end -}}
 
 
