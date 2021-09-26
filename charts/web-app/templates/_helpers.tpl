@@ -43,7 +43,7 @@
 {{- end -}}
 
 
-{{- define "walker-chart.db_user" -}}
+{{- define "walker-chart.app_sa" -}}
   {{- .Values.app_code -}}-app@{{- include "walker-chart.app_project" . -}}.iam
 {{- end -}}
 
