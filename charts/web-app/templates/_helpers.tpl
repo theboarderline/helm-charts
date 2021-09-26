@@ -44,7 +44,7 @@
 
 
 {{- define "walker-chart.app_sa" -}}
-  {{- .Values.app_code -}}-app@{{- include "walker-chart.app_project" . -}}.iam.gserviceaccount.com
+  {{- .Values.app_code -}}-app@{{- include "walker-chart.app_project" . -}}.iam
 {{- end -}}
 
 
