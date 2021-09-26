@@ -39,7 +39,7 @@
 
 
 {{- define "walker-chart.db_name" -}}
-  {{- .Values.app_code -}}-db
+  {{- .Values.lifecycle -}}-db
 {{- end -}}
 
 
