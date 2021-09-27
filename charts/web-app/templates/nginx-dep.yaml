@@ -36,21 +36,21 @@ spec:
 
         startupProbe:
           httpGet:
-            path: /
+            path: /health
             port: 80
           failureThreshold: 5
           periodSeconds: 5
 
         livenessProbe:
           httpGet:
-            path: /
+            path: /health
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
 
         readinessProbe:
           httpGet:
-            path: /
+            path: /health
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
