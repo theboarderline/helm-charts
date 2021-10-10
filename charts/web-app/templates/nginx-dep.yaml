@@ -61,7 +61,7 @@ spec:
         - name: LIFECYCLE
           value: {{ required "Application Lifecycle Required" .Values.lifecycle }}
         - name: DOMAIN
-          value: {{ required "Google Domain Required" .Values.google.domain }}
+          value: {{ include "walker-chart.domain" . }}
         - name: STATIC_BUCKET
           value: {{ include "walker-chart.bucket" . }}
 
