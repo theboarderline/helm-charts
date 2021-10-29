@@ -85,7 +85,7 @@ spec:
 
         {{- if .Values.django.oauth }}
         - name: OAUTH_ID
-          value: {{ .Values.google.oauth.id }}
+          value: {{ .Values.django.oauth_id }}
         - name: OAUTH_SECRET
           valueFrom:
             secretKeyRef:
