@@ -83,16 +83,6 @@ spec:
               key: email-password
         {{- end }}
 
-        {{- if .Values.sendgrid.enabled }}
-        - name: SENDGRID_EMAIL
-          value: {{ .Values.sendgrid.email }}
-        - name: SENDGRID_KEY
-          valueFrom:
-            secretKeyRef:
-              name: secrets-manager
-              key: sendgrid-key
-        {{- end }}
-
         {{- if .Values.django.oauth }}
         - name: OAUTH_ID
           value: {{ .Values.google.oauth.id }}
@@ -101,6 +91,16 @@ spec:
             secretKeyRef:
               name: secrets-manager
               key: oauth-secret
+        {{- end }}
+
+        {{- if .Values.sendgrid.enabled }}
+        - name: SENDGRID_EMAIL
+          value: {{ .Values.sendgrid.email }}
+        - name: SENDGRID_KEY
+          valueFrom:
+            secretKeyRef:
+              name: secrets-manager
+              key: sendgrid-key
         {{- end }}
         {{- end }}
 
