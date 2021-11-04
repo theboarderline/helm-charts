@@ -2,5 +2,5 @@ apiVersion: v2
 name: web-app
 description: A Helm chart for deploying Walker's web applications
 type: application
-appVersion: 1.16.5
-version: 0.0.31
+appVersion: 1.0.0
+version: 0.0.32
