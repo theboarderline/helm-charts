@@ -1,28 +1,52 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: wob
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
+  labels:
+    app: nginx-dep
+    tier: frontend
+  name: nginx-dep
 spec:
-  project: default
-  destination:
-    name: wob
-    namespace: wob
-    server: https://kubernetes.default.svc
-  source:
-    path: ""
-    repoURL: https://github.com/theboarderline/helm-charts
-    targetRevision: HEAD
-    chart: web-app
-    helm:
-      values: |
-        lifecycle: dev
-        domain: colemangroupsolutions.com
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-      - PruneLast=true
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: nginx-dep
+  template:
+    metadata:
+      labels:
+        app: nginx-dep
+    spec:
+      serviceAccountName: cgs-sa
+      containers:
+        - name: nginx
+          image: nginx
+          imagePullPolicy: Always
+          securityContext:
+            allowPrivilegeEscalation: false
+
+          # startupProbe:
+          #   httpGet:
+          #     path: /health/
+          #     port: 80
+          #   failureThreshold: 5
+          #   periodSeconds: 5
+
+          # livenessProbe:
+          #   httpGet:
+          #     path: /health/
+          #     port: 80
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 5
+
+          # readinessProbe:
+          #   httpGet:
+          #     path: /health/
+          #     port: 80
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 5
+
+          ports:
+            - containerPort: 80
+              name: https
+              protocol: TCP
