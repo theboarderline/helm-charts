@@ -12,8 +12,8 @@ spec:
   source:
     path: ""
     repoURL: https://theboarderline.github.io/helm-charts
-    targetRevision: 0.0.9
-    chart: argocd-platform
+    targetRevision: 0.0.7
+    chart: argocd-tenant
     helm:
       valueFiles:
         - values/default.yaml

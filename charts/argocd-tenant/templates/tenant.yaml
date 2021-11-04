@@ -1,30 +1,35 @@
+{{- $root := . -}}
+
+{{- range .Values.tenants }}
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: {{ required "values.app_code REQUIRED" .Values.values.app_code }}
+  name: {{ .name }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: {{ .Values.project }}
+  project: {{ $root.Values.project }}
   destination:
-    name: {{ .Values.values.app_code }}
-    namespace: {{ .Values.values.app_code }}
-    server: {{ .Values.destination.server }}
+    namespace: {{ .namespace }}-cd
+    server: {{ $root.Values.destination.server }}
   source:
-    path: {{ .Values.source.path }}
-    repoURL: {{ .Values.source.repoURL }}
-    targetRevision: {{ .Values.source.targetRevision }}
-    chart: {{ .Values.source.chart }}
+    path: {{ $root.Values.source.path | quote }}
+    repoURL: {{ $root.Values.source.repoURL }}
+    targetRevision: {{ $root.Values.source.targetRevision }}
+    chart: {{ $root.Values.source.chart }}
     helm:
-      values: |
-        {{- toYaml .Values.values | nindent 8 }}
+     valueFiles:
+        - values/{{- .name -}}/default.yaml
+        - values/{{- .name -}}/{{- $root.Values.lifecycle -}}.yaml
   syncPolicy:
     automated:
-      prune: {{ .Values.syncPolicy.automated.prune }}
-      selfHeal: {{ .Values.syncPolicy.automated.selfHeal }}
+      prune: {{ $root.Values.syncPolicy.automated.prune }}
+      selfHeal: {{ $root.Values.syncPolicy.automated.selfHeal }}
     syncOptions:
-      - CreateNamespace={{- .Values.syncOptions.CreateNamespace }}
-      - PruneLast={{- .Values.syncOptions.PruneLast }}
+      - CreateNamespace={{- $root.Values.syncOptions.CreateNamespace }}
+      - PruneLast={{- $root.Values.syncOptions.PruneLast }}
 
+---
 
+{{- end }}
