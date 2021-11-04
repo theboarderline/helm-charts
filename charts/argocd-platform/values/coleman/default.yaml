@@ -1,0 +1,34 @@
+
+values:
+  proj_identifier: v1
+
+  app_code: cgs
+
+  google:
+    domain: colemangroupsolutions.com
+
+  api:
+    label: coleman
+
+  secrets:
+    enabled: true
+
+  django:
+    enabled: true
+
+  twilio:
+    enabled: true
+    numbers:
+      il: "13128185587"
+      wa: "12062601968"
+
+  firebase:
+    enabled: true
+
+  sendgrid:
+    enabled: true
+    email: colemangroupsolutions@gmail.com
+
+  db:
+    local: true
+

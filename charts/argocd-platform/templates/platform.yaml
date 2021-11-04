@@ -19,11 +19,9 @@ spec:
     targetRevision: {{ include "targetRevision" $root }}
     chart: {{ .Values.tenant_chart }}
     helm:
-      values: |
-        {{- toYaml .Values.values | nindent 8 }}
-#      valueFiles:
-#          - argocd/values/{{- .name -}}/default.yaml
-#          - argocd/values/{{- .name -}}/{{- $root.Values.values.lifecycle -}}.yaml
+     valueFiles:
+         - charts/argocd-platform/values/{{- .name -}}/default.yaml
+         - charts/argocd-platform/values/{{- .name -}}/{{- $root.Values.values.lifecycle -}}.yaml
   syncPolicy:
     automated:
       prune: {{ $root.Values.syncPolicy.automated.prune }}

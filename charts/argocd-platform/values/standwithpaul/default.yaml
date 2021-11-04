@@ -1,0 +1,28 @@
+
+values:
+  proj_identifier: v1
+
+  app_code: swp
+
+  google:
+    domain: standwithpaul.org
+
+  api:
+    label: swp
+
+  secrets:
+    enabled: true
+
+  django:
+    enabled: true
+
+  firebase:
+    enabled: true
+
+  sendgrid:
+    enabled: false
+
+  db:
+    local: true
+
+
