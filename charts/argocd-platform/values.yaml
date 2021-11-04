@@ -1,0 +1,37 @@
+name: platform
+
+project: default
+
+destination:
+  server: https://kubernetes.default.svc
+
+source:
+  path: argocd/tenants
+  repoURL: https://theboarderline.github.io/gke-infra
+  targetRevision: dev
+  chart: platform-cd-chart
+
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+
+syncOptions:
+  CreateNamespace: true
+  PruneLast: true
+
+tenants:
+  - name: lakegames
+    namespace: lg
+
+  - name: boatload
+    namespace: bl
+
+  - name: coleman
+    namespace: cgs
+
+  - name: standwithpaul
+    namespace: swp
+
+  - name: dadcoin
+    namespace: dc

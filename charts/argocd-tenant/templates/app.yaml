@@ -1,0 +1,31 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ required "values.app_code REQUIRED" .Values.values.app_code }}
+  namespace: {{ .Values.app_code }}-cd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{ .Values.project }}
+  destination:
+    name: ''
+    namespace: {{ .Values.values.app_code }}
+    server: {{ .Values.destination.server }}
+  source:
+    path: {{ .Values.source.path }}
+    repoURL: {{ .Values.source.repoURL }}
+    targetRevision: {{ .Values.source.targetRevision }}
+    chart: {{ .Values.source.chart }}
+    helm:
+      values: |
+        {{- toYaml .Values.values | nindent 8 }}
+  syncPolicy:
+    automated:
+      prune: {{ .Values.syncPolicy.automated.prune }}
+      selfHeal: {{ .Values.syncPolicy.automated.selfHeal }}
+    syncOptions:
+      - CreateNamespace={{- .Values.syncOptions.CreateNamespace }}
+      - PruneLast={{- .Values.syncOptions.PruneLast }}
+
+

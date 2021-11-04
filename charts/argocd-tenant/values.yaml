@@ -1,0 +1,19 @@
+project: default
+
+destination:
+  server: https://kubernetes.default.svc
+
+source:
+  path: ""
+  repoURL: https://theboarderline.github.io/helm-charts
+  targetRevision: 0.0.31
+  chart: walker-chart
+
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+
+syncOptions:
+  CreateNamespace: true
+  PruneLast: true
