@@ -12,7 +12,7 @@ spec:
     namespace: wob2
     server: https://kubernetes.default.svc
   source:
-    path: charts/sample.yaml
+    path: charts/argocd-platform
     repoURL: https://github.com/theboarderline/helm-charts
     targetRevision: HEAD
   syncPolicy:
