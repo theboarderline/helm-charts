@@ -8,10 +8,10 @@ argo-cd:
   server:
     service:
       type: LoadBalancer
-      annotations:
-        cloud.google.com/neg: '{"ingress": true}'
-    extraArgs:
-      - --insecure
+      # annotations:
+      #   cloud.google.com/neg: '{"ingress": true}'
+    # extraArgs:
+    #   - --insecure
     config:
       repositories: |
         - type: helm
