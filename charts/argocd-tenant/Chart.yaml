@@ -3,4 +3,4 @@ name: argocd-install
 description: Helm chart for installing and managing ArgoCD
 type: application
 appVersion: 1.0.0
-version: 0.0.10
+version: 0.0.11

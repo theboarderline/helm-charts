@@ -1,7 +1,7 @@
 apiVersion: v3
 name: argocd-root
-version: 0.0.2
-dependencies:
-  - name: argo-cd
-    version: 2.11.0
-    repository: https://argoproj.github.io/argo-helm
+description: A Helm chart for bootstrapping Walker's Argo CD applications
+type: application
+appVersion: 0.0.1
+version: 0.0.3
+
