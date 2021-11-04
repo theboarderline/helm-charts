@@ -6,8 +6,8 @@ destination:
 source:
   path: ""
   repoURL: https://theboarderline.github.io/helm-charts
+  chart: web-app
   targetRevision: 0.0.31
-  chart: walker-chart
 
 syncPolicy:
   automated:

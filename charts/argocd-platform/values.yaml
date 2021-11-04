@@ -1,14 +1,13 @@
-name: platform
-
 project: default
 
 destination:
   server: https://kubernetes.default.svc
 
 source:
-  path: ''
+  path: ""
   repoURL: https://theboarderline.github.io/helm-charts
-  chart: tenant-cd-chart
+  chart: argocd-tenant
+  targetRevision: 0.0.1
 
 syncPolicy:
   automated:
@@ -18,19 +17,3 @@ syncPolicy:
 syncOptions:
   CreateNamespace: true
   PruneLast: true
-
-tenants:
-  - name: lakegames
-    namespace: lg
-
-  - name: boatload
-    namespace: bl
-
-  - name: coleman
-    namespace: cgs
-
-  - name: standwithpaul
-    namespace: swp
-
-  - name: dadcoin
-    namespace: dc
