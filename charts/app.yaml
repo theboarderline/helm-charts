@@ -10,10 +10,10 @@ spec:
     namespace: platform-cd
     server: https://kubernetes.default.svc
   source:
-    path: charts/argocd-platform
-    repoURL: https://github.com/theboarderline/helm-charts/
-    # targetRevision: HEAD #0.0.6
-    # chart: argocd-platform
+    path: ""
+    repoURL: https://github.com/theboarderline/helm-charts.git
+    targetRevision: HEAD #0.0.6
+    chart: argocd-platform
     helm:
       valueFiles:
         - charts/argocd-platform/values/default.yaml
