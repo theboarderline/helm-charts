@@ -1,0 +1,19 @@
+project: default
+
+destination:
+  server: https://kubernetes.default.svc
+
+source:
+  path: ""
+  repoURL: https://theboarderline.github.io/helm-charts.git
+  chart: web-app
+  targetRevision: 0.0.9
+
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+
+syncOptions:
+  CreateNamespace: true
+  PruneLast: true
