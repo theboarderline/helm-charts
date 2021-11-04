@@ -16,7 +16,7 @@ spec:
   source:
     path: {{ $root.Values.source.path }}
     repoURL: {{ $root.Values.source.repoURL }}
-    targetRevision: {{ include "targetRevision" $root }}
+    targetRevision: {{ .Values.source.targetRevision }}
     chart: {{ .Values.tenant_chart }}
     helm:
      valueFiles:

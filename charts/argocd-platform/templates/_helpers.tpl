@@ -1,8 +1,8 @@
 
-{{- define "targetRevision" -}}
+{{- define "branch" -}}
 
   {{- if eq .Values.values.lifecycle "prod" }}
-    {{- required "REQUIRED: values.lifecycle" .Values.values.lifecycle }}
+    main
 
   {{- else }}
     {{- required "REQUIRED: values.lifecycle" .Values.values.lifecycle }}
