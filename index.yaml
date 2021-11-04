@@ -21,6 +21,17 @@ entries:
     urls:
     - https://github.com/theboarderline/helm-charts/releases/download/argocd-platform-0.0.8/argocd-platform-0.0.8.tgz
     version: 0.0.8
+  argocd-root:
+  - apiVersion: v3
+    appVersion: 0.0.1
+    created: "2021-11-04T21:51:56.660944759Z"
+    description: Helm chart for deploying Walker's Kubernetes applications via Argo CD
+    digest: 8f2a651dcf67493ad83b7112e2aec55df94e2ce4f2b3ef2e2fd1aa558ea6cc56
+    name: argocd-root
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-root-0.0.1/argocd-root-0.0.1.tgz
+    version: 0.0.1
   argocd-tenant:
   - apiVersion: v3
     appVersion: 0.0.1
