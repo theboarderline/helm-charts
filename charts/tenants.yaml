@@ -12,10 +12,10 @@ spec:
     namespace: lg-cd
     server: https://kubernetes.default.svc
   source:
-    path: 
+    path: ""
     repoURL: https://theboarderline.github.io/helm-charts
     targetRevision: 0.0.4
-    chart: 
+    chart: argocd-tenant
     helm:
      valueFiles:
          - charts/argocd-platform/values/lakegames/default.yaml
@@ -41,10 +41,10 @@ spec:
     namespace: bl-cd
     server: https://kubernetes.default.svc
   source:
-    path: 
+    path: ""
     repoURL: https://theboarderline.github.io/helm-charts
     targetRevision: 0.0.4
-    chart: 
+    chart: argocd-tenant
     helm:
      valueFiles:
          - charts/argocd-platform/values/boatload/default.yaml
@@ -70,10 +70,10 @@ spec:
     namespace: cgs-cd
     server: https://kubernetes.default.svc
   source:
-    path: 
+    path: ""
     repoURL: https://theboarderline.github.io/helm-charts
     targetRevision: 0.0.4
-    chart: 
+    chart: argocd-tenant
     helm:
      valueFiles:
          - charts/argocd-platform/values/coleman/default.yaml
@@ -99,10 +99,10 @@ spec:
     namespace: swp-cd
     server: https://kubernetes.default.svc
   source:
-    path: 
+    path: ""
     repoURL: https://theboarderline.github.io/helm-charts
     targetRevision: 0.0.4
-    chart: 
+    chart: argocd-tenant
     helm:
      valueFiles:
          - charts/argocd-platform/values/standwithpaul/default.yaml
@@ -128,10 +128,10 @@ spec:
     namespace: dc-cd
     server: https://kubernetes.default.svc
   source:
-    path: 
+    path: ""
     repoURL: https://theboarderline.github.io/helm-charts
     targetRevision: 0.0.4
-    chart: 
+    chart: argocd-tenant
     helm:
      valueFiles:
          - charts/argocd-platform/values/dadcoin/default.yaml

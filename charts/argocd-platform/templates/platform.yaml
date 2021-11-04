@@ -14,10 +14,10 @@ spec:
     namespace: {{ .namespace }}-cd
     server: {{ $root.Values.destination.server }}
   source:
-    path: {{ $root.Values.source.path }}
+    path: {{ $root.Values.source.path | quote }}
     repoURL: {{ $root.Values.source.repoURL }}
     targetRevision: {{ $root.Values.source.targetRevision }}
-    chart: {{ $root.Values.tenant_chart }}
+    chart: {{ $root.Values.source.chart }}
     helm:
      valueFiles:
          - charts/argocd-platform/values/{{- .name -}}/default.yaml

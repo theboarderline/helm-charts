@@ -12,10 +12,6 @@ spec:
   source:
     path: charts/tenants.yaml
     repoURL: https://github.com/theboarderline/helm-charts
-    helm:
-      valueFiles:
-        - charts/argocd-platform/values/default.yaml
-        - charts/argocd-platform/values/dev.yaml
   syncPolicy:
     automated:
       prune: true
