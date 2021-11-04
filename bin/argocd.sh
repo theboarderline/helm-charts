@@ -1,12 +1,10 @@
 #!/bin/zsh
 
-# helm template argocd-root \
-# charts/argocd-root \
-# -n argocd-system --create-namespace \
-# --set lifecycle=$LIFECYCLE
+helm repo add argo-cd https://argoproj.github.io/argo-helm
+helm dep update charts/argocd-install/
+echo "charts/" > charts/argocd-install/.gitignore
+
+helm install argocd -n argocd --create-namespace charts/argocd-install
 
 
-helm template argocd-platform \
-charts/argocd-platform \
--n platform-cd --create-namespace \
---set lifecycle=$LIFECYCLE
+

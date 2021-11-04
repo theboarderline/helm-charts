@@ -1,15 +1,6 @@
 tenants:
   - name: lakegames
-    namespace: lg
-
   - name: boatload
-    namespace: bl
-
   - name: coleman
-    namespace: cgs
-
   - name: standwithpaul
-    namespace: swp
-
   - name: dadcoin
-    namespace: dc

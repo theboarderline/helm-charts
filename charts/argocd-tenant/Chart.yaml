@@ -1,6 +1,6 @@
 apiVersion: v3
-name: argocd-tenant
-description: Helm chart for deploying Walker's Kubernetes applications via Argo CD
+name: argocd-install
+description: Helm chart for installing and managing ArgoCD
 type: application
 appVersion: 1.0.0
-version: 0.0.9
+version: 0.0.10
