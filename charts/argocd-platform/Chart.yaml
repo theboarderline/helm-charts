@@ -1,0 +1,7 @@
+apiVersion: v3
+name: argocd-platform
+description: A Helm chart for managing Walker's Argo CD applications
+type: application
+appVersion: 0.0.1
+version: 0.0.4
+

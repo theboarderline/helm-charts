@@ -5,15 +5,15 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
+  project: {{ .Values.project }}
   destination:
+    server: {{ .Values.destination.server }}
     namespace: argocd
-    server: https://kubernetes.default.svc
   source:
     path: ""
-    repoURL: https://theboarderline.github.io/helm-charts
-    targetRevision: 0.0.11
-    chart: argocd-tenant
+    repoURL: {{ .Values.source.repoURL }}
+    targetRevision: {{ .Values.source.targetRevision }}
+    chart: argocd-platform
     helm:
       valueFiles:
         - values/default.yaml
