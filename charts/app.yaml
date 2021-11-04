@@ -8,13 +8,16 @@ metadata:
 spec:
   project: default
   destination:
-    name: wob2
     namespace: wob2
     server: https://kubernetes.default.svc
   source:
     path: charts/argocd-platform
     repoURL: https://github.com/theboarderline/helm-charts
     targetRevision: HEAD
+    helm:
+      valueFiles:
+        - charts/argocd-platform/values/default.yaml
+        - charts/argocd-platform/values/dev.yaml
   syncPolicy:
     automated:
       prune: true
