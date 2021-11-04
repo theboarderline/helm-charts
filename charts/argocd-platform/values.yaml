@@ -7,7 +7,7 @@ source:
   path: ""
   repoURL: https://theboarderline.github.io/helm-charts
   chart: argocd-tenant
-  targetRevision: 0.0.4
+  targetRevision: 0.0.6
 
 syncPolicy:
   automated:
