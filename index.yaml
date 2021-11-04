@@ -12,6 +12,17 @@ entries:
     - https://github.com/theboarderline/helm-charts/releases/download/argocd-install-0.0.10/argocd-install-0.0.10.tgz
     version: 0.0.10
   - apiVersion: v3
+    created: "2021-11-04T23:17:50.864138946Z"
+    dependencies:
+    - name: argo-cd
+      repository: https://argoproj.github.io/argo-helm
+      version: 2.11.0
+    digest: 5f2db3f7ce89c40e10d03c8133c6fe7414f6d01c8fe5f5d2705e7a07cb4b1266
+    name: argocd-install
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-install-0.0.2/argocd-install-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v3
     created: "2021-11-04T23:04:35.84403754Z"
     dependencies:
     - name: argo-cd
@@ -44,6 +55,17 @@ entries:
     - https://github.com/theboarderline/helm-charts/releases/download/argocd-platform-0.0.8/argocd-platform-0.0.8.tgz
     version: 0.0.8
   argocd-root:
+  - apiVersion: v3
+    created: "2021-11-04T23:17:51.042716244Z"
+    dependencies:
+    - name: argo-cd
+      repository: https://argoproj.github.io/argo-helm
+      version: 2.11.0
+    digest: a5d8412f666679844f467e3f2ac71c0214c9743bb12094d363853a31217a1ec1
+    name: argocd-root
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-root-0.0.2/argocd-root-0.0.2.tgz
+    version: 0.0.2
   - apiVersion: v3
     appVersion: 0.0.1
     created: "2021-11-04T21:51:56.660944759Z"
