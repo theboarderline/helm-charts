@@ -3,6 +3,16 @@ entries:
   argocd-install:
   - apiVersion: v3
     appVersion: 1.0.0
+    created: "2021-11-04T23:38:33.616035392Z"
+    description: Helm chart for installing and managing ArgoCD
+    digest: e795c2decc496c07b1e5543bc428676fbcd5db49ad6f8059168f9e2ce8037928
+    name: argocd-install
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-install-0.0.11/argocd-install-0.0.11.tgz
+    version: 0.0.11
+  - apiVersion: v3
+    appVersion: 1.0.0
     created: "2021-11-04T23:04:36.023571441Z"
     description: Helm chart for installing and managing ArgoCD
     digest: c0d17ca32b36e56176fc7dc3b3d53053f5ebd80769712fd0797efd58da4036d3
@@ -66,6 +76,16 @@ entries:
     - https://github.com/theboarderline/helm-charts/releases/download/argocd-platform-0.0.8/argocd-platform-0.0.8.tgz
     version: 0.0.8
   argocd-root:
+  - apiVersion: v3
+    appVersion: 0.0.1
+    created: "2021-11-04T23:38:33.783480749Z"
+    description: A Helm chart for bootstrapping Walker's Argo CD applications
+    digest: 5c51e496c0ee751ccc83abea7af8b1b4f3af94c180c0f920ecf113757309be89
+    name: argocd-root
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-root-0.0.3/argocd-root-0.0.3.tgz
+    version: 0.0.3
   - apiVersion: v3
     created: "2021-11-04T23:17:51.042716244Z"
     dependencies:
