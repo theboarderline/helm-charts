@@ -24,10 +24,10 @@ spec:
           - argocd/values/{{- .name -}}/{{- $root.Values.values.lifecycle -}}.yaml
   syncPolicy:
     automated:
-      prune: {{ .Values.syncPolicy.automated.prune }}
-      selfHeal: {{ .Values.syncPolicy.automated.selfHeal }}
+      prune: {{ $root.Values.syncPolicy.automated.prune }}
+      selfHeal: {{ $root.Values.syncPolicy.automated.selfHeal }}
     syncOptions:
-      - CreateNamespace={{- .Values.syncOptions.CreateNamespace }}
-      - PruneLast={{- .Values.syncOptions.PruneLast }}
+      - CreateNamespace={{- $root.Values.syncOptions.CreateNamespace }}
+      - PruneLast={{- $root.Values.syncOptions.PruneLast }}
 
 {{- end }}
