@@ -5,7 +5,7 @@ destination:
 
 source:
   path: ""
-  repoURL: https://theboarderline.github.io/helm-charts
+  repoURL: https://theboarderline.github.io/helm-charts/
   chart: argocd-tenant
   targetRevision: 0.0.4
 

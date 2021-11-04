@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: tenants
+  name: root
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,8 +10,14 @@ spec:
     namespace: platform-cd
     server: https://kubernetes.default.svc
   source:
-    path: charts/sample
-    repoURL: https://github.com/theboarderline/helm-charts
+    path: ""
+    repoURL: https://github.com/theboarderline/helm-charts/
+    targetRevision: 0.0.6
+    chart: argocd-platform
+    helm:
+      valueFiles:
+        - charts/argocd-platform/values/default.yaml
+        - charts/argocd-platform/values/dev.yaml
   syncPolicy:
     automated:
       prune: true
