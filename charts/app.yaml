@@ -13,7 +13,8 @@ spec:
   source:
     path: charts/argocd-platform
     repoURL: https://github.com/theboarderline/helm-charts
-    targetRevision: HEAD
+    targetRevision: 0.0.5
+    chart: argocd-platform
     helm:
       valueFiles:
         - charts/argocd-platform/values/default.yaml
