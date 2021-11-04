@@ -6,10 +6,9 @@ destination:
   server: https://kubernetes.default.svc
 
 source:
-  path: argocd/tenants
-  repoURL: https://theboarderline.github.io/gke-infra
-  targetRevision: dev
-  chart: platform-cd-chart
+  path: ''
+  repoURL: https://theboarderline.github.io/helm-charts
+  chart: tenant-cd-chart
 
 syncPolicy:
   automated:

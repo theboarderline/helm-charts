@@ -3,7 +3,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: {{ required "values.app_code REQUIRED" .Values.values.app_code }}
-  namespace: {{ .Values.app_code }}-cd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:

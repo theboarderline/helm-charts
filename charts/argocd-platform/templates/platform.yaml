@@ -6,22 +6,24 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: {{ .name }}
-  namespace: {{ .namespace -}}-cd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: {{ $root.Values.project }}
   destination:
-    namespace: {{ .namespace }}
+    namespace: {{ .namespace }}-cd
     server: {{ $root.Values.destination.server }}
   source:
     path: {{ $root.Values.source.path }}
     repoURL: {{ $root.Values.source.repoURL }}
     targetRevision: {{ include "targetRevision" $root }}
+    chart: {{ .Values.tenant_chart }}
     helm:
-      valueFiles:
-          - argocd/values/{{- .name -}}/default.yaml
-          - argocd/values/{{- .name -}}/{{- $root.Values.values.lifecycle -}}.yaml
+      values: |
+        {{- toYaml .Values.values | nindent 8 }}
+#      valueFiles:
+#          - argocd/values/{{- .name -}}/default.yaml
+#          - argocd/values/{{- .name -}}/{{- $root.Values.values.lifecycle -}}.yaml
   syncPolicy:
     automated:
       prune: {{ $root.Values.syncPolicy.automated.prune }}
@@ -29,5 +31,7 @@ spec:
     syncOptions:
       - CreateNamespace={{- $root.Values.syncOptions.CreateNamespace }}
       - PruneLast={{- $root.Values.syncOptions.PruneLast }}
+
+---
 
 {{- end }}
