@@ -16,8 +16,8 @@ spec:
   source:
     path: {{ $root.Values.source.path }}
     repoURL: {{ $root.Values.source.repoURL }}
-    targetRevision: {{ .Values.source.targetRevision }}
-    chart: {{ .Values.tenant_chart }}
+    targetRevision: {{ $root.Values.source.targetRevision }}
+    chart: {{ $root.Values.tenant_chart }}
     helm:
      valueFiles:
          - charts/argocd-platform/values/{{- .name -}}/default.yaml
