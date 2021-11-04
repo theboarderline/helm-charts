@@ -3,4 +3,4 @@ name: argocd-tenant
 description: Helm chart for deploying Walker's Kubernetes applications via Argo CD
 type: application
 appVersion: 1.0.0
-version: 0.0.8
+version: 0.0.9
