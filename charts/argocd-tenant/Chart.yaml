@@ -1,6 +1,6 @@
 apiVersion: v3
-name: argocd-install
-description: Helm chart for installing and managing ArgoCD
+name: argocd-tenant
+description: Helm chart for installing and managing tenants
 type: application
 appVersion: 1.0.0
 version: 0.0.11
