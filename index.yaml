@@ -35,6 +35,16 @@ entries:
   argocd-tenant:
   - apiVersion: v3
     appVersion: 0.0.1
+    created: "2021-11-04T22:06:26.872532353Z"
+    description: Helm chart for deploying Walker's Kubernetes applications via Argo CD
+    digest: eb9372ed204cc2eb13cae333943d702d8c098d74d6004b740c7a6c5656060ddd
+    name: argocd-tenant
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-tenant-0.0.7/argocd-tenant-0.0.7.tgz
+    version: 0.0.7
+  - apiVersion: v3
+    appVersion: 0.0.1
     created: "2021-11-04T21:31:46.284080659Z"
     description: Helm chart for deploying Walker's Kubernetes applications via Argo CD
     digest: 0954a2d0c97ab83ae0252c01e55d26551384abdd884f86ba21c6a2eb7d88b7ac
