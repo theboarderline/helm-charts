@@ -1,7 +1,6 @@
 #!/bin/zsh
 
-helm upgrade -i platform-cd \
-charts/argocd-platform \
--n platform-system --create-namespace \
--f ./charts/argocd-platform/values/default.yaml \
--f ./charts/argocd-platform/values/$LIFECYCLE.yaml # --dry-run
+helm upgrade -i argocd-root \
+charts/argocd-root \
+-n argocd-system --create-namespace \
+--set lifecycle=$LIFECYCLE
