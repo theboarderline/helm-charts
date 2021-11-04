@@ -20,8 +20,8 @@ spec:
     chart: {{ $root.Values.source.chart }}
     helm:
      valueFiles:
-         - charts/argocd-platform/values/{{- .name -}}/default.yaml
-         - charts/argocd-platform/values/{{- .name -}}/{{- $root.Values.values.lifecycle -}}.yaml
+         - values/{{- .name -}}/default.yaml
+         - values/{{- .name -}}/{{- $root.Values.values.lifecycle -}}.yaml
   syncPolicy:
     automated:
       prune: {{ $root.Values.syncPolicy.automated.prune }}

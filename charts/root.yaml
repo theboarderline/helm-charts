@@ -12,12 +12,12 @@ spec:
   source:
     path: ""
     repoURL: https://theboarderline.github.io/helm-charts
-    targetRevision: 0.0.6
+    targetRevision: 0.0.9
     chart: argocd-platform
     helm:
       valueFiles:
-        - charts/argocd-platform/values/default.yaml
-        - charts/argocd-platform/values/dev.yaml
+        - values/default.yaml
+        - values/dev.yaml
   syncPolicy:
     automated:
       prune: true
