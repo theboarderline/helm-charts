@@ -1,25 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: wob
-  namespace: wob
+  name: wob2
+  namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   destination:
-    name: wob
-    namespace: wob
+    name: wob2
+    namespace: wob2
     server: https://kubernetes.default.svc
   source:
-    path: ""
+    path: charts/sample.yaml
     repoURL: https://github.com/theboarderline/helm-charts
     targetRevision: HEAD
-    chart: web-app
-    helm:
-      values: |
-        lifecycle: dev
-        domain: colemangroupsolutions.com
   syncPolicy:
     automated:
       prune: true
