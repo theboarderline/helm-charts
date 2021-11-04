@@ -10,7 +10,7 @@ spec:
     namespace: platform-cd
     server: https://kubernetes.default.svc
   source:
-    path: charts/tenants.yaml
+    path: charts/sample
     repoURL: https://github.com/theboarderline/helm-charts
   syncPolicy:
     automated:
