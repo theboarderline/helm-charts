@@ -1,20 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: wob2
-  namespace: argocd
+  name: tenants
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   destination:
-    namespace: wob2
+    namespace: platform-cd
     server: https://kubernetes.default.svc
   source:
-    path: charts/argocd-platform
+    path: charts/tenants.yaml
     repoURL: https://github.com/theboarderline/helm-charts
-    targetRevision: 0.0.5
-    chart: argocd-platform
     helm:
       valueFiles:
         - charts/argocd-platform/values/default.yaml

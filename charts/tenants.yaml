@@ -1,0 +1,145 @@
+---
+# Source: argocd-platform/templates/platform.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lakegames
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    namespace: lg-cd
+    server: https://kubernetes.default.svc
+  source:
+    path: 
+    repoURL: https://theboarderline.github.io/helm-charts
+    targetRevision: 0.0.4
+    chart: 
+    helm:
+     valueFiles:
+         - charts/argocd-platform/values/lakegames/default.yaml
+         - charts/argocd-platform/values/lakegames/dev.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
+---
+# Source: argocd-platform/templates/platform.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: boatload
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    namespace: bl-cd
+    server: https://kubernetes.default.svc
+  source:
+    path: 
+    repoURL: https://theboarderline.github.io/helm-charts
+    targetRevision: 0.0.4
+    chart: 
+    helm:
+     valueFiles:
+         - charts/argocd-platform/values/boatload/default.yaml
+         - charts/argocd-platform/values/boatload/dev.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
+---
+# Source: argocd-platform/templates/platform.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: coleman
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    namespace: cgs-cd
+    server: https://kubernetes.default.svc
+  source:
+    path: 
+    repoURL: https://theboarderline.github.io/helm-charts
+    targetRevision: 0.0.4
+    chart: 
+    helm:
+     valueFiles:
+         - charts/argocd-platform/values/coleman/default.yaml
+         - charts/argocd-platform/values/coleman/dev.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
+---
+# Source: argocd-platform/templates/platform.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: standwithpaul
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    namespace: swp-cd
+    server: https://kubernetes.default.svc
+  source:
+    path: 
+    repoURL: https://theboarderline.github.io/helm-charts
+    targetRevision: 0.0.4
+    chart: 
+    helm:
+     valueFiles:
+         - charts/argocd-platform/values/standwithpaul/default.yaml
+         - charts/argocd-platform/values/standwithpaul/dev.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
+---
+# Source: argocd-platform/templates/platform.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dadcoin
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    namespace: dc-cd
+    server: https://kubernetes.default.svc
+  source:
+    path: 
+    repoURL: https://theboarderline.github.io/helm-charts
+    targetRevision: 0.0.4
+    chart: 
+    helm:
+     valueFiles:
+         - charts/argocd-platform/values/dadcoin/default.yaml
+         - charts/argocd-platform/values/dadcoin/dev.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
