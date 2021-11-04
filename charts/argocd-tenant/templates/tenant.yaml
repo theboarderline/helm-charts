@@ -4,7 +4,7 @@ kind: Application
 metadata:
   name: {{ required "values.app_code REQUIRED" .Values.values.app_code }}
   finalizers:
-  - resources-finalizer.argocd.argoproj.io
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: {{ .Values.project }}
   destination:
