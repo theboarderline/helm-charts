@@ -1,6 +1,6 @@
 apiVersion: v2
-name: walker-chart
-description: A Helm chart for deploying Walker's Kubernetes Applications
+name: web-app
+description: A Helm chart for deploying Walker's web applications
 type: application
 appVersion: 1.16.5
 version: 0.0.31
