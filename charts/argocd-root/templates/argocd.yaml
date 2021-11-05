@@ -15,5 +15,5 @@ spec:
     targetRevision: {{ .Values.argocd.source.targetRevision }}
   syncPolicy:
     automated:
-      prune: {{ .Values.argocd.syncPolicy.automayed.prune }}
-      selfHeal: {{ .Values.argocd.syncPolicy.automayed.selfHeal }}
+      prune: {{ .Values.argocd.syncPolicy.automated.prune }}
+      selfHeal: {{ .Values.argocd.syncPolicy.automated.selfHeal }}
