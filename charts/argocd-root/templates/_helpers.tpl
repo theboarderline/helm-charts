@@ -18,7 +18,7 @@
     {{- .Values.argocd.source.targetRevision }}
 
   {{- else }}
-    {{- include "targetRevision" -}}
+    {{- include "targetRevision" . -}}
 
   {{- end }}
 {{- end }}
@@ -29,7 +29,7 @@
     {{- .Values.self.source.targetRevision }}
 
   {{- else }}
-    {{- include "targetRevision" -}}
+    {{- include "targetRevision" . -}}
 
   {{- end }}
 {{- end }}
@@ -40,7 +40,7 @@
     {{- .Values.platform.source.targetRevision }}
 
   {{- else }}
-    {{- include "targetRevision" -}}
+    {{- include "targetRevision" . -}}
 
   {{- end }}
 {{- end }}
