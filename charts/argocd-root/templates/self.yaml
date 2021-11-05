@@ -15,5 +15,5 @@ spec:
     targetRevision: {{ .Values.self.source.targetRevision }}
   syncPolicy:
     automated:
-      prune: {{ .Values.self.source.prune }}
-      selfHeal: {{ .Values.self.source.selfHeal }}
+      prune: {{ .Values.self.syncPolicy.automated.prune }}
+      selfHeal: {{ .Values.self.syncPolicy.automated.selfHeal }}
