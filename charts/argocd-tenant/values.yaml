@@ -4,7 +4,7 @@ destination:
   server: https://kubernetes.default.svc
 
 source:
-  path: web-app
+  path: charts/web-app
   chart: ""
 
 syncPolicy:

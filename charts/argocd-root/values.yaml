@@ -10,7 +10,7 @@ source:
 argocd:
   enabled: false
   source:
-    path: ""
+    path: charts/argocd-install
     chart: ""
   syncPolicy:
     automated:
@@ -20,7 +20,7 @@ argocd:
 self:
   enabled: true
   source:
-    path: ""
+    path: charts/argocd-root
     chart: ""
   syncPolicy:
     automated:
@@ -30,7 +30,7 @@ self:
 platform:
   enabled: true
   source:
-    path: ""
+    path: charts/argocd-tenant
     chart: ""
   syncPolicy:
     automated:
