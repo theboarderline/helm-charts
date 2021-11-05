@@ -20,7 +20,7 @@ spec:
     targetRevision: {{ include "branch" $root }}
     helm:
       values: |
-        lifecycle: {{ $root.Values.lifecycle }}
+        lifecycle: {{ required "REQUIRED: lifecycle" $root.Values.lifecycle }}
       valueFiles:
         - values/{{- .name -}}/default.yaml
         - values/{{- .name -}}/{{- $root.Values.lifecycle -}}.yaml
