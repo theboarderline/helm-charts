@@ -14,20 +14,20 @@ spec:
     namespace: {{ .name }}-cd
     server: {{ $root.Values.destination.server }}
   source:
-    path: ''
+    path: {{ $root.Values.source.path | quote }}
     repoURL: {{ $root.Values.source.repoURL }}
-    targetRevision: 0.0.32
-    chart: web-app
+    targetRevision: {{ $root.Values.source.targetRevision }}
+    chart: {{ $root.Values.source.chart }}
     helm:
      valueFiles:
         - values/{{- .name -}}/{{- $root.Values.lifecycle -}}.yaml
   syncPolicy:
     automated:
-      prune: true
-      selfHeal: true
+      prune: {{ $root.Values.syncPolicy.automated.prune }}
+      selfHeal: {{ $root.Values.syncPolicy.automated.selfHeal }}
     syncOptions:
-      - CreateNamespace=true
-      - PruneLast=true
+      - CreateNamespace={{- $root.Values.syncOptions.CreateNamespace }}
+      - PruneLast={{- $root.Values.syncOptions.PruneLast }}
 
 ---
 

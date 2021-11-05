@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root
+  name: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,18 +10,10 @@ spec:
     server: {{ .Values.destination.server }}
     namespace: argocd
   source:
-    path: ""
+    path: charts/argocd-install
     repoURL: {{ .Values.source.repoURL }}
-    targetRevision: {{ .Values.source.targetRevision }}
-    chart: argocd-platform
-    helm:
-      valueFiles:
-        - values/default.yaml
-        - values/{{- .Values.lifecycle -}}.yaml
+    targetRevision: HEAD
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-      - PruneLast=true
