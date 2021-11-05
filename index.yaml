@@ -78,6 +78,16 @@ entries:
   argocd-root:
   - apiVersion: v3
     appVersion: 0.0.1
+    created: "2021-11-05T21:52:39.938133266Z"
+    description: A Helm chart for bootstrapping Walker's Argo CD applications
+    digest: de206c1b33a2be883f796b12eba07f40b2d99d5dbef891e841ddea2ca4797522
+    name: argocd-root
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-root-0.0.48/argocd-root-0.0.48.tgz
+    version: 0.0.48
+  - apiVersion: v3
+    appVersion: 0.0.1
     created: "2021-11-05T21:49:14.034969854Z"
     description: A Helm chart for bootstrapping Walker's Argo CD applications
     digest: 81f45fe0a8333db7097eb123d528cd4f22ced7180fc0001d9065a1b3af681a73
