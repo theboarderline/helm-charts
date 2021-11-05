@@ -1,5 +1,5 @@
 
-{{- define "branch" -}}
+{{- define "targetRevision" -}}
 
   {{- if .Values.source.targetRevision }}
     {{- .Values.source.targetRevision }}
