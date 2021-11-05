@@ -6,7 +6,7 @@ echo "charts/" > charts/argocd-install/.gitignore
 
 helm upgrade -i argocd -n argocd --create-namespace charts/argocd-install
 
-sleep 1000
+sleep 10
 
 helm upgrade -i root charts/argocd-root -n argocd
 
