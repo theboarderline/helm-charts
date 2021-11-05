@@ -1,4 +1,5 @@
 project: default
+namespace: argo-system
 
 destination:
   server: https://kubernetes.default.svc
