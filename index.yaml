@@ -78,6 +78,16 @@ entries:
   argocd-root:
   - apiVersion: v3
     appVersion: 0.0.1
+    created: "2021-11-05T21:06:13.050149604Z"
+    description: A Helm chart for bootstrapping Walker's Argo CD applications
+    digest: 8e1cb78dbde057df7027cfd301b962e8366b2c12e89360096350ecbe273715c3
+    name: argocd-root
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-root-0.0.44/argocd-root-0.0.44.tgz
+    version: 0.0.44
+  - apiVersion: v3
+    appVersion: 0.0.1
     created: "2021-11-05T20:53:04.415135021Z"
     description: A Helm chart for bootstrapping Walker's Argo CD applications
     digest: 38a55c3e8e39c0fd53e7dcad84e778e53c3ec122f2ea7c06c3b50756f334337a
@@ -460,6 +470,16 @@ entries:
   argocd-tenant:
   - apiVersion: v3
     appVersion: 1.0.0
+    created: "2021-11-05T21:06:13.266933874Z"
+    description: Helm chart for installing and managing tenants
+    digest: b4ee17cd6499f11f73c989baf57be5b599c0c6f39b231c7f70f6f15cd6afb44c
+    name: argocd-tenant
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-tenant-0.0.31/argocd-tenant-0.0.31.tgz
+    version: 0.0.31
+  - apiVersion: v3
+    appVersion: 1.0.0
     created: "2021-11-05T20:53:04.593246625Z"
     description: Helm chart for installing and managing tenants
     digest: 4a1dd93025268d95a46c584b976048fce77ae407ab050067d64b96c823aba1d2
@@ -629,6 +649,16 @@ entries:
     - https://github.com/theboarderline/helm-charts/releases/download/argocd-tenant-0.0.6/argocd-tenant-0.0.6.tgz
     version: 0.0.6
   web-app:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2021-11-05T21:06:13.466013616Z"
+    description: A Helm chart for deploying Walker's web applications
+    digest: 465f617095b0613ad5a0b02c06442286ec5b5c1a12d2ac4eed726336724573ba
+    name: web-app
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/web-app-0.0.34/web-app-0.0.34.tgz
+    version: 0.0.34
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2021-11-05T00:24:42.821089618Z"
