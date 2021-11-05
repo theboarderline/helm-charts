@@ -5,15 +5,20 @@
 #   finalizers:
 #     - resources-finalizer.argocd.argoproj.io
 # spec:
-#   project: {{ .Values.project }}
-#   destination:
-#     server: {{ .Values.destination.server }}
-#     namespace: argocd
-#   source:
-#     path: charts/argocd-install
-#     repoURL: https://github.com/theboarderline/helm-charts.git
-#     targetRevision: HEAD
 #   syncPolicy:
 #     automated:
 #       prune: true
 #       selfHeal: true
+
+  project: {{ .Values.self.project }}
+  destination:
+    server: {{ .Values.self.destination.server }}
+    namespace: {{ .Values.self.destination.namespace }}
+  source:
+    path: {{ .Values.self.source.path }}
+    repoURL: {{ .Values.self.source.repoURL }}
+    targetRevision: {{ .Values.self.source.targetRevision }}
+  syncPolicy:
+    automated:
+      prune: {{ .Values.self.source.prune }}
+      selfHeal: {{ .Values.self.source.selfHeal }}

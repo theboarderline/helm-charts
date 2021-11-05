@@ -1,6 +1,20 @@
-lifecycle: dev
-
 project: default
 
-destination:
-  server: https://kubernetes.default.svc
+self:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: { { .Values.self.destination.namespace } }
+  source:
+    path: { { .Values.self.source.path } }
+    repoURL: { { .Values.self.source.repoURL } }
+    targetRevision: { { .Values.self.source.targetRevision } }
+  syncPolicy:
+    automated:
+      prune: { { .Values.self.source.prune } }
+      selfHeal: { { .Values.self.source.selfHeal } }
+
+argocd:
+  source:
+    path: charts/argocd-install
+    repoURL: https://github.com/theboarderline/helm-charts.git
+    targetRevision: HEAD

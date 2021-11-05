@@ -5,15 +5,15 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: {{ .Values.project }}
+  project: {{ .Values.self.project }}
   destination:
-    server: {{ .Values.destination.server }}
-    namespace: argocd
+    server: {{ .Values.self.destination.server }}
+    namespace: {{ .Values.self.destination.namespace }}
   source:
-    path: charts/argocd-root
-    repoURL: https://github.com/theboarderline/helm-charts.git
-    targetRevision: HEAD
+    path: {{ .Values.self.source.path }}
+    repoURL: {{ .Values.self.source.repoURL }}
+    targetRevision: {{ .Values.self.source.targetRevision }}
   syncPolicy:
     automated:
-      prune: true
-      selfHeal: true
+      prune: {{ .Values.self.source.prune }}
+      selfHeal: {{ .Values.self.source.selfHeal }}

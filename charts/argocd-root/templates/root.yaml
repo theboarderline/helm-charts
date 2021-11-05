@@ -24,4 +24,3 @@
 #       selfHeal: true
 #     syncOptions:
 #       - CreateNamespace=true
-#       - PruneLast=true
