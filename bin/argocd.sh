@@ -8,6 +8,6 @@ helm upgrade -i argocd -n argocd --create-namespace charts/argocd-install
 
 sleep 10000
 
-helm upgrade -i root charts/argocd-platform -n argocd
+helm upgrade -i root charts/argocd-root -n argocd
 
 
