@@ -7,7 +7,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: {{ .Values.self.project }}
+  project: {{ .Values.project }}
   destination:
     server: {{ .Values.destination.server }}
     namespace: {{ .Values.destination.namespace }}
