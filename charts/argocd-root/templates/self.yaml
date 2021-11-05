@@ -12,13 +12,11 @@ spec:
     server: {{ .Values.destination.server }}
     namespace: {{ .Values.destination.namespace }}
   source:
-
-  {{- if .Values.self.source.chart }}
+    {{- if .Values.self.source.chart }}
     chart: {{ .Values.self.source.chart }}
-  {{- else }}
+    {{- else }}
     path: {{ .Values.self.source.path }}
-  {{- end }}
-
+    {{- end }}
     repoURL: {{ .Values.self.source.repoURL }}
     targetRevision: {{ include "self.targetRevision" . }}
     helm:
