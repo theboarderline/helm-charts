@@ -12,17 +12,17 @@ spec:
     server: {{ .Values.destination.server }}
     namespace: {{ .Values.destination.namespace }}
   source:
-    path: {{ .Values.root.source.path }}
-    repoURL: {{ .Values.root.source.repoURL }}
-    targetRevision: {{ .Values.root.source.targetRevision }}
-    chart: {{ .Values.root.source.chart }}
+    path: {{ .Values.platform.source.path }}
+    repoURL: {{ .Values.platform.source.repoURL }}
+    targetRevision: {{ .Values.platform.source.targetRevision }}
+    chart: {{ .Values.platform.source.chart }}
     helm:
       valueFiles:
         - "values/default.yaml"
         - "values/{{- required "REQUIRED: lifecycle" .Values.lifecycle -}}.yaml"
   syncPolicy:
     automated:
-      prune: {{ .Values.root.syncPolicy.automated.prune }}
-      selfHeal: {{ .Values.root.syncPolicy.automated.selfHeal }}
+      prune: {{ .Values.platform.syncPolicy.automated.prune }}
+      selfHeal: {{ .Values.platform.syncPolicy.automated.selfHeal }}
 
 {{ end }}

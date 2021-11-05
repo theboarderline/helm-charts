@@ -22,7 +22,7 @@ self:
       prune: true
       selfHeal: true
 
-root:
+platform:
   enabled: true
   source:
     path: ""
