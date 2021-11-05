@@ -10,11 +10,11 @@ spec:
     server: {{ .Values.destination.server }}
     namespace: {{ .Values.destination.namespace }}
   source:
-  {{- if .Values.argocd.source.chart -}}
+  {{- if .Values.argocd.source.chart }}
     chart: {{ .Values.argocd.source.chart }}
-  {{- else -}}
+  {{- else }}
     path: {{ .Values.argocd.source.path }}
-  {{- end -}}
+  {{- end }}
 
     repoURL: {{ .Values.argocd.source.repoURL }}
     targetRevision: {{ include "argocd.targetRevision" . }}
