@@ -19,8 +19,8 @@ spec:
     chart: web-app
     targetRevision: 0.0.32
     helm:
-      values:
-        - lifecycle: {{ $root.Values.lifecycle }}
+      values: |
+        lifecycle: {{ $root.Values.lifecycle }}
       valueFiles:
         - values/{{- .name -}}/default.yaml
         - values/{{- .name -}}/{{- $root.Values.lifecycle -}}.yaml
