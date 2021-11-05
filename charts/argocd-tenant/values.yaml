@@ -5,9 +5,7 @@ destination:
 
 source:
   path: ""
-  repoURL: https://theboarderline.github.io/helm-charts
-  chart: web-app
-  targetRevision: 0.0.33
+  targetRevision: HEAD
 
 syncPolicy:
   automated:
