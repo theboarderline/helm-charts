@@ -15,7 +15,6 @@ spec:
     path: {{ .Values.platform.source.path }}
     repoURL: {{ .Values.platform.source.repoURL }}
     targetRevision: {{ .Values.platform.source.targetRevision }}
-    chart: {{ .Values.platform.source.chart }}
     helm:
       valueFiles:
         - "values/default.yaml"
