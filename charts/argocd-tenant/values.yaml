@@ -13,4 +13,4 @@ syncPolicy:
 
 syncOptions:
   CreateNamespace: true
-  PruneLast: true
+  PruneLast: false
