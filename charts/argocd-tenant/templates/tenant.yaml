@@ -17,7 +17,7 @@ spec:
     path: ''
     repoURL: {{ $root.Values.source.repoURL }}
     chart: web-app
-    targetRevision: 0.0.32
+    targetRevision: {{ include "branch" $root }}
     helm:
       values: |
         lifecycle: {{ $root.Values.lifecycle }}

@@ -1,7 +1,10 @@
 
 {{- define "branch" -}}
 
-  {{- if eq .Values.lifecycle "prod" }}
+  {{- if .Values.source.targetRevision }}
+    {{- .Values.source.targetRevision }}
+
+  {{- else if eq .Values.lifecycle "prod" }}
     main
 
   {{- else }}

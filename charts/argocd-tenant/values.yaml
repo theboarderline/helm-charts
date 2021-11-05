@@ -5,7 +5,6 @@ destination:
 
 source:
   path: ""
-  targetRevision: HEAD
 
 syncPolicy:
   automated:
