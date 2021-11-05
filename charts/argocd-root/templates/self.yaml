@@ -17,7 +17,7 @@ spec:
     targetRevision: {{ include "self.targetRevision" . }}
     helm:
       values: |
-        lifecycle: {{ required "REQUIRED: lifecycle" $root.Values.lifecycle }}
+        lifecycle: {{ required "REQUIRED: lifecycle" .Values.lifecycle }}
   syncPolicy:
     automated:
       prune: {{ .Values.self.syncPolicy.automated.prune }}
