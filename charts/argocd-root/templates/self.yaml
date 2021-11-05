@@ -17,7 +17,6 @@ spec:
     targetRevision: {{ include "self.targetRevision" . }}
     helm:
       valueFiles:
-        - "values/default.yaml"
         - "values/{{- required "REQUIRED: lifecycle" .Values.lifecycle -}}.yaml"
   syncPolicy:
     automated:
