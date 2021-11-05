@@ -14,7 +14,7 @@ spec:
   source:
     path: {{ .Values.platform.source.path }}
     repoURL: {{ .Values.platform.source.repoURL }}
-    targetRevision: {{ include "platform.targetRevision" $root }}
+    targetRevision: {{ include "platform.targetRevision" . }}
     helm:
       valueFiles:
         - "values/default.yaml"

@@ -12,7 +12,7 @@ spec:
   source:
     path: {{ .Values.argocd.source.path }}
     repoURL: {{ .Values.argocd.source.repoURL }}
-    targetRevision: {{ include "argocd.targetRevision" $root }}
+    targetRevision: {{ include "argocd.targetRevision" . }}
   syncPolicy:
     automated:
       prune: {{ .Values.argocd.syncPolicy.automated.prune }}
