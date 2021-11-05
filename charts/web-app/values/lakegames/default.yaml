@@ -1,29 +1,25 @@
+proj_identifier: v1
 
-values:
-  proj_identifier: v1
+app_code: lg
 
-  app_code: lg
+google:
+  domain: lakegames.us
 
-  google:
-    domain: lakegames.us
+api:
+  label: lgames
 
-  api:
-    label: lgames
+secrets:
+  enabled: true
 
-  secrets:
-    enabled: true
+django:
+  enabled: true
 
-  django:
-    enabled: true
+sendgrid:
+  enabled: true
+  email: lakegamescontact@gmail.com
 
-  sendgrid:
-    enabled: true
-    email: lakegamescontact@gmail.com
+firebase:
+  enabled: true
 
-  firebase:
-    enabled: true
-
-  db:
-    local: true
-
-
+db:
+  local: true

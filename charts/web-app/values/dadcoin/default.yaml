@@ -1,22 +1,18 @@
+proj_identifier: v1
 
-values:
-  proj_identifier: v1
+app_code: dc
 
-  app_code: dc
+google:
+  domain: dadcoin.io
 
-  google:
-    domain: dadcoin.io
+api:
+  label: dadcoin
 
-  api:
-    label: dadcoin
+secrets:
+  enabled: true
 
-  secrets:
-    enabled: true
+django:
+  enabled: true
 
-  django:
-    enabled: true
-
-  db:
-    local: true
-
-
+db:
+  local: true

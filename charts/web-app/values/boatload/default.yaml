@@ -1,25 +1,19 @@
+proj_identifier: v1
 
-values:
-  proj_identifier: v1
+app_code: bl
 
-  app_code: bl
+google:
+  domain: boatload.us
 
-  google:
-    domain: boatload.us
+secrets:
+  enabled: true
 
-  secrets:
-    enabled: true
+twilio:
+  enabled: true
+  number: "12692155688"
 
-  twilio:
-    enabled: true
-    number: "12692155688"
+firebase:
+  enabled: false
 
-  firebase:
-    enabled: false
-
-  airtable:
-    base_id: "appDYtZ8GHWNDnltu"
-
-    
-
-
+airtable:
+  base_id: "appDYtZ8GHWNDnltu"
