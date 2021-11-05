@@ -16,11 +16,9 @@ spec:
     chart: {{ .Values.root.source.chart }}
     helm:
       valueFiles:
-        - values/default.yaml
-        - values/{{- required "REQUIRED: lifecycle" .Values.lifecycle -}}.yaml
+        - "values/default.yaml"
+        - "values/{{- required "REQUIRED: lifecycle" .Values.lifecycle -}}.yaml"
   syncPolicy:
     automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+      prune: {{ .Values.root.syncPolicy.automated.prune }}
+      selfHeal: {{ .Values.root.syncPolicy.automated.selfHeal }}
