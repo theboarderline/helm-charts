@@ -2,8 +2,5 @@ lifecycle: dev
 
 project: default
 
-source:
-  repoURL: 
-
 destination:
   server: https://kubernetes.default.svc
