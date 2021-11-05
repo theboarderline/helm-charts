@@ -1,24 +1,19 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: argocd
-#   finalizers:
-#     - resources-finalizer.argocd.argoproj.io
-# spec:
-#   syncPolicy:
-#     automated:
-#       prune: true
-#       selfHeal: true
-
-  project: {{ .Values.self.project }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{ .Values.project }}
   destination:
-    server: {{ .Values.self.destination.server }}
-    namespace: {{ .Values.self.destination.namespace }}
+    server: {{ .Values.destination.server }}
+    namespace: {{ .Values.destination.namespace }}
   source:
-    path: {{ .Values.self.source.path }}
-    repoURL: {{ .Values.self.source.repoURL }}
-    targetRevision: {{ .Values.self.source.targetRevision }}
+    path: {{ .Values.argocd.source.path }}
+    repoURL: {{ .Values.argocd.source.repoURL }}
+    targetRevision: {{ .Values.argocd.source.targetRevision }}
   syncPolicy:
     automated:
-      prune: {{ .Values.self.source.prune }}
-      selfHeal: {{ .Values.self.source.selfHeal }}
+      prune: {{ .Values.argocd.source.prune }}
+      selfHeal: {{ .Values.argocd.source.selfHeal }}

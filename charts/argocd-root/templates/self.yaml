@@ -7,8 +7,8 @@ metadata:
 spec:
   project: {{ .Values.self.project }}
   destination:
-    server: {{ .Values.self.destination.server }}
-    namespace: {{ .Values.self.destination.namespace }}
+    server: {{ .Values.destination.server }}
+    namespace: {{ .Values.destination.namespace }}
   source:
     path: {{ .Values.self.source.path }}
     repoURL: {{ .Values.self.source.repoURL }}

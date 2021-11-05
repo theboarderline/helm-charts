@@ -1,26 +1,26 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: root
-#   finalizers:
-#     - resources-finalizer.argocd.argoproj.io
-# spec:
-#   project: {{ .Values.project }}
-#   destination:
-#     server: {{ .Values.destination.server }}
-#     namespace: argocd
-#   source:
-#     path: ""
-#     repoURL: https://theboarderline.github.io/helm-charts
-#     targetRevision: 0.0.18
-#     chart: argocd-tenant
-#     helm:
-#       valueFiles:
-#         - values/default.yaml
-#         - values/{{- .Values.lifecycle -}}.yaml
-#   syncPolicy:
-#     automated:
-#       prune: true
-#       selfHeal: true
-#     syncOptions:
-#       - CreateNamespace=true
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{ .Values.project }}
+  destination:
+    server: {{ .Values.destination.server }}
+    namespace: {{ .Values.destination.namespace }}
+  source:
+    path: ''
+    repoURL: {{ .Values.root.source.repoURL }}
+    targetRevision: {{ .Values.root.source.targetRevision }}
+    chart: {{ .Values.root.source.chart }}
+    helm:
+      valueFiles:
+        - values/default.yaml
+        - values/{{- required "REQUIRED: lifecycle" .Values.lifecycle -}}.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
