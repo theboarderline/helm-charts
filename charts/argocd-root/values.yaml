@@ -27,6 +27,17 @@ self:
       prune: true
       selfHeal: true
 
+secrets:
+  enabled: true
+  source:
+    chart: kubernetes-external-secrets
+    repoURL: https://external-secrets.github.io/kubernetes-external-secrets/
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
 platform:
   enabled: true
   source:
