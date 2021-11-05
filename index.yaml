@@ -320,6 +320,16 @@ entries:
   argocd-tenant:
   - apiVersion: v3
     appVersion: 1.0.0
+    created: "2021-11-05T18:15:49.795293879Z"
+    description: Helm chart for installing and managing tenants
+    digest: d70eaf20dd999326a563ba4916e29628ad5dd440e3bc8bad711dda5fad2f58b2
+    name: argocd-tenant
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-tenant-0.0.23/argocd-tenant-0.0.23.tgz
+    version: 0.0.23
+  - apiVersion: v3
+    appVersion: 1.0.0
     created: "2021-11-05T18:10:31.14785942Z"
     description: Helm chart for installing and managing tenants
     digest: ffde9d6b73bf549994042dab76d60ae6111d1ed719f593f237dc45f8af5f72ee
