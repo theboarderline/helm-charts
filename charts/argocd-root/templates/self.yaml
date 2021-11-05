@@ -15,6 +15,7 @@ spec:
     path: {{ .Values.self.source.path }}
     repoURL: {{ .Values.self.source.repoURL }}
     targetRevision: {{ include "self.targetRevision" . }}
+    chart: {{ .Values.self.source.chart }}
     helm:
       valueFiles:
         - "values/{{- required "REQUIRED: lifecycle" .Values.lifecycle -}}.yaml"

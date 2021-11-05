@@ -13,6 +13,7 @@ spec:
     path: {{ .Values.argocd.source.path }}
     repoURL: {{ .Values.argocd.source.repoURL }}
     targetRevision: {{ include "argocd.targetRevision" . }}
+    chart: {{ .Values.platform.source.chart }}
   syncPolicy:
     automated:
       prune: {{ .Values.argocd.syncPolicy.automated.prune }}

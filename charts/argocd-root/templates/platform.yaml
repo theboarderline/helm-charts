@@ -15,6 +15,7 @@ spec:
     path: {{ .Values.platform.source.path }}
     repoURL: {{ .Values.platform.source.repoURL }}
     targetRevision: {{ include "platform.targetRevision" . }}
+    chart: {{ .Values.platform.source.chart }}
     helm:
       values: |
         lifecycle: {{ required "REQUIRED: lifecycle" .Values.lifecycle }}
