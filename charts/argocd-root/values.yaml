@@ -8,7 +8,7 @@ source:
   targetRevision: ""
 
 argocd:
-  enabled: false
+  enabled: true
   source:
     path: charts/argocd-install
     chart: ""
