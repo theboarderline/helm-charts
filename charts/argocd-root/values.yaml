@@ -7,7 +7,8 @@ destination:
 argocd:
   enabled: false
   source:
-    targetRevision: HEAD
+    path: ""
+    chart: ""
   syncPolicy:
     automated:
       prune: true
@@ -16,7 +17,8 @@ argocd:
 self:
   enabled: true
   source:
-    targetRevision: HEAD
+    path: ""
+    chart: ""
   syncPolicy:
     automated:
       prune: true
@@ -27,7 +29,6 @@ platform:
   source:
     path: ""
     chart: ""
-    targetRevision: HEAD
   syncPolicy:
     automated:
       prune: true
