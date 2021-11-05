@@ -5,6 +5,7 @@ destination:
   namespace: argocd
 
 argocd:
+  enabled: false
   source:
     targetRevision: HEAD
   syncPolicy:
@@ -13,7 +14,7 @@ argocd:
       selfHeal: true
 
 self:
-  enabled: false
+  enabled: true
   source:
     targetRevision: HEAD
   syncPolicy:
@@ -22,7 +23,7 @@ self:
       selfHeal: true
 
 root:
-  enabled: false
+  enabled: true
   source:
     path: ""
     chart: ""
