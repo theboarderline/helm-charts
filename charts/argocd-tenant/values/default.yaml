@@ -1,6 +1,6 @@
 tenants:
-  - name: lakegames
-  - name: boatload
   - name: coleman
-  - name: standwithpaul
-  - name: dadcoin
+  # - name: lakegames
+  # - name: boatload
+  # - name: standwithpaul
+  # - name: dadcoin

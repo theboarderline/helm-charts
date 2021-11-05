@@ -14,12 +14,14 @@ spec:
     namespace: {{ .name }}-cd
     server: {{ $root.Values.destination.server }}
   source:
-    path: {{ $root.Values.source.path | quote }}
+    path: ''
     repoURL: {{ $root.Values.source.repoURL }}
-    targetRevision: {{ $root.Values.source.targetRevision }}
-    chart: {{ $root.Values.source.chart }}
+    chart: web-app
+    targetRevision: 0.0.32
     helm:
-     valueFiles:
+      values:
+        - lifecycle: {{ $root.Values.lifecycle }}
+      valueFiles:
         - values/{{- .name -}}/default.yaml
         - values/{{- .name -}}/{{- $root.Values.lifecycle -}}.yaml
   syncPolicy:
