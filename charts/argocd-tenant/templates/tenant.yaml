@@ -22,11 +22,9 @@ spec:
     repoURL: {{ $root.Values.source.repoURL }}
     targetRevision: {{ include "targetRevision" $root }}
     helm:
-      values: |
-        lifecycle: {{ required "REQUIRED: lifecycle" $root.Values.lifecycle }}
       valueFiles:
-        - values/{{- .name -}}/default.yaml
-        - values/{{- .name -}}/{{- $root.Values.lifecycle -}}.yaml
+        - "values/{{- .name -}}/default.yaml"
+        - "values/{{- .name -}}/{{- required "REQUIRED: lifecycle" $root.Values.lifecycle -}}.yaml"
   syncPolicy:
     automated:
       prune: {{ $root.Values.syncPolicy.automated.prune }}
