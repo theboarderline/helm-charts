@@ -14,9 +14,12 @@ spec:
     namespace: {{ .name }}-cd
     server: {{ $root.Values.destination.server }}
   source:
-    path: {{ $root.Values.source.path }}
-    repoURL: {{ $root.Values.source.repoURL }}
+    {{- if $root.Values.source.chart }}
     chart: {{ $root.Values.source.chart }}
+    {{- else }}
+    path: {{ $root.Values.source.path }}
+    {{- end }}
+    repoURL: {{ $root.Values.source.repoURL }}
     targetRevision: {{ include "targetRevision" $root }}
     helm:
       values: |
