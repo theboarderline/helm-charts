@@ -24,6 +24,7 @@ self:
 root:
   enabled: false
   source:
+    path: ""
     chart: ""
     targetRevision: HEAD
   syncPolicy:

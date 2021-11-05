@@ -12,7 +12,7 @@ spec:
     server: {{ .Values.destination.server }}
     namespace: {{ .Values.destination.namespace }}
   source:
-    path: ''
+    path: {{ .Values.root.source.path }}
     repoURL: {{ .Values.root.source.repoURL }}
     targetRevision: {{ .Values.root.source.targetRevision }}
     chart: {{ .Values.root.source.chart }}
