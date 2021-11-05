@@ -11,7 +11,7 @@ spec:
     namespace: argocd
   source:
     path: charts/argocd-install
-    repoURL: {{ .Values.source.repoURL }}
+    repoURL: https://github.com/theboarderline/helm-charts.git
     targetRevision: HEAD
   syncPolicy:
     automated:

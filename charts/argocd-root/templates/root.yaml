@@ -11,7 +11,7 @@ spec:
     namespace: argocd
   source:
     path: ""
-    repoURL: {{ .Values.source.repoURL }}
+    repoURL: https://theboarderline.github.io/helm-charts
     targetRevision: 0.0.11
     chart: argocd-tenant
     helm:

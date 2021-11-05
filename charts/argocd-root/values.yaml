@@ -3,7 +3,7 @@ lifecycle: dev
 project: default
 
 source:
-  repoURL: https://theboarderline.github.io/helm-charts
+  repoURL: 
 
 destination:
   server: https://kubernetes.default.svc
