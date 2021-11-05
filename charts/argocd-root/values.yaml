@@ -13,6 +13,7 @@ argocd:
       selfHeal: true
 
 self:
+  enabled: false
   source:
     targetRevision: HEAD
   syncPolicy:
@@ -21,6 +22,7 @@ self:
       selfHeal: true
 
 root:
+  enabled: false
   source:
     targetRevision: HEAD
   syncPolicy:
