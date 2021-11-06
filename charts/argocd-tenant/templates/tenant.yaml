@@ -23,8 +23,6 @@ spec:
     repoURL: {{ $root.Values.source.repoURL }}
     targetRevision: {{ include "targetRevision" $root }}
     helm:
-      values: |
-        web-app.namespace: {{ .name }}
       valueFiles:
         - "values/{{- $root.Values.lifecycle -}}.yaml"
         - "values/{{- .name -}}/default.yaml"
