@@ -78,6 +78,16 @@ entries:
   argocd-root:
   - apiVersion: v3
     appVersion: 0.0.1
+    created: "2021-11-06T02:06:26.542513476Z"
+    description: A Helm chart for bootstrapping Walker's Argo CD applications
+    digest: 68c72ea0545dadd9d979d4d0416f7af2da21f1cd0f53959bec8581721a499824
+    name: argocd-root
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-root-0.0.65/argocd-root-0.0.65.tgz
+    version: 0.0.65
+  - apiVersion: v3
+    appVersion: 0.0.1
     created: "2021-11-06T02:02:50.625428232Z"
     description: A Helm chart for bootstrapping Walker's Argo CD applications
     digest: 40adb3736e052203b9391bc5a3a52f2f57d3ef5cf46081dab43d860f263c9924
@@ -668,6 +678,16 @@ entries:
     - https://github.com/theboarderline/helm-charts/releases/download/argocd-root-0.0.1/argocd-root-0.0.1.tgz
     version: 0.0.1
   argocd-tenant:
+  - apiVersion: v3
+    appVersion: 1.0.0
+    created: "2021-11-06T02:06:26.73120868Z"
+    description: Helm chart for installing and managing tenants
+    digest: 0cdaee98cc6337de47791c0cddfb9236b6944b2d0827921eb76c49bc796b44fe
+    name: argocd-tenant
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-tenant-0.0.40/argocd-tenant-0.0.40.tgz
+    version: 0.0.40
   - apiVersion: v3
     appVersion: 1.0.0
     created: "2021-11-06T02:05:08.054125949Z"
