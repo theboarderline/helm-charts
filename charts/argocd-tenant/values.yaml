@@ -1,6 +1,5 @@
 project: default
 namespace: argocd-system
-github_org: theboarderline
 
 destination:
   server: https://kubernetes.default.svc
