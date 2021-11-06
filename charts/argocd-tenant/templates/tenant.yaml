@@ -12,7 +12,7 @@ metadata:
 spec:
   project: {{ $root.Values.project }}
   destination:
-    namespace: {{ .name }}-cd
+    namespace: {{ .name }}
     server: {{ $root.Values.destination.server }}
   source:
     {{- if $root.Values.source.chart }}
