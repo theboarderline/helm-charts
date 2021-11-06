@@ -2,6 +2,17 @@ apiVersion: v1
 entries:
   argocd-install:
   - apiVersion: v3
+    created: "2021-11-06T05:59:08.319768239Z"
+    dependencies:
+    - name: argo-cd
+      repository: https://argoproj.github.io/argo-helm
+      version: 2.11.0
+    digest: 11a87c49ebf77701a69474f4bf36d8d426c3508b2fac7be84634521d3d6b9642
+    name: argocd-install
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-install-0.0.13/argocd-install-0.0.13.tgz
+    version: 0.0.13
+  - apiVersion: v3
     created: "2021-11-06T05:52:57.104795732Z"
     dependencies:
     - name: argo-cd
