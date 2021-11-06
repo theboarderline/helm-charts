@@ -19,8 +19,14 @@ spec:
     chart: {{ $root.Values.source.chart }}
     {{- else }}
     path: {{ $root.Values.source.path }}
-    {{- end }}
+    {{- end -}}
+
+    {{- if $root.Values.source.repoURL }}
     repoURL: {{ $root.Values.source.repoURL }}
+    {{- else }}
+    repoURL: git@github.com:{{- .Values.github_org -}}/{{-- .name -}}.git
+    {{- end -}}
+
     targetRevision: {{ include "targetRevision" $root }}
     helm:
       valueFiles:
