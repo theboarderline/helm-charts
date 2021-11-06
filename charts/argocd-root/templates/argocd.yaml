@@ -22,3 +22,6 @@ spec:
     automated:
       prune: {{ .Values.argocd.syncPolicy.automated.prune }}
       selfHeal: {{ .Values.argocd.syncPolicy.automated.selfHeal }}
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true

@@ -27,5 +27,8 @@ spec:
     automated:
       prune: {{ .Values.self.syncPolicy.automated.prune }}
       selfHeal: {{ .Values.self.syncPolicy.automated.selfHeal }}
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true
 
 {{ end }}
