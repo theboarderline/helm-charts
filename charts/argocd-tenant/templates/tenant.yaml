@@ -24,7 +24,7 @@ spec:
     targetRevision: {{ include "targetRevision" $root }}
     helm:
       values: |
-        web-app.namespace: {{ $root.Values.namespace }}
+        web-app.namespace: {{ .name }}
       valueFiles:
         - "values/{{- $root.Values.lifecycle -}}.yaml"
         - "values/{{- .name -}}/default.yaml"
