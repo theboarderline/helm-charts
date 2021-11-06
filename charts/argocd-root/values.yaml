@@ -3,7 +3,7 @@ namespace: argocd-system
 
 destination:
   server: https://kubernetes.default.svc
-  namespace: argocd
+  namespace: argocd-system
 
 source:
   targetRevision: ""
