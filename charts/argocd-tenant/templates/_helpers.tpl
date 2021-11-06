@@ -5,7 +5,7 @@
     {{- .Values.source.targetRevision }}
 
   {{- else if eq .Values.lifecycle "prod" }}
-    main
+    {{- "main" -}}
 
   {{- else }}
     {{- required "REQUIRED: values.lifecycle" .Values.lifecycle }}
