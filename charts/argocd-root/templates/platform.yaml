@@ -29,6 +29,6 @@ spec:
       selfHeal: {{ .Values.platform.syncPolicy.automated.selfHeal }}
     syncOptions:
       - CreateNamespace=true
-      - PruneLast=true
+      - PruneLast=false
 
 {{ end }}
