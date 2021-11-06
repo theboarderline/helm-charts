@@ -60,6 +60,8 @@ spec:
           value: {{ required "App Code Required" .Values.app_code }}
         - name: LIFECYCLE
           value: {{ required "Application Lifecycle Required" .Values.lifecycle }}
+        - name: NAMESPACE
+          value: {{ required "REQUIRED: namespace" .Values.namespace }}
         - name: DOMAIN
           value: {{ include "walker-chart.domain" . }}
         - name: STATIC_BUCKET
