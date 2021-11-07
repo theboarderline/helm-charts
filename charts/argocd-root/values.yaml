@@ -30,6 +30,8 @@ self:
 
 secrets:
   enabled: true
+  destination:
+    namespace: external-secrets
   source:
     chart: kubernetes-external-secrets
     repoURL: https://external-secrets.github.io/kubernetes-external-secrets/
