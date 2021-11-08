@@ -3,6 +3,20 @@
 {{- range .Values.tenants }}
 
 apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ .name }}-project
+  namespace: {{ $root.Values.namespace }}
+spec:
+  roles:
+  - name: read-only
+    description: Read-only privileges to {{ .name }}
+    policies:
+    - p, proj:{{- .name -}}:read-only, applications, get, {{ .name -}}/*, allow
+
+---
+
+apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: {{ .name }}
@@ -10,7 +24,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: {{ .name }}
+  project: {{ .name }}-project
   destination:
     namespace: {{ .name }}
     server: {{ $root.Values.destination.server }}
