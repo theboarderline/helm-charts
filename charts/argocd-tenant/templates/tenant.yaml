@@ -20,7 +20,8 @@ spec:
   - name: read-only
     description: Read-only privileges to {{ .name }}
     policies:
-    - p, {{- .name -}}-viewer, applications, get, {{ .name -}}-project/*, allow
+    - p, role:{{- .name -}}-viewer-role, applications, get, {{ .name -}}-project/*, allow
+    - g, {{ .name -}}-viewer, role:coleman-viewer-role
 
 ---
 
