@@ -17,7 +17,7 @@ spec:
   - name: read-only
     description: Read-only privileges to {{ .name }}
     policies:
-    - p, proj:{{- .name -}}:read-only, applications, get, {{ .name -}}/*, allow
+    - p, proj:{{- .name -}}-project:read-only, applications, get, {{ .name -}}/*, allow
 
 ---
 
