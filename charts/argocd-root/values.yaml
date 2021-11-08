@@ -1,4 +1,4 @@
-project: default
+root_project: root-project
 namespace: argocd-system
 
 destination:
