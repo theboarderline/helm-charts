@@ -6,6 +6,9 @@ metadata:
   name: {{ .Values.root_project }}
   namespace: {{ .Values.namespace }}
 spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
   destinations:
   - server: {{ .Values.destination.server }}
     namespace: {{ .Values.namespace }}
