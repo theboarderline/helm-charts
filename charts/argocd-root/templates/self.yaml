@@ -6,6 +6,13 @@ metadata:
   name: {{ .Values.root_project }}
   namespace: {{ .Values.namespace }}
 spec:
+  destinations:
+  - server: {{ .Values.destination.server }}
+    namespace: {{ .Values.namespace }}
+  - server: {{ .Values.destination.server }}
+    namespace: {{ .Values.secrets.destination.namespace }}
+  sourceRepos:
+  - '*'
   roles:
   - name: read-only
     description: Read-only privileges to {{ .name }}
