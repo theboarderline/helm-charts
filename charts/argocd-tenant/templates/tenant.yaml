@@ -8,6 +8,11 @@ metadata:
   name: {{ .name }}-project
   namespace: {{ $root.Values.namespace }}
 spec:
+  destinations:
+  - namespace: {{ .name }}
+    server: {{ $root.Values.destination.server }}
+  sourceRepos:
+  - '*'
   roles:
   - name: read-only
     description: Read-only privileges to {{ .name }}
