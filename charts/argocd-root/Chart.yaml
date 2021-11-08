@@ -3,4 +3,4 @@ name: argocd-root
 description: A Helm chart for bootstrapping Walker's Argo CD applications
 type: application
 appVersion: 0.0.1
-version: 0.0.80
+version: 0.0.81
