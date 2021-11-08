@@ -20,12 +20,8 @@ spec:
   - name: read-only
     description: Read-only privileges to {{ .name }}
     policies:
-    - p, proj:{{- .name -}}-project:read-only, applications, get, {{ .name -}}/*, allow
-    groups:
-    - {{ .name }}-viewer
+    - p, user:{{- .name -}}-viewer, applications, get, {{ .name -}}/*, allow
 
-    policies:
-    - p, proj:{{ .Values.root_project }}:read-only, applications, get, {{ .root_project }}/*, allow
 ---
 
 apiVersion: argoproj.io/v1alpha1

@@ -19,7 +19,7 @@ spec:
   - name: read-only
     description: Read-only privileges to root applications
     policies:
-    - p, proj:{{ .Values.root_project }}:read-only, applications, get, {{ .root_project }}/*, allow
+    - p, user:admin, applications, get, {{ .root_project }}/*, allow
     groups:
     - {{ .Values.root_group }}
 
