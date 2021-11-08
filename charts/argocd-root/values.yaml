@@ -10,7 +10,7 @@ source:
   targetRevision: ""
 
 argocd:
-  enabled: true
+  enabled: false
   source:
     path: charts/argocd-install
     chart: ""
@@ -20,7 +20,7 @@ argocd:
       selfHeal: true
 
 self:
-  enabled: true
+  enabled: false
   source:
     path: charts/argocd-root
     chart: ""
