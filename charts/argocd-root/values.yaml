@@ -1,4 +1,5 @@
 root_project: root-project
+root_group: root-viewers
 namespace: argocd-system
 
 destination:

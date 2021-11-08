@@ -1,0 +1,26 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ .Values.root_project }}
+  namespace: {{ .Values.namespace }}
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  destinations:
+  - server: {{ .Values.destination.server }}
+    namespace: {{ .Values.namespace }}
+  - server: {{ .Values.destination.server }}
+    namespace: {{ .Values.secrets.destination.namespace }}
+  sourceRepos:
+  - '*'
+  roles:
+  - name: read-only
+    description: Read-only privileges to root applications
+    policies:
+    - p, proj:{{ .Values.root_project }}:read-only, applications, get, {{ .root_project }}/*, allow
+    groups:
+    - {{ .Values.root_group }}
+
+
