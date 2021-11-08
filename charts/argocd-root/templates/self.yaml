@@ -1,6 +1,20 @@
 {{ if .Values.self.enabled }}
 
 apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ .Values.root_project }}
+  namespace: {{ .Values.namespace }}
+spec:
+  roles:
+  - name: read-only
+    description: Read-only privileges to {{ .name }}
+    policies:
+    - p, proj:root:read-only, applications, get, {{ .name -}}/*, allow
+
+---
+
+apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: self
@@ -8,7 +22,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: {{ .Values.project }}
+  project: {{ .Values.root_project }}
   destination:
     server: {{ .Values.destination.server }}
     namespace: {{ .Values.destination.namespace }}
