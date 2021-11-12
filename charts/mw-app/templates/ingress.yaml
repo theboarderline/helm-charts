@@ -1,16 +1,6 @@
+{{- if .Values.enabled }}
 
-
-apiVersion: compute.cnrm.cloud.google.com/v1beta1
-kind: ComputeAddress
-metadata:
-  name: "{{ .Values.app_code }}-ip"
-  annotations:
-    cnrm.cloud.google.com/project-id: {{ include "mw-app.gke_project" . }}
-spec:
-  location: global
-  ipVersion: IPV4
-
----
+{{- if .Values.ingress.https }}
 
 apiVersion: networking.gke.io/v1beta2
 kind: ManagedCertificate
@@ -18,7 +8,7 @@ metadata:
   name: google-cert
 spec:
   domains:
-    - {{ required "Google Domain Required" .Values.google.domain }}
+    - {{ include "walker-chart.domain" . }}
 
 ---
 
@@ -27,13 +17,42 @@ kind: Ingress
 metadata:
   name: ingress-tls
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: {{ required "IP Name required" .Values.app_code }}-ip
+    kubernetes.io/ingress.global-static-ip-name: {{ include "walker-chart.ip_name" . }}
     networking.gke.io/managed-certificates: google-cert
     networking.gke.io/v1beta1.FrontendConfig: gke-frontendconfig
+spec:
+  defaultBackend:
+    service:
+      {{- if .Values.nginx.enabled }}
+      name: nginx-svc
+      port:
+        number: 443
+      {{- else }}
+      name: api-svc
+      port:
+        number: 80
+      {{- end }}
+
+---
+
+{{- end }}
+
+
+{{- if .Values.ingress.http }}
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-http
 spec:
   defaultBackend:
     service:
       name: nginx-svc
       port:
         number: 443
+
+---
+{{- end }}
+
+{{- end }}
 

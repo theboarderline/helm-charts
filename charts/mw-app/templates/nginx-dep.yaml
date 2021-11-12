@@ -1,3 +1,5 @@
+{{- if and (.Values.enabled) (.Values.nginx.enabled) }}
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -5,57 +7,84 @@ metadata:
     app: nginx-dep
     tier: frontend
   name: nginx-dep
-
 spec:
-  replicas: 1
+  replicas: {{ required "Nginx Replicas Required" .Values.nginx.replicas }}
+  strategy:
+    type: RollingUpdate
   selector:
     matchLabels:
       app: nginx-dep
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
         app: nginx-dep
     spec:
+      serviceAccountName: {{ .Values.app_code -}}-sa
       containers:
       - name: nginx
-        image: {{ include "mw-app.nginx_image" . }}
+        image: {{ include "walker-chart.nginx_image" . }}
         imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+        resources:
+          requests:
+            memory: {{ required "Nginx Memory Requests Required" .Values.nginx.memory.request }}
+            cpu: {{ required "Nginx CPU Requests Required" .Values.nginx.cpu.request }}
+          limits:
+            memory: {{ required "Nginx Memory Limits Required" .Values.nginx.memory.limit }}
+            cpu: {{ required "Nginx CPI Limits Required" .Values.nginx.cpu.limit }}
 
         startupProbe:
           httpGet:
-            path: /
+            path: /health/
             port: 80
           failureThreshold: 5
           periodSeconds: 5
 
         livenessProbe:
           httpGet:
-            path: /
+            path: /health/
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
 
         readinessProbe:
           httpGet:
-            path: /
+            path: /health/
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
 
         env:
+        - name: APP_CODE
+          value: {{ required "App Code Required" .Values.app_code }}
         - name: LIFECYCLE
-          value: {{ .Values.k8s.lifecycle }}
+          value: {{ required "Application Lifecycle Required" .Values.lifecycle }}
+        - name: NAMESPACE
+          value: {{ required "REQUIRED: namespace" .Values.namespace }}
         - name: DOMAIN
-          value: {{ .Values.google.domain }}
+          value: {{ include "walker-chart.domain" . }}
         - name: STATIC_BUCKET
-          value: {{ .Values.google.static_bucket }}
+          value: {{ include "walker-chart.bucket" . }}
+
+        {{- if .Values.django.oauth }}
+        - name: OAUTH_ID
+          value: {{ .Values.google.oauth.id }}
+        {{- end }}
+
+        {{- if .Values.firebase.enabled }}
+        - name: AUTH_DOMAIN
+          value: {{ include "walker-chart.app_project" . -}}.firebaseapp.com
+        - name: FIREBASE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: secrets-manager
+              key: firebase-key
+        {{- end }}
+
         ports:
         - containerPort: 80
           name: https
           protocol: TCP
 
+{{- end }}

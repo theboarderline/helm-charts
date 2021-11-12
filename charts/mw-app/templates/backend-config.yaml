@@ -1,16 +1,19 @@
+{{- if .Values.enabled }}
+
 apiVersion: cloud.google.com/v1
 kind: BackendConfig
 metadata:
   name: gke-backendconfig
 spec:
   securityPolicy:
-    name: no-bad-guys
+    name: us-only
 
-  {{ if .Values.cdn }}
+  {{- if ne .Values.lifecycle "dev" }}
   cdn:
     enabled: true
     cachePolicy:
       includeHost: true
       includeProtocol: true
-  {{ end }}
+  {{- end }}
 
+{{- end }}
