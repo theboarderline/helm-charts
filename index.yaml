@@ -1364,6 +1364,16 @@ entries:
   mw-app:
   - apiVersion: v2
     appVersion: 1.16.6
+    created: "2021-11-12T01:30:31.010982252Z"
+    description: A Helm chart for deploying Walker's web applications to Kubernetes
+    digest: 50ad3b01f0e205afd7aba6e450f72749d9f04c06e85cfad860c849214562a42e
+    name: mw-app
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/mw-app-0.0.8/mw-app-0.0.8.tgz
+    version: 0.0.8
+  - apiVersion: v2
+    appVersion: 1.16.6
     created: "2021-11-12T01:29:06.936006093Z"
     description: A Helm chart for deploying Walker's web applications to Kubernetes
     digest: 44c98d7980c2d69d6e1f2c1699173d458cc105d21adb79c3fc8ecf0fb58846c7
