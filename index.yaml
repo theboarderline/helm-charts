@@ -1,5 +1,16 @@
 apiVersion: v1
 entries:
+  app-chart:
+  - apiVersion: v2
+    appVersion: 1.16.6
+    created: "2021-11-12T00:21:54.641622809Z"
+    description: A Helm chart for deploying Walker's web applications to Kubernetes
+    digest: 93f7a2957f43217be82f68f741b3d331e0dd5d631494d66f8e18ba4b4131084f
+    name: app-chart
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/app-chart-0.0.3/app-chart-0.0.3.tgz
+    version: 0.0.3
   argocd-install:
   - apiVersion: v3
     created: "2021-11-06T05:59:08.319768239Z"
