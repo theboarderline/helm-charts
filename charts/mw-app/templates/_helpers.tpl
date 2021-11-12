@@ -29,12 +29,12 @@
 
 
 {{- define "walker-chart.api_image" -}}
-  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "walker-chart.app_project" . -}}/{{- .Values.app_code -}}-repo/api:{{- .Values.api.tag }}
+  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "walker-chart.gke_project" . -}}/{{- .Values.app_code -}}-repo/api:{{- .Values.api.tag }}
 {{- end -}}
 
 
 {{- define "walker-chart.nginx_image" -}}
-  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "walker-chart.app_project" . -}}/{{- .Values.app_code -}}-repo/nginx:{{- .Values.nginx.tag }}
+  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "walker-chart.gke_project" . -}}/{{- .Values.app_code -}}-repo/nginx:{{- .Values.nginx.tag }}
 {{- end -}}
 
 
