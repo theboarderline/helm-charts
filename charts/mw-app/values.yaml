@@ -1,43 +1,69 @@
-k8s:
-  api:
-    memory:
-      request: "128Mi"
-      limit: "512Mi"
-    cpu:
-      request: .2
-      limit: 1
-    replicas: 1
-    max_replicas: 1
-    target_cpu: 80
-    target_mem: 512Mi
 
-  nginx:
-    memory:
-      request: "5Mi"
-      limit: "50Mi"
-    cpu:
-      request: .1
-      limit: .5
-    replicas: 1
-    max_replicas: 1
-    target_cpu: 80
-    target_mem: 50Mi
+enabled: true
+
+api:
+  enabled: true
+  tag: latest
+  memory:
+    request: "128Mi"
+    limit: "512Mi"
+  cpu:
+    request: .2
+    limit: 1
+  replicas: 1
+  max_replicas: 5
+  target_cpu: 80
+  target_mem: 512Mi
+
+nginx:
+  enabled: true
+  tag: latest
+  memory:
+    request: "5Mi"
+    limit: "50Mi"
+  cpu:
+    request: .1
+    limit: .5
+  replicas: 1
+  max_replicas: 3
+  target_cpu: 80
+  target_mem: 50Mi
 
 google:
   region: us-central1
+  zone: us-central1-a
+  analytics:
+    enabled: false
 
-images:
-  api:
-    name: django
-    tag: latest
-  nginx:
-    name: nginx
-    tag: latest
- 
-frontend: false
-backend: false
-ingress: false
+ingress:
+  http: false
+  https: true
 
-cdn: false
+autoscaler:
+  enabled: false
+
+secrets:
+  enabled: false
+
+cilium:
+  enabled: false
+
+django:
+  enabled: false
+
+db:
+  proxy: false
+  local: false
+  proxy_version: gcr.io/cloudsql-docker/gce-proxy:1.21.0
+  instance: sql-instance
+
+twilio:
+  enabled: false
+
+firebase:
+  enabled: false
+
+sendgrid:
+  enabled: false
 
 
