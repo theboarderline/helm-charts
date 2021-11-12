@@ -8,7 +8,7 @@ spec:
   securityPolicy:
     name: us-only
 
-  {{- if ne .Values.lifecycle "dev" }}
+  {{- if or (ne .Values.lifecycle "ops") (ne .Values.lifecycle "dev") }}
   cdn:
     enabled: true
     cachePolicy:
