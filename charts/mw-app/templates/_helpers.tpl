@@ -24,7 +24,7 @@
 
 
 {{- define "walker-chart.app_project" -}}
-  {{- .Values.app_code -}}-{{- .Values.proj_identifier -}}-gke-project
+  {{- .Values.lifecycle -}}-{{- .Values.proj_identifier -}}-gke-project
 {{- end -}}
 
 
