@@ -1361,6 +1361,17 @@ entries:
     urls:
     - https://github.com/theboarderline/helm-charts/releases/download/argocd-tenant-0.0.6/argocd-tenant-0.0.6.tgz
     version: 0.0.6
+  mw-app:
+  - apiVersion: v2
+    appVersion: 1.16.6
+    created: "2021-11-12T00:27:49.915335094Z"
+    description: A Helm chart for deploying Walker's web applications to Kubernetes
+    digest: c1cbb839274427b7175811e990fa442fbbefffe33a3436d5c5c9088166c7c889
+    name: mw-app
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/mw-app-0.0.3/mw-app-0.0.3.tgz
+    version: 0.0.3
   web-app:
   - apiVersion: v2
     appVersion: 1.0.0
