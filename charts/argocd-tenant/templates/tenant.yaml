@@ -25,6 +25,8 @@ spec:
 
 ---
 
+{{- if .enabled }}
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -61,6 +63,8 @@ spec:
     syncOptions:
       - CreateNamespace={{- $root.Values.syncOptions.CreateNamespace }}
       - PruneLast={{- $root.Values.syncOptions.PruneLast }}
+
+{{- end }}
 
 ---
 
