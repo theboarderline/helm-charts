@@ -58,3 +58,8 @@
 
   {{- end }}
 {{- end }}
+
+
+{{- define "secrets_sa" -}}
+gke-nodes@{{- .Values.lifecycle_letter -}}-{{ .Values.proj_identifier }}-gke-project.iam.gserviceaccount.com
+{{- end }}
