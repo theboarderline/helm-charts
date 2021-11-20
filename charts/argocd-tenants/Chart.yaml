@@ -1,5 +1,5 @@
 apiVersion: v3
-name: argocd-tenant
+name: argocd-tenants
 description: Helm chart for installing and managing tenants
 type: application
 appVersion: 1.0.0

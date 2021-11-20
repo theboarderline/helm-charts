@@ -8,7 +8,7 @@ metadata:
   name: google-cert
 spec:
   domains:
-    - {{ include "walker-chart.domain" . }}
+    - {{ include "domain" . }}
 
 ---
 
@@ -17,7 +17,7 @@ kind: Ingress
 metadata:
   name: ingress-tls
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: {{ include "walker-chart.ip_name" . }}
+    kubernetes.io/ingress.global-static-ip-name: {{ include "ip_name" . }}
     networking.gke.io/managed-certificates: google-cert
     networking.gke.io/v1beta1.FrontendConfig: gke-frontendconfig
 spec:

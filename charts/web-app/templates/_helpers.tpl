@@ -1,6 +1,6 @@
 
 
-{{- define "walker-chart.domain" -}}
+{{- define "domain" -}}
 
   {{- if eq .Values.lifecycle "prod" }}
   {{- required "Google Domain Required" .Values.google.domain }}
@@ -13,47 +13,47 @@
 {{- end }}
 
 
-{{- define "walker-chart.gke_project" -}}
+{{- define "gke_project" -}}
   {{- .Values.lifecycle -}}-{{- .Values.proj_identifier -}}-gke-project
 {{- end -}}
 
 
-{{- define "walker-chart.db_project" -}}
+{{- define "db_project" -}}
   {{- .Values.lifecycle -}}-{{- .Values.proj_identifier -}}-db-project
 {{- end -}}
 
 
-{{- define "walker-chart.app_project" -}}
+{{- define "app_project" -}}
   {{- .Values.app_code -}}-{{- .Values.proj_identifier -}}-app-project
 {{- end -}}
 
 
-{{- define "walker-chart.api_image" -}}
-  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "walker-chart.app_project" . -}}/api-repo/{{- .Values.lifecycle -}}:{{- .Values.api.tag }}
+{{- define "api_image" -}}
+  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/api-repo/{{- .Values.lifecycle -}}:{{- .Values.api.tag }}
 {{- end -}}
 
 
-{{- define "walker-chart.nginx_image" -}}
-  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "walker-chart.app_project" . -}}/nginx-repo/{{- .Values.lifecycle -}}:{{- .Values.nginx.tag }}
+{{- define "nginx_image" -}}
+  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/nginx-repo/{{- .Values.lifecycle -}}:{{- .Values.nginx.tag }}
 {{- end -}}
 
 
-{{- define "walker-chart.db_name" -}}
+{{- define "db_name" -}}
   {{- .Values.lifecycle -}}-db
 {{- end -}}
 
 
-{{- define "walker-chart.app_sa" -}}
-  {{- .Values.app_code -}}-app@{{- include "walker-chart.app_project" . -}}.iam
+{{- define "app_sa" -}}
+  {{- .Values.app_code -}}-app@{{- include "app_project" . -}}.iam
 {{- end -}}
 
 
-{{- define "walker-chart.bucket" -}}
+{{- define "bucket" -}}
   {{- .Values.app_code -}}-app-static
 {{- end -}}
 
 
-{{- define "walker-chart.ip_name" -}}
+{{- define "ip_name" -}}
   {{- .Values.app_code -}}-ip
 {{- end -}}
 

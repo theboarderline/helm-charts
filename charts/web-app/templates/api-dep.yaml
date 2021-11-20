@@ -23,7 +23,7 @@ spec:
       restartPolicy: Always
       containers:
       - name: api
-        image: {{ include "walker-chart.api_image" . }}
+        image: {{ include "api_image" . }}
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
@@ -62,9 +62,9 @@ spec:
         - name: USE_GCS
           value: "true"
         - name: DOMAIN
-          value: {{ include "walker-chart.domain" . }}
+          value: {{ include "domain" . }}
         - name: STATIC_BUCKET
-          value: {{ include "walker-chart.bucket" . }}
+          value: {{ include "bucket" . }}
 
         {{- if .Values.django.enabled }}
         - name: DJANGO_KEY
@@ -108,9 +108,9 @@ spec:
         - name: USE_PROXY
           value: "true"
         - name: DB_NAME
-          value: {{ include "walker-chart.db_name" . }}
+          value: {{ include "db_name" . }}
         - name: DB_USER
-          value: {{ include "walker-chart.app_sa" . }}
+          value: {{ include "app_sa" . }}
         {{- end }}
 
         {{- if .Values.twilio.enabled }}
@@ -173,7 +173,7 @@ spec:
         imagePullPolicy: Always
         command:
         - /cloud_sql_proxy
-        - -instances={{- include "walker-chart.db_project" . -}}:{{- required "Region Required" .Values.google.region -}}:{{- .Values.app_code -}}-{{- required "DB Instance Required" .Values.db.instance -}}=tcp:127.0.0.1:5432
+        - -instances={{- include "db_project" . -}}:{{- required "Region Required" .Values.google.region -}}:{{- .Values.app_code -}}-{{- required "DB Instance Required" .Values.db.instance -}}=tcp:127.0.0.1:5432
         - -enable_iam_login
         securityContext:
           runAsNonRoot: true

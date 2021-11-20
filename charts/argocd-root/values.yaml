@@ -45,7 +45,7 @@ secrets:
 platform:
   enabled: true
   source:
-    path: charts/argocd-tenant
+    path: charts/argocd-tenants
     chart: ""
   syncPolicy:
     automated:
