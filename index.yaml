@@ -111,6 +111,16 @@ entries:
   argocd-root:
   - apiVersion: v3
     appVersion: 0.0.1
+    created: "2021-11-20T00:55:24.517087792Z"
+    description: A Helm chart for bootstrapping Walker's Argo CD applications
+    digest: 8a25a09fbb933cbddf90c5bd7c66732e984a94c3e9de9b87f29ae5ef3eaa7dd0
+    name: argocd-root
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-root-0.0.85/argocd-root-0.0.85.tgz
+    version: 0.0.85
+  - apiVersion: v3
+    appVersion: 0.0.1
     created: "2021-11-08T08:41:29.289242243Z"
     description: A Helm chart for bootstrapping Walker's Argo CD applications
     digest: bc6d1425af435e068dabf4b5d74ab1f5618a5c20c2f634ec17d97f84f85ec337
@@ -1381,6 +1391,17 @@ entries:
     urls:
     - https://github.com/theboarderline/helm-charts/releases/download/argocd-tenant-0.0.6/argocd-tenant-0.0.6.tgz
     version: 0.0.6
+  argocd-tenants:
+  - apiVersion: v3
+    appVersion: 1.0.0
+    created: "2021-11-20T00:55:24.705473473Z"
+    description: Helm chart for installing and managing tenants
+    digest: 6817fd4c0da55b6e67db9b3719c03a408f63133d7a893d57c07f760d5a3eaf04
+    name: argocd-tenants
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-tenants-0.0.64/argocd-tenants-0.0.64.tgz
+    version: 0.0.64
   mw-app:
   - apiVersion: v2
     appVersion: 1.16.6
@@ -1443,6 +1464,16 @@ entries:
     - https://github.com/theboarderline/helm-charts/releases/download/mw-app-0.0.3/mw-app-0.0.3.tgz
     version: 0.0.3
   web-app:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2021-11-20T00:55:24.866021482Z"
+    description: A Helm chart for deploying web applications
+    digest: e9df0cd8c139c4c838b2724422dc20a24264ac0ad05fb3818a900dd15e91332b
+    name: web-app
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/web-app-0.0.37/web-app-0.0.37.tgz
+    version: 0.0.37
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2021-11-06T02:51:07.933310098Z"
