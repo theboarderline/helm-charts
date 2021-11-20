@@ -14,17 +14,17 @@
 
 
 {{- define "gke_project" -}}
-  {{- required "REQUIRED: lifecycle_letter".Values.lifecycle_letter -}}-{{- .Values.proj_identifier -}}-gke-project
+  {{- required "REQUIRED: lifecycle_letter" .Values.lifecycle_letter -}}-{{- required "REQUIRED: proj_identifier" .Values.proj_identifier -}}-gke-project
 {{- end -}}
 
 
 {{- define "db_project" -}}
-  {{- .Values.lifecycle -}}-{{- .Values.proj_identifier -}}-db-project
+  {{- .Values.lifecycle_letter -}}-{{- .Values.proj_identifier -}}-db-project
 {{- end -}}
 
 
 {{- define "app_project" -}}
-  {{- .Values.app_code -}}-app-project
+  {{- .Values.namespace -}}-app-project
 {{- end -}}
 
 
@@ -44,17 +44,17 @@
 
 
 {{- define "app_sa" -}}
-  {{- .Values.app_code -}}-workload@{{- include "app_project" . -}}.iam
+  {{- .Values.namespace -}}-workload@{{- include "app_project" . -}}.iam
 {{- end -}}
 
 
 {{- define "bucket" -}}
-  {{- .Values.app_code -}}-web-static
+  {{- .Values.coleman -}}-web-static
 {{- end -}}
 
 
 {{- define "ip_name" -}}
-  {{- .Values.app_code -}}-ip
+  {{- .Values.coleman -}}-ip
 {{- end -}}
 
 
