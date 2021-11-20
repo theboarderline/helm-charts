@@ -5,7 +5,7 @@ kind: FrontendConfig
 metadata:
   name: gke-frontendconfig
 spec:
-  sslPolicy: tls-12
+  sslPolicy: {{ .Values.ssl_policy }}
   redirectToHttps:
     enabled: true
     responseCodeName: MOVED_PERMANENTLY_DEFAULT

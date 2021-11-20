@@ -6,9 +6,9 @@ metadata:
   name: gke-backendconfig
 spec:
   securityPolicy:
-    name: us-only
+    name: {{ .Values.security_policy }}
 
-  {{- if ne .Values.lifecycle "dev" }}
+  {{- if and (ne .Values.lifecycle "ops") (ne .Values.lifecycle "dev") }}
   cdn:
     enabled: true
     cachePolicy:
