@@ -54,7 +54,7 @@
 
 
 {{- define "ip_name" -}}
-  {{- .Values.coleman -}}-ip
+  {{- .Values.namespace -}}-ip
 {{- end -}}
 
 
