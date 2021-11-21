@@ -49,7 +49,7 @@
 
 
 {{- define "bucket" -}}
-  {{- .Values.lifecycle -}-{{- .Values.namespace -}}-web-static
+  {{- .Values.lifecycle -}}-{{- .Values.namespace -}}-web-static
 {{- end -}}
 
 
