@@ -93,6 +93,8 @@ gatekeeper:
   source:
     path: charts/gatekeeper
     chart: ""
+  destination:
+    namespace: gatekeeper
   syncPolicy:
     automated:
       prune: true
