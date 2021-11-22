@@ -11,7 +11,7 @@ spec:
   project: {{ .Values.root_project }}
   destination:
     server: {{ .Values.destination.server }}
-    namespace: {{ .Values.destination.namespace }}
+    namespace: {{ .Values.workflows.destination.namespace }}
   source:
     {{- if .Values.workflows.source.chart }}
     chart: {{ .Values.workflows.source.chart }}

@@ -34,6 +34,8 @@ events:
   source:
     path: charts/argo-events
     chart: ""
+  destination:
+    namespace: argo-events
   syncPolicy:
     automated:
       prune: true
@@ -44,6 +46,8 @@ rollouts:
   source:
     path: charts/argo-rollouts
     chart: ""
+  destination:
+    namespace: argo-rollouts
   syncPolicy:
     automated:
       prune: true
@@ -54,6 +58,8 @@ workflows:
   source:
     path: charts/argo-workflows
     chart: ""
+  destination:
+    namespace: argo-workflows
   syncPolicy:
     automated:
       prune: true

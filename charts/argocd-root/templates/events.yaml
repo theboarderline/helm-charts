@@ -11,7 +11,7 @@ spec:
   project: {{ .Values.root_project }}
   destination:
     server: {{ .Values.destination.server }}
-    namespace: {{ .Values.destination.namespace }}
+    namespace: {{ .Values.events.destination.namespace }}
   source:
     {{- if .Values.events.source.chart }}
     chart: {{ .Values.events.source.chart }}
