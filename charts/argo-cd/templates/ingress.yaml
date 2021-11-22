@@ -1,3 +1,5 @@
+{{- if .Values.ingress -}}
+
 apiVersion: networking.gke.io/v1beta2
 kind: ManagedCertificate
 metadata:
@@ -19,7 +21,8 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: argocd-server
+      name: argocd-svc
       port:
         number: 443
 
+{{- end -}}

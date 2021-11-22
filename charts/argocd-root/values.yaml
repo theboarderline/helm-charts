@@ -9,20 +9,50 @@ destination:
 source:
   targetRevision: ""
 
-argocd:
+self:
   enabled: false
   source:
-    path: charts/argocd-install
+    path: charts/argocd-root
     chart: ""
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
 
-self:
+argocd:
   enabled: false
   source:
-    path: charts/argocd-root
+    path: charts/argo-cd
+    chart: ""
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+events:
+  enabled: false
+  source:
+    path: charts/argo-events
+    chart: ""
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+rollouts:
+  enabled: false
+  source:
+    path: charts/argo-rollouts
+    chart: ""
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+workflows:
+  enabled: false
+  source:
+    path: charts/argo-workflows
     chart: ""
   syncPolicy:
     automated:

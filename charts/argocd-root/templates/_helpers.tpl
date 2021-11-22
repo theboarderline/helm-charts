@@ -17,6 +17,17 @@
 {{- end }}
 
 
+{{- define "self.targetRevision" -}}
+  {{- if .Values.self.source.targetRevision }}
+    {{- .Values.self.source.targetRevision }}
+
+  {{- else }}
+    {{- include "targetRevision" . -}}
+
+  {{- end }}
+{{- end }}
+
+
 {{- define "argocd.targetRevision" -}}
   {{- if .Values.argocd.source.targetRevision }}
     {{- .Values.argocd.source.targetRevision }}
@@ -28,9 +39,31 @@
 {{- end }}
 
 
-{{- define "self.targetRevision" -}}
-  {{- if .Values.self.source.targetRevision }}
-    {{- .Values.self.source.targetRevision }}
+{{- define "events.targetRevision" -}}
+  {{- if .Values.events.source.targetRevision }}
+    {{- .Values.events.source.targetRevision }}
+
+  {{- else }}
+    {{- include "targetRevision" . -}}
+
+  {{- end }}
+{{- end }}
+
+
+{{- define "rollouts.targetRevision" -}}
+  {{- if .Values.rollouts.source.targetRevision }}
+    {{- .Values.rollouts.source.targetRevision }}
+
+  {{- else }}
+    {{- include "targetRevision" . -}}
+
+  {{- end }}
+{{- end }}
+
+
+{{- define "workflows.targetRevision" -}}
+  {{- if .Values.workflows.source.targetRevision }}
+    {{- .Values.workflows.source.targetRevision }}
 
   {{- else }}
     {{- include "targetRevision" . -}}

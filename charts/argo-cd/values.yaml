@@ -1,3 +1,5 @@
+ingress: false
+
 argo-cd:
   installCRDs: false
   global:
@@ -5,14 +7,20 @@ argo-cd:
       tag: v2.1.6
   dex:
     enabled: false
+  # configs:
+  #   knownHosts:
+  #     data:
+  #       ssh_known_hosts: |
+  #         github.com ssh-rsa PUBKEY
+
   server:
     service:
       type: ClusterIP
-      annotations:
-        cloud.google.com/neg: '{"ingress": true}'
-    # extraArgs:
-    #   - --insecure
+    extraArgs:
+      - --insecure
     config:
+      accounts.viewer: login
+
       repositories: |
         - type: helm
           name: stable

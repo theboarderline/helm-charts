@@ -1,9 +1,0 @@
-apiVersion: networking.gke.io/v1beta1
-kind: FrontendConfig
-metadata:
-  name: argocd-frontendconfig
-spec:
-  sslPolicy: tls-12
-  redirectToHttps:
-    enabled: true
-    responseCodeName: MOVED_PERMANENTLY_DEFAULT

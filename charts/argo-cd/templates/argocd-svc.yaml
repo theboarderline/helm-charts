@@ -1,0 +1,20 @@
+{{- if .Values.ingress -}}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-svc
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+    cloud.google.com/backend-config: '{"ports": {"http":"argocd-backendconfig"}}'
+spec:
+  type: ClusterIP
+  ports:
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app.kubernetes.io/name: argocd-server
+
+{{- end }}
