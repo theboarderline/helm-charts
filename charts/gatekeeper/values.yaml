@@ -1,0 +1,9 @@
+gatekeeper:
+  controllerManager:
+    priorityClassName: system-cluster-critical
+    exemptNamespaces:
+      - kube-system
+      - kube-public
+      - cnrm-system
+  audit:
+    priorityClassName: system-cluster-critical

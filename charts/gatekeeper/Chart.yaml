@@ -1,0 +1,7 @@
+apiVersion: v2
+name: gatekeeper
+version: 0.0.1
+dependencies:
+  - name: gatekeeper
+    version: 3.3.0
+    repository: https://open-policy-agent.github.io/gatekeeper/charts
