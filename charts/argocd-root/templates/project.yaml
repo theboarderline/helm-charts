@@ -10,9 +10,7 @@ spec:
     kind: '*'
   destinations:
   - server: {{ .Values.destination.server }}
-    namespace: {{ .Values.namespace }}
-  - server: {{ .Values.destination.server }}
-    namespace: {{ .Values.secrets.destination.namespace }}
+    namespace: '*'
   sourceRepos:
   - '*'
   roles:
