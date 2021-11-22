@@ -94,7 +94,7 @@ gatekeeper:
     path: charts/gatekeeper
     chart: ""
   destination:
-    namespace: gatekeeper
+    namespace: gatekeeper-system
   syncPolicy:
     automated:
       prune: true
