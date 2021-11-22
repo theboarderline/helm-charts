@@ -1,6 +1,6 @@
 apiVersion: v2
 name: argocd-root
-description: A Helm chart for bootstrapping Walker's Argo CD applications
+description: A Helm chart for bootstrapping argo and installing cluster wide tools
 type: application
 appVersion: 0.0.1
 version: 0.0.89
