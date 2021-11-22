@@ -87,3 +87,13 @@ platform:
     automated:
       prune: true
       selfHeal: true
+
+gatekeeper:
+  enabled: true
+  source:
+    path: charts/gatekeeper
+    chart: ""
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
