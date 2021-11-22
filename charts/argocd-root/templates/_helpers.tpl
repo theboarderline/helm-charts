@@ -94,6 +94,17 @@
 {{- end }}
 
 
+{{- define "gatekeeper_policies.targetRevision" -}}
+  {{- if .Values.gatekeeper_policies.source.targetRevision }}
+    {{- .Values.gatekeeper_policies.source.targetRevision }}
+
+  {{- else }}
+    {{- include "targetRevision" . -}}
+
+  {{- end }}
+{{- end }}
+
+
 {{- define "secrets_refresh" -}}
   {{- if and (.Values.lifecycle) (eq .Values.lifecycle "dev") }}
     {{- "3000" -}}

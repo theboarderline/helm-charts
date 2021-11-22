@@ -99,3 +99,15 @@ gatekeeper:
     automated:
       prune: true
       selfHeal: true
+
+gatekeeper_policies:
+  enabled: true
+  source:
+    path: charts/gatekeeper-policies
+    chart: ""
+  destination:
+    namespace: gatekeeper-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

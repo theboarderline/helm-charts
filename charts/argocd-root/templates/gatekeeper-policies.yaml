@@ -1,0 +1,34 @@
+{{- if .Values.gatekeeper_policies.enabled }}
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gatekeeper-policies
+  namespace: {{ .Values.namespace }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{ .Values.root_project }}
+  destination:
+    server: {{ .Values.destination.server }}
+    namespace: {{ .Values.gatekeeper.destination.namespace }}
+  source:
+    {{- if .Values.gatekeeper_policies.source.chart }}
+    chart: {{ .Values.gatekeeper_policies.source.chart }}
+    {{- else }}
+    path: {{ .Values.gatekeeper_policies.source.path }}
+    {{- end }}
+    repoURL: {{ .Values.gatekeeper_policies.source.repoURL }}
+    targetRevision: {{ include "gatekeeper_policies.targetRevision" . }}
+  helm:
+    valueFiles:
+      - "values/{{- .Values.lifecycle }}.yaml"
+  syncPolicy:
+    automated:
+      prune: {{ .Values.gatekeeper_policies.syncPolicy.automated.prune }}
+      selfHeal: {{ .Values.gatekeeper_policies.syncPolicy.automated.selfHeal }}
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=false
+
+{{- end }}
