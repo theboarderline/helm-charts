@@ -65,29 +65,6 @@ workflows:
       prune: true
       selfHeal: true
 
-secrets:
-  enabled: true
-  destination:
-    namespace: external-secrets
-  source:
-    chart: kubernetes-external-secrets
-    repoURL: https://external-secrets.github.io/kubernetes-external-secrets/
-    targetRevision: "8.3.2"
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-
-platform:
-  enabled: true
-  source:
-    path: charts/argocd-tenants
-    chart: ""
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-
 gatekeeper:
   enabled: true
   source:
@@ -107,6 +84,29 @@ gatekeeper_policies:
     chart: ""
   destination:
     namespace: gatekeeper-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+secrets:
+  enabled: true
+  destination:
+    namespace: external-secrets
+  source:
+    chart: kubernetes-external-secrets
+    repoURL: https://external-secrets.github.io/kubernetes-external-secrets/
+    targetRevision: "8.3.2"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+platform:
+  enabled: true
+  source:
+    path: charts/argocd-tenants
+    chart: ""
   syncPolicy:
     automated:
       prune: true
