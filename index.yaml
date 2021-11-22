@@ -123,6 +123,16 @@ entries:
   argocd-root:
   - apiVersion: v2
     appVersion: 0.0.1
+    created: "2021-11-22T19:09:07.422081159Z"
+    description: A Helm chart for bootstrapping argo and installing cluster wide tools
+    digest: 163fc064a0201dcc3d15dbeae91ecacebef838a20034b7deb2582e43306a8342
+    name: argocd-root
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-root-0.0.94/argocd-root-0.0.94.tgz
+    version: 0.0.94
+  - apiVersion: v2
+    appVersion: 0.0.1
     created: "2021-11-22T07:21:11.430598461Z"
     description: A Helm chart for bootstrapping argo and installing cluster wide tools
     digest: f02494bb0f21b4e5f3210d253632ce6e2fd09c475410392283d742122914298d
@@ -1494,6 +1504,29 @@ entries:
     urls:
     - https://github.com/theboarderline/helm-charts/releases/download/argocd-tenants-0.0.64/argocd-tenants-0.0.64.tgz
     version: 0.0.64
+  gatekeeper:
+  - apiVersion: v2
+    created: "2021-11-22T19:09:07.609121165Z"
+    dependencies:
+    - name: gatekeeper
+      repository: https://open-policy-agent.github.io/gatekeeper/charts
+      version: 3.3.0
+    digest: 6e583746b3332ebdf44d652d1c24c29fa98a70129cf9d559945b38c4944b030f
+    name: gatekeeper
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/gatekeeper-0.0.1/gatekeeper-0.0.1.tgz
+    version: 0.0.1
+  gatekeeper-policies:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2021-11-22T19:09:07.789961425Z"
+    description: Gatekeeper policies
+    digest: 7bda54740eb787abf30623b6a69d401c0ed75c69509818e594be90deb687f040
+    name: gatekeeper-policies
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/gatekeeper-policies-0.0.1/gatekeeper-policies-0.0.1.tgz
+    version: 0.0.1
   mw-app:
   - apiVersion: v2
     appVersion: 1.16.6
