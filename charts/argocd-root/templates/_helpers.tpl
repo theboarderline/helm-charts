@@ -72,17 +72,6 @@
 {{- end }}
 
 
-{{- define "platform.targetRevision" -}}
-  {{- if .Values.platform.source.targetRevision }}
-    {{- .Values.platform.source.targetRevision }}
-
-  {{- else }}
-    {{- include "targetRevision" . -}}
-
-  {{- end }}
-{{- end }}
-
-
 {{- define "gatekeeper.targetRevision" -}}
   {{- if .Values.gatekeeper.source.targetRevision }}
     {{- .Values.gatekeeper.source.targetRevision }}
@@ -97,6 +86,28 @@
 {{- define "gatekeeper_policies.targetRevision" -}}
   {{- if .Values.gatekeeper_policies.source.targetRevision }}
     {{- .Values.gatekeeper_policies.source.targetRevision }}
+
+  {{- else }}
+    {{- include "targetRevision" . -}}
+
+  {{- end }}
+{{- end }}
+
+
+{{- define "platform.targetRevision" -}}
+  {{- if .Values.platform.source.targetRevision }}
+    {{- .Values.platform.source.targetRevision }}
+
+  {{- else }}
+    {{- include "targetRevision" . -}}
+
+  {{- end }}
+{{- end }}
+
+
+{{- define "secrets.targetRevision" -}}
+  {{- if .Values.secrets.source.targetRevision }}
+    {{- .Values.secrets.source.targetRevision }}
 
   {{- else }}
     {{- include "targetRevision" . -}}
