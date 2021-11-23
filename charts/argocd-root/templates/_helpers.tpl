@@ -117,12 +117,10 @@
 
 
 {{- define "secrets_refresh" -}}
-  {{- if and (.Values.lifecycle) (eq .Values.lifecycle "dev") }}
-    {{- "3000" -}}
-
+  {{- if .Values.secrets_refresh }}
+    {{- .Values.secrets_refresh-}}
   {{- else }}
     {{- "60000" -}}
-
   {{- end }}
 {{- end }}
 

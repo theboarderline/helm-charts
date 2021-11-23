@@ -94,9 +94,8 @@ secrets:
   destination:
     namespace: external-secrets
   source:
-    chart: kubernetes-external-secrets
-    repoURL: https://external-secrets.github.io/kubernetes-external-secrets/
-    targetRevision: "8.3.2"
+    path: charts/external-secrets
+    chart: ""
   syncPolicy:
     automated:
       prune: true
