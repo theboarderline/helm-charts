@@ -118,9 +118,9 @@
 
 {{- define "secrets_refresh" -}}
   {{- if .Values.secrets_refresh }}
-    {{- .Values.secrets_refresh-}}
+    {{- .Values.secrets_refresh }}
   {{- else }}
-    {{- "60000" -}}
+    {{- "60000" }}
   {{- end }}
 {{- end }}
 
