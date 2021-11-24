@@ -20,9 +20,9 @@ spec:
     {{- end }}
     repoURL: {{ .Values.gatekeeper.source.repoURL }}
     targetRevision: {{ include "gatekeeper.targetRevision" . }}
-  helm:
-    valueFiles:
-      - "values/{{- .Values.lifecycle }}.yaml"
+    helm:
+      valueFiles:
+        - "values/{{- .Values.lifecycle }}.yaml"
   syncPolicy:
     automated:
       prune: {{ .Values.gatekeeper.syncPolicy.automated.prune }}

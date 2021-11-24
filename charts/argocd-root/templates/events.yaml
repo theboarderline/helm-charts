@@ -20,9 +20,9 @@ spec:
     {{- end }}
     repoURL: {{ .Values.events.source.repoURL }}
     targetRevision: {{ include "events.targetRevision" . }}
-  helm:
-    valueFiles:
-      - "values/{{- .Values.lifecycle }}.yaml"
+    helm:
+      valueFiles:
+        - "values/{{- .Values.lifecycle }}.yaml"
   syncPolicy:
     automated:
       prune: {{ .Values.events.syncPolicy.automated.prune }}

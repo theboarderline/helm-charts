@@ -20,9 +20,9 @@ spec:
     {{- end }}
     repoURL: {{ .Values.argocd.source.repoURL }}
     targetRevision: {{ include "argocd.targetRevision" . }}
-  helm:
-    valueFiles:
-      - "values/{{- .Values.lifecycle }}.yaml"
+    helm:
+      valueFiles:
+        - "values/{{- .Values.lifecycle }}.yaml"
   syncPolicy:
     automated:
       prune: {{ .Values.argocd.syncPolicy.automated.prune }}
