@@ -14,7 +14,7 @@ spec:
       - "kube-public"
       - "kube-system"
       - "gatekeeper-system"
-      - "argocd-system"
+      - "argo-cd"
       - "argo-events"
       - "argo-rollouts"
       - "argo-workflows"

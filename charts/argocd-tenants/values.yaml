@@ -1,5 +1,5 @@
 project: default
-namespace: argocd-system
+namespace: argo-cd
 
 destination:
   server: https://kubernetes.default.svc
