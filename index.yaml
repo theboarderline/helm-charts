@@ -1566,6 +1566,16 @@ entries:
   argocd-tenants:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2021-11-24T20:29:23.161734906Z"
+    description: Helm chart for installing and managing tenants
+    digest: a64b3eb36c6b46bba74dee698668d1d316da81a94e7e81cf8458992c821cfcdf
+    name: argocd-tenants
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-tenants-0.0.66/argocd-tenants-0.0.66.tgz
+    version: 0.0.66
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2021-11-21T07:28:43.478532508Z"
     description: Helm chart for installing and managing tenants
     digest: 94c782ffcf3fc4576b9129bc277610a97f01886037aaf85d1e00899d860c8552
@@ -1597,6 +1607,16 @@ entries:
     - https://github.com/theboarderline/helm-charts/releases/download/gatekeeper-0.0.1/gatekeeper-0.0.1.tgz
     version: 0.0.1
   gatekeeper-policies:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2021-11-24T20:29:23.337647775Z"
+    description: Gatekeeper policies
+    digest: b12bf2700ae8caca811d89609dbed52d24e55e159afd0f8d8b613810ad92a2d5
+    name: gatekeeper-policies
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/gatekeeper-policies-0.0.2/gatekeeper-policies-0.0.2.tgz
+    version: 0.0.2
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2021-11-22T19:09:07.789961425Z"
