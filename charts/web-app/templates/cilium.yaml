@@ -4,7 +4,7 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: cilium-controller
+  name: cilium-policies
 spec:
   endpointSelector: {}
 
@@ -36,9 +36,7 @@ spec:
         - {}
 
     - toFQDNs:
-        - matchPattern: "*.google.com"
         - matchPattern: "*.googleapis.com"
-        - matchName: "google.com"
         - matchName: "googleapis.com"
       toPorts:
         - ports:

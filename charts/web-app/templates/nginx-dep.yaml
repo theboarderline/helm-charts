@@ -75,11 +75,17 @@ spec:
         {{- if .Values.firebase.enabled }}
         - name: AUTH_DOMAIN
           value: {{ include "app_project" . -}}.firebaseapp.com
+
         - name: FIREBASE_KEY
+        {{- if .Values.secrets.enabled }}
           valueFrom:
             secretKeyRef:
               name: secrets-manager
               key: firebase-key
+        {{- else }}
+          value: fake-firebase-key
+        {{- end }}
+
         {{- end }}
 
         ports:

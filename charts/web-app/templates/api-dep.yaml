@@ -68,10 +68,17 @@ spec:
 
         {{- if .Values.django.enabled }}
         - name: DJANGO_KEY
+
+        {{- if .Values.secrets.enabled }}
           valueFrom:
             secretKeyRef:
               name: secrets-manager
               key: django-key
+
+        {{- else }}
+          value: fake-django-key
+
+        {{- end }}
 
         {{- if .Values.django.email }}
         - name: DJANGO_EMAIL
