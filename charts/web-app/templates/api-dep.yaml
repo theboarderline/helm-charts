@@ -90,7 +90,7 @@ spec:
               key: email-password
         {{- end }}
 
-        {{- if .Values.django.oauth }}
+        {{- if .Values.django.oauth_id }}
         - name: OAUTH_ID
           value: {{ .Values.django.oauth_id }}
         - name: OAUTH_SECRET
