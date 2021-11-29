@@ -53,7 +53,7 @@ spec:
 
         {{- if and (not .Values.db.proxy) (.Values.db.local) }}
         command: ["/bin/sh"]
-        args: ["-c", "./init_db.sh && gunicorn -b 0.0.0.0:8000 {{ .Values.api.label -}}.wsgi"]
+        args: ["-c", "./bin/init_db.sh && gunicorn -b 0.0.0.0:8000 {{ .Values.api.label -}}.wsgi"]
         {{- end }}
 
         env:
