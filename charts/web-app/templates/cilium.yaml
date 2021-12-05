@@ -36,8 +36,9 @@ spec:
         - {}
 
     - toFQDNs:
+        - matchPattern: "accounts.google.com"
         - matchPattern: "*.googleapis.com"
-        - matchName: "googleapis.com"
+#        - matchName: "googleapis.com"
       toPorts:
         - ports:
             - port: "443"
