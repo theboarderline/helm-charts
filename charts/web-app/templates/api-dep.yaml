@@ -96,10 +96,14 @@ spec:
         - name: OAUTH_ID
           value: {{ .Values.django.oauth_id }}
         - name: OAUTH_SECRET
+        {{- if .Values.secrets.enabled }}
           valueFrom:
             secretKeyRef:
               name: secrets-manager
               key: oauth-secret
+        {{- else }}
+          value: {{ required "REQUIRED: django.oauth_secret" .Values.django.oauth_secret }}
+        {{- end }}
         {{- end }}
 
         {{- if .Values.sendgrid.enabled }}

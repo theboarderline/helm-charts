@@ -7,9 +7,11 @@ metadata:
   labels:
     app: api-svc
     tier: backend
+  {{- if not .Values.local }}
   annotations:
     cloud.google.com/neg: '{"ingress": true}'
     cloud.google.com/backend-config: '{"default": "gke-backendconfig"}'
+  {{- end }}
 spec:
   type: ClusterIP
   selector:
