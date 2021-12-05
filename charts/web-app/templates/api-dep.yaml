@@ -86,10 +86,13 @@ spec:
         - name: DJANGO_EMAIL
           value: {{ .Values.django.email }}
         - name: EMAIL_PASSWORD
+        {{- if .Values.secrets.enabled }}
           valueFrom:
             secretKeyRef:
               name: secrets-manager
               key: email-password
+        {{- else }}
+          value: {{ required "REQUIRED: django.email_password" .Values.django.email_password }}
         {{- end }}
 
         {{- if .Values.django.oauth_id }}
@@ -109,12 +112,17 @@ spec:
         {{- if .Values.sendgrid.enabled }}
         - name: SENDGRID_EMAIL
           value: {{ .Values.sendgrid.email }}
+
         - name: SENDGRID_KEY
+        {{- if .Values.secrets.enabled }}
           valueFrom:
             secretKeyRef:
               name: secrets-manager
               key: sendgrid-key
+        {{- else }}
+          value: {{ required "REQUIRED: sendgrid.key" .Values.sendgrid.key }}
         {{- end }}
+
         {{- end }}
 
         {{- if .Values.db.proxy }}
