@@ -12,14 +12,6 @@ spec:
     - fromEndpoints:
         - {}
 
-    - fromFQDNs:
-        - matchPattern: "accounts.google.com"
-        - matchPattern: "*.googleapis.com"
-#        - matchName: "googleapis.com"
-      fromPorts:
-        - ports:
-            - port: "443"
-
     - fromCIDRSet:
         - cidr: 10.0.0.0/8
 
