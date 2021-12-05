@@ -53,6 +53,7 @@ cilium:
 
 django:
   enabled: false
+  use_email: false
 
 db:
   proxy: false

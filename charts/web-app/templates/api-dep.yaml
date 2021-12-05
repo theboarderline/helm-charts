@@ -68,7 +68,7 @@ spec:
 
         {{- if .Values.django.enabled }}
         - name: DJANGO_EMAIL
-          value: {{ .Values.django.email }}
+          value: {{ required "REQUIRED: django.email" .Values.django.email }}
 
         - name: DJANGO_KEY
         {{- if .Values.secrets.enabled }}
@@ -76,15 +76,11 @@ spec:
             secretKeyRef:
               name: secrets-manager
               key: django-key
-
         {{- else }}
           value: fake-django-key
-
         {{- end }}
 
-        {{- if .Values.django.email }}
-        - name: DJANGO_EMAIL
-          value: {{ .Values.django.email }}
+        {{- if (not .Values.django.use_email) }}
         - name: EMAIL_PASSWORD
         {{- if .Values.secrets.enabled }}
           valueFrom:
