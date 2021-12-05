@@ -80,7 +80,7 @@ spec:
           value: fake-django-key
         {{- end }}
 
-        {{- if (not .Values.django.use_email) }}
+        {{- if .Values.django.use_email }}
         - name: EMAIL_PASSWORD
         {{- if .Values.secrets.enabled }}
           valueFrom:
