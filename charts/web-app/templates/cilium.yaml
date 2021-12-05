@@ -12,11 +12,11 @@ spec:
     - fromEndpoints:
         - {}
 
-    - toFQDNs:
+    - fromFQDNs:
         - matchPattern: "accounts.google.com"
         - matchPattern: "*.googleapis.com"
 #        - matchName: "googleapis.com"
-      toPorts:
+      fromPorts:
         - ports:
             - port: "443"
 
