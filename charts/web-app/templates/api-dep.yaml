@@ -94,10 +94,12 @@ spec:
         {{- else }}
           value: {{ required "REQUIRED: django.email_password" .Values.django.email_password }}
         {{- end }}
+        {{- end }}
 
         {{- if .Values.django.oauth_id }}
         - name: OAUTH_ID
           value: {{ .Values.django.oauth_id }}
+
         - name: OAUTH_SECRET
         {{- if .Values.secrets.enabled }}
           valueFrom:
@@ -107,6 +109,8 @@ spec:
         {{- else }}
           value: {{ required "REQUIRED: django.oauth_secret" .Values.django.oauth_secret }}
         {{- end }}
+        {{- end }}
+
         {{- end }}
 
         {{- if .Values.sendgrid.enabled }}
