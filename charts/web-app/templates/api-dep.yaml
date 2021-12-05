@@ -67,8 +67,10 @@ spec:
           value: {{ include "bucket" . }}
 
         {{- if .Values.django.enabled }}
-        - name: DJANGO_KEY
+        - name: DJANGO_EMAIL
+          value: {{ .Values.django.email }}
 
+        - name: DJANGO_KEY
         {{- if .Values.secrets.enabled }}
           valueFrom:
             secretKeyRef:
