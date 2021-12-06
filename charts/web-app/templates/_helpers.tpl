@@ -43,6 +43,17 @@
 {{- end -}}
 
 
+{{- define "instance_name" -}}
+
+  {{- if .Values.db.instance }}
+    {{- .Values.db.instance }}
+  {{- else -}}
+    {{- .Values.namespace -}}-sql-instance
+  {{- end -}}
+
+{{- end -}}
+
+
 {{- define "app_sa" -}}
   {{- .Values.namespace -}}-workload@{{- include "app_project" . -}}.iam
 {{- end -}}
