@@ -6,8 +6,8 @@ kind: CiliumNetworkPolicy
 metadata:
   name: allow-health-checks
 spec:
-  endpointSelector:
-    matchLabels: {}  
+  endpointSelector: {}
+
   egress:
     - toCIDR:
         - "130.211.0.0/22"

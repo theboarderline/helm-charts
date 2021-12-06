@@ -9,10 +9,12 @@ spec:
   endpointSelector: {}
 
   ingress:
-    - fromCIDR:
-        - 10.0.0.0/8
-        - 240.0.0.0/8
-        - 241.0.0.0/8
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: lakegames
+      toPorts:
+        - ports:
+            - port: "8000"
 
   egress:
     - toCIDR:

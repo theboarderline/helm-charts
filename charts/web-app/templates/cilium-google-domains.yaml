@@ -6,8 +6,8 @@ kind: CiliumNetworkPolicy
 metadata:
   name: allow-google-domains
 spec:
-  endpointSelector:
-    matchLabels: {} 
+  endpointSelector: {}
+
   egress:
     - toFQDNs:
         - matchName: "gcr.io"

@@ -6,8 +6,8 @@ kind: CiliumNetworkPolicy
 metadata:
   name: allow-gke-metadata-server
 spec:
-  endpointSelector:
-    matchLabels: {}
+  endpointSelector: {}
+
   egress:
     - toCIDR:
         - "127.0.0.1/32"

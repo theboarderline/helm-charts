@@ -6,8 +6,8 @@ kind: CiliumNetworkPolicy
 metadata:
   name: allow-kube-dns
 spec:
-  endpointSelector:
-    matchLabels: {}
+  endpointSelector: {}
+
   egress:
     - toFQDNs:
         - matchPattern: "*.{{- .Values.namespace -}}.svc"

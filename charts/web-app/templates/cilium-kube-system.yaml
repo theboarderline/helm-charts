@@ -6,8 +6,8 @@ kind: CiliumNetworkPolicy
 metadata:
   name: allow-kube-system
 spec:
-  endpointSelector:
-    matchLabels: {}
+  endpointSelector: {}
+
   egress:
     - toEndpoints:
         - matchLabels:
