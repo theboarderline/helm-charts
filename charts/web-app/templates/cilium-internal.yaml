@@ -9,16 +9,16 @@ spec:
   endpointSelector: {}
 
   ingress:
-    - fromCIDRSet:
-        - cidr: 10.0.0.0/8
-        - cidr: 240.0.0.0/8
-        - cidr: 241.0.0.0/8
+    - fromCIDR:
+        - 10.0.0.0/8
+        - 240.0.0.0/8
+        - 241.0.0.0/8
 
   egress:
-    - toCIDRSet:
-        - cidr: 10.0.0.0/8
-        - cidr: 240.0.0.0/8
-        - cidr: 241.0.0.0/8
+    - toCIDR:
+        - 10.0.0.0/8
+        - 240.0.0.0/8
+        - 241.0.0.0/8
 
 
 {{- end }}
