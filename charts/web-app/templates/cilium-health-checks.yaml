@@ -4,7 +4,7 @@
 apiVersion: "cilium.io/v2"
 kind: CiliumNetworkPolicy
 metadata:
-  name: health-checks
+  name: allow-health-checks
 spec:
   endpointSelector:
     matchLabels: {}  

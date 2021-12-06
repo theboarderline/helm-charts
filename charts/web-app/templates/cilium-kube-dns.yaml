@@ -4,7 +4,7 @@
 apiVersion: "cilium.io/v2"
 kind: CiliumNetworkPolicy
 metadata:
-  name: kube-dns
+  name: allow-kube-dns
 spec:
   endpointSelector:
     matchLabels: {}

@@ -4,7 +4,7 @@
 apiVersion: "cilium.io/v2"
 kind: CiliumNetworkPolicy
 metadata:
-  name: allow-kube-api
+  name: allow-kube-system
 spec:
   endpointSelector:
     matchLabels: {}

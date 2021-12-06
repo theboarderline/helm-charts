@@ -4,7 +4,7 @@
 apiVersion: "cilium.io/v2"
 kind: CiliumNetworkPolicy
 metadata:
-  name: gce-metadata-server
+  name: allow-gce-metadata-server
 spec:
   endpointSelector:
     matchLabels: {}

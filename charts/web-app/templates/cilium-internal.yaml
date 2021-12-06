@@ -4,17 +4,21 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: cilium-internal
+  name: allow-internal
 spec:
   endpointSelector: {}
 
   ingress:
     - fromCIDRSet:
         - cidr: 10.0.0.0/8
+        - cidr: 240.0.0.0/8
+        - cidr: 241.0.0.0/8
 
   egress:
     - toCIDRSet:
         - cidr: 10.0.0.0/8
+        - cidr: 240.0.0.0/8
+        - cidr: 241.0.0.0/8
 
 
 {{- end }}
