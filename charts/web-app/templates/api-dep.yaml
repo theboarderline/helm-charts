@@ -194,7 +194,7 @@ spec:
         imagePullPolicy: Always
         command:
         - /cloud_sql_proxy
-        - -instances={{- include "db_project" . -}}:{{- required "Region Required" .Values.google.region -}}:{{- .Values.namespace -}}-{{- required "DB Instance Required" .Values.db.instance -}}=tcp:127.0.0.1:5432
+        - -instances={{- include "db_project" . -}}:{{- required "Region Required" .Values.google.region -}}:{{- .Values.namespace -}}-{{- include "sql_instance" . -}}=tcp:127.0.0.1:5432
         - -enable_iam_login
         securityContext:
           runAsNonRoot: true
