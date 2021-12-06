@@ -58,9 +58,6 @@
 {{- end -}}
 
 
-{{- define "sql_instance" -}}
-  {{- .Values.lifecycle -}}-{{- .Values.namespace -}}-sql-instance
-{{- end -}}
 
 
 
