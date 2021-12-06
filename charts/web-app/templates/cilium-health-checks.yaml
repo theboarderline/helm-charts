@@ -1,0 +1,21 @@
+{{- if and (.Values.enabled) (not .Values.local) }}
+{{- if .Values.cilium.enabled }}
+
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: health-checks
+spec:
+  endpointSelector:
+    matchLabels: {}  
+  egress:
+    - toCIDR:
+        - "130.211.0.0/22"
+        - "35.191.0.0/16"
+  ingress:
+    - fromCIDR:
+        - "130.211.0.0/22"
+        - "35.191.0.0/16"
+
+{{- end }}
+{{- end }}

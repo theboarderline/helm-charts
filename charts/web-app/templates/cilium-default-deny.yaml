@@ -1,0 +1,17 @@
+{{- if and (.Values.enabled) (not .Values.local) }}
+{{- if .Values.cilium.enabled }}
+
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: default-deny
+spec:
+  endpointSelector:
+    matchLabels: {}
+  ingress:
+    - {}
+  egress:
+    - {}
+
+{{- end }}
+{{- end }}

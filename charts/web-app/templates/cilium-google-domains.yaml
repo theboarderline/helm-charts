@@ -1,0 +1,25 @@
+{{- if and (.Values.enabled) (not .Values.local) }}
+{{- if .Values.cilium.enabled }}
+
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: google-domains
+spec:
+  endpointSelector:
+    matchLabels: {} 
+  egress:
+    - toFQDNs:
+        - matchName: "gcr.io"
+        - matchName: "googleapis.com"
+        - matchName: "accounts.google.com"
+        - matchPattern: "*.pkg.dev"
+        - matchPattern: "*.gcr.io"
+        - matchPattern: "*.googleapis.com"
+      toPorts:
+        - ports:
+          - port: "443"
+            protocol: TCP
+
+{{- end }}
+{{- end }}

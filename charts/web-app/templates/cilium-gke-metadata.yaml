@@ -1,0 +1,23 @@
+{{- if and (.Values.enabled) (not .Values.local) }}
+{{- if .Values.cilium.enabled }}
+
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: gke-metadata-server
+spec:
+  endpointSelector:
+    matchLabels: {}
+  egress:
+    - toCIDR:
+        - "127.0.0.1/32"
+    - toEndpoints:
+        - matchLabels: {}
+      toPorts:
+        - ports:
+            - port: "988"
+              protocol: TCP
+
+
+{{- end }}
+{{- end }}
