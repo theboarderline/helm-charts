@@ -57,7 +57,7 @@ django:
 
 db:
   proxy: false
-  local: false
+  local: true
   proxy_version: gcr.io/cloudsql-docker/gce-proxy:1.21.0
 
 twilio:
