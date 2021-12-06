@@ -4,7 +4,7 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: cilium-policies
+  name: cilium-internal
 spec:
   endpointSelector: {}
 

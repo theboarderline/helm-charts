@@ -9,6 +9,13 @@ spec:
   endpointSelector:
     matchLabels: {}
   egress:
+    - toFQDNs:
+        - matchPattern: "*.{{- .Values.namespace -}}.svc"
+      toPorts:
+        - ports:
+          - port: "80"
+            protocol: TCP
+
     - toEndpoints:
         - matchLabels:
             "k8s:k8s-app": kube-dns
