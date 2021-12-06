@@ -11,10 +11,6 @@ spec:
   egress:
     - toFQDNs:
         - matchPattern: "*.{{- .Values.namespace -}}.svc"
-      toPorts:
-        - ports:
-          - port: "80"
-            protocol: TCP
 
     - toEndpoints:
         - matchLabels:
