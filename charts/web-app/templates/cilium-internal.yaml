@@ -19,11 +19,6 @@ spec:
         - 10.0.0.0/8
         - 240.0.0.0/8
         - 241.0.0.0/8
-      toPorts:
-        - ports:
-          - port: "*"
-            protocol: TCP
-
 
 {{- end }}
 {{- end }}
