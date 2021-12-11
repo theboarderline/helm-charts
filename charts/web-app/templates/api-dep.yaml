@@ -65,6 +65,8 @@ spec:
           value: {{ include "domain" . }}
         - name: STATIC_BUCKET
           value: {{ include "bucket" . }}
+        - name: PRIVATE_BUCKET
+          value: {{ include "private_bucket" . }}
 
         {{- if .Values.django.enabled }}
         - name: DJANGO_EMAIL

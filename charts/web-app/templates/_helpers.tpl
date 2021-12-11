@@ -64,6 +64,11 @@
 {{- end -}}
 
 
+{{- define "private_bucket" -}}
+  {{- .Values.lifecycle -}}-{{- .Values.namespace -}}-private
+{{- end -}}
+
+
 {{- define "ip_name" -}}
   {{- .Values.namespace -}}-ip
 {{- end -}}
