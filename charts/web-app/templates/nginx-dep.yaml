@@ -19,7 +19,7 @@ spec:
       labels:
         app: nginx-dep
     spec:
-      serviceAccountName: {{ .Values.app_code -}}-sa
+      serviceAccountName: {{ .Values.namespace -}}-sa
       containers:
       - name: nginx
         image: {{ include "nginx_image" . }}
@@ -56,8 +56,6 @@ spec:
           periodSeconds: 5
 
         env:
-        - name: APP_CODE
-          value: {{ required "App Code Required" .Values.app_code }}
         - name: LIFECYCLE
           value: {{ required "Application Lifecycle Required" .Values.lifecycle }}
         - name: NAMESPACE

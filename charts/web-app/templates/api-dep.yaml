@@ -19,7 +19,7 @@ spec:
       labels:
         app: api-dep
     spec:
-      serviceAccountName: {{ .Values.app_code -}}-sa
+      serviceAccountName: {{ .Values.namespace -}}-sa
       restartPolicy: Always
       containers:
       - name: api
@@ -35,7 +35,7 @@ spec:
             memory: {{ required "API Memory Limits Required" .Values.api.memory.limit }}
             cpu: {{ required "API CPU Limits Required" .Values.api.cpu.limit }}
 
-        {{- if ne .Values.app_code "bl" }}
+        {{- if ne .Values.namespace "boatload" }}
         livenessProbe:
           httpGet:
             path: /api/
@@ -148,7 +148,7 @@ spec:
               name: secrets-manager
               key: twilio-account-sid
 
-        {{- if eq .Values.app_code "cgs" }}
+        {{- if eq .Values.namespace "coleman" }}
         - name: TWILIO_NUMBER_IL
           value: '{{ required "IL Phone number required for CGS" .Values.twilio.numbers.il }}'
         - name: TWILIO_NUMBER_WA
@@ -176,7 +176,7 @@ spec:
 
         {{- end }}
 
-        {{- if eq .Values.app_code "bl" }}
+        {{- if eq .Values.namespace "boatload" }}
         - name: BASE_ID
           value: '{{ required "Base ID required to use Airtable" .Values.airtable.base_id }}'
         - name: API_KEY
