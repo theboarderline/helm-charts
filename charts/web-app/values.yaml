@@ -1,6 +1,8 @@
 enabled: true
 local: false
 
+proj_identifier: platform
+
 api:
   enabled: true
   tag: latest
