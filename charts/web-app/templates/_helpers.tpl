@@ -20,12 +20,12 @@
 
 
 {{- define "gke_project" -}}
-  {{- required "REQUIRED: lifecycle_letter" .Values.lifecycle_letter -}}-{{- required "REQUIRED: proj_identifier" .Values.proj_identifier -}}-gke-project
+  {{- include "lifecycle_letter" . -}}-{{- required "REQUIRED: proj_identifier" .Values.proj_identifier -}}-gke-project
 {{- end -}}
 
 
 {{- define "db_project" -}}
-  {{- .Values.lifecycle_letter -}}-{{- .Values.proj_identifier -}}-db-project
+  {{- include "lifecycle_letter" . -}}-{{- .Values.proj_identifier -}}-db-project
 {{- end -}}
 
 
@@ -54,7 +54,7 @@
   {{- if .Values.db.instance }}
     {{- .Values.db.instance }}
   {{- else -}}
-    {{- .Values.namespace -}}-sql-instance
+    {{- .Values.namespace -}}-instance
   {{- end -}}
 
 {{- end -}}
