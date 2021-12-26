@@ -1,4 +1,10 @@
 
+{{- define "lifecycle_letter" -}}
+
+  {{- substr 0 1 .Values.lifecycle -}}
+
+{{- end }}
+
 
 {{- define "domain" -}}
 
