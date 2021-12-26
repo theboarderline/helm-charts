@@ -4,6 +4,8 @@ local: false
 api:
   enabled: true
   tag: latest
+  label: server
+
   memory:
     request: "128Mi"
     limit: "512Mi"
