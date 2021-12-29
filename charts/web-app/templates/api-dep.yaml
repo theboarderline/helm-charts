@@ -69,8 +69,11 @@ spec:
           value: {{ include "private_bucket" . }}
 
         {{- if .Values.django.enabled }}
+
+        {{- if .Values.django.email }}
         - name: DJANGO_EMAIL
-          value: {{ required "REQUIRED: django.email" .Values.django.email }}
+          value: {{ .Values.django.email }}
+        {{- end }}
 
         - name: DJANGO_KEY
         {{- if .Values.secrets.enabled }}
