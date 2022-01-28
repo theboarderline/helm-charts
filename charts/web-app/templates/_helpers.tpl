@@ -44,6 +44,11 @@
 {{- end -}}
 
 
+{{- define "agile_image" -}}
+  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/{{- .Values.lifecycle -}}/agile-connector:{{- .Values.api.tag }}
+{{- end -}}
+
+
 {{- define "db_name" -}}
   {{- .Values.lifecycle -}}-db
 {{- end -}}
