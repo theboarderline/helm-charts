@@ -85,7 +85,6 @@ spec:
               key: twilio-number-sid
         {{- end }}
 
-        {{- end }}
 
         ports:
         - containerPort: 3001
