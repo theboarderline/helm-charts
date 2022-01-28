@@ -9,7 +9,6 @@ metadata:
     tier: backend
   {{- if not .Values.local }}
   annotations:
-    cloud.google.com/neg: '{"ingress": true}'
     cloud.google.com/backend-config: '{"default": "gke-backendconfig"}'
   {{- end }}
 spec:
@@ -21,6 +20,6 @@ spec:
   - name: http
     port: 80
     protocol: TCP
-    targetPort: 8000
+    targetPort: 9000
 
 {{- end }}
