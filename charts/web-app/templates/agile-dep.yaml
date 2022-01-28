@@ -35,19 +35,19 @@ spec:
             memory: {{ required "api Memory Limits Required" .Values.api.memory.limit }}
             cpu: {{ required "api CPU Limits Required" .Values.api.cpu.limit }}
 
-        livenessProbe:
-          httpGet:
-            path: /healthz/
-            port: 3001
-          initialDelaySeconds: 30
-          periodSeconds: 10
-
-        readinessProbe:
-          httpGet:
-            path: /healthz/
-            port: 3001
-          initialDelaySeconds: 30
-          periodSeconds: 10
+        # livenessProbe:
+        #   httpGet:
+        #     path: /healthz/
+        #     port: 3001
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 10
+        #
+        # readinessProbe:
+        #   httpGet:
+        #     path: /healthz/
+        #     port: 3001
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 10
 
         env:
         - name: LIFECYCLE
