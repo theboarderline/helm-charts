@@ -63,19 +63,24 @@ spec:
               name: secrets-manager
               key: agile-crm-rest-key
 
-        {{- if .Values.twilio.enabled }}
-        - name: TWILIO_AUTH_TOKEN
+
+        {{- if eq .Values.namespace "coleman" }}
+        - name: TWILIO_NUMBER_IL
+          value: '{{ required "IL Phone number required for CGS" .Values.twilio.numbers.il }}'
+        - name: TWILIO_NUMBER_WA
+          value: '{{ required "WA Phone number required for CGS" .Values.twilio.numbers.wa }}'
+        - name: TWILIO_NUMBER_SID_IL
           valueFrom:
             secretKeyRef:
               name: secrets-manager
-              key: twilio-auth-token
-
-        - name: TWILIO_ACCOUNT_SID
+              key: twilio-number-sid-il
+        - name: TWILIO_NUMBER_SID_WA
           valueFrom:
             secretKeyRef:
               name: secrets-manager
-              key: twilio-account-sid
+              key: twilio-number-sid-wa
 
+        {{- else }}
         - name: TWILIO_NUMBER
           value: '{{ required "Phone number required if using Twilio" .Values.twilio.number }}'
         - name: TWILIO_NUMBER_SID
@@ -84,7 +89,6 @@ spec:
               name: secrets-manager
               key: twilio-number-sid
         {{- end }}
-
 
         ports:
         - containerPort: 3001
