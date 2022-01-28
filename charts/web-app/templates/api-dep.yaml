@@ -139,6 +139,14 @@ spec:
           value: {{ include "app_sa" . }}
         {{- end }}
 
+        {{- if and (.Values.secrets.enabled) (.Values.agile.enabled) }}
+        - name: AGILE_CRM_REST_KEY
+          valueFrom:
+            secretKeyRef:
+              name: secrets-manager
+              key: agile-crm-rest-key
+        {{- end }}
+
         {{- if .Values.twilio.enabled }}
         - name: TWILIO_AUTH_TOKEN
           valueFrom:
