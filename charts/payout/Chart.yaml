@@ -1,0 +1,6 @@
+apiVersion: v2
+name: payout
+description: Bret's payout calculator chart
+type: application
+appVersion: 1.16.0
+version: 0.1.0

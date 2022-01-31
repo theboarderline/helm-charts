@@ -1,0 +1,15 @@
+
+domain: walkerobrien.dev
+
+lifecycle: prod
+image:
+  tag: latest
+
+local: false
+ingress:
+  https: false
+  http: false
+
+use_web: false
+use_sidecar: false
+use_job: true

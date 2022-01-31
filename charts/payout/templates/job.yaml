@@ -1,0 +1,28 @@
+{{- if .Values.use_job }}
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: payout-job
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      containers:
+      - name: payout-calculate
+        image: gcr.io/walker-cpl/payout-calculator:latest
+        command:
+          - bash
+          - -c
+          - /haskell/main < /tests/input
+        volumeMounts:
+        - name: input
+          mountPath: /tests
+          readOnly: true
+      volumes:
+      - name: input
+        configMap:
+          name: input
+      restartPolicy: Never
+
+{{- end }}
