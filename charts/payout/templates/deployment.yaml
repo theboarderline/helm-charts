@@ -17,16 +17,18 @@ spec:
         app: payout
     spec:
       volumes:
-      - name: shared-data
-        emptyDir: {}
+      - name: input
+        configMap:
+          name: input
 
       containers:
       - name: server
         image: {{ include "server_image" . }}
 
         volumeMounts:
-        - name: shared-data
-          mountPath: /opt/payout
+        - name: input
+          mountPath: /
+          readOnly: true
           
         ports:
         - containerPort: 8080
@@ -46,16 +48,5 @@ spec:
           initialDelaySeconds: 30
           periodSeconds: 10
         {{- end }}
-
-      {{- if .Values.use_sidecar }}
-      - name: calculator
-        image: {{ include "calculator_image" . }}
-        volumeMounts:
-        - name: shared-data
-          mountPath: /opt/payout
-        ports:
-        - containerPort: 8001
-      {{- end }}
-
 
 {{- end }}

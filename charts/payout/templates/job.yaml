@@ -14,10 +14,10 @@ spec:
         command:
           - bash
           - -c
-          - /haskell/main < /tests/input
+          - /haskell/main < /input
         volumeMounts:
         - name: input
-          mountPath: /tests
+          mountPath: /
           readOnly: true
       volumes:
       - name: input
