@@ -1731,6 +1731,16 @@ entries:
   payout:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2022-01-31T03:56:56.278588654Z"
+    description: Bret's payout calculator chart
+    digest: d8fd4fe18de0e641cb1d1c83a00361ecb6e5f4736849367a447d9537ae304ffb
+    name: payout
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/payout-0.1.1/payout-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2022-01-31T01:50:13.943235927Z"
     description: Bret's payout calculator chart
     digest: 70b87768dc7f0045feb43d0f1770e0a7ce6222d6d191bba8afdca439750a9e42
