@@ -1742,6 +1742,16 @@ entries:
   payout:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2022-01-31T05:03:22.439457052Z"
+    description: A Helm chart for deploying Bret's payout calculator to Kubernetes
+    digest: ba3e8528a741ad14f51c320aa87489678cb4dbda289544e5078e02d718c21be9
+    name: payout
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/payout-0.1.3/payout-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2022-01-31T04:14:42.850114168Z"
     description: Bret's payout calculator chart
     digest: 4bb6c43db70a97581553882d2d1c41f2f5b997456f9e2fcefdc1c97f3295ad52
