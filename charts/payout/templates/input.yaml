@@ -5,6 +5,8 @@ metadata:
   name: input
 data: 
   input: |
-    walker  10
-    bret   -10
+    {{- range $name, $value := required "REQUIRED: input" .Values.input }}
+    {{ $name }} {{ $value }}
+    {{- end }}
+
 

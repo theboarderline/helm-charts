@@ -7,9 +7,13 @@ image:
 
 local: false
 ingress:
-  https: false
-  http: false
+  https: true
+  http: true
 
-use_web: false
+use_web: true
 use_sidecar: false
 use_job: true
+
+# input:
+#   walker: 10
+#   bret:  -10
