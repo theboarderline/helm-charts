@@ -1,6 +1,0 @@
-apiVersion: v2
-name: mw-app
-description: A Helm chart for deploying Walker's web applications to Kubernetes
-type: application
-appVersion: 1.16.6
-version: 0.0.8
