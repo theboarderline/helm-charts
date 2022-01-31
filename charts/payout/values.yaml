@@ -5,10 +5,10 @@ lifecycle: prod
 image:
   tag: latest
 
-local: false
+local: true
 ingress:
-  https: true
-  http: true
+  https: false
+  http: false
 
 use_web: true
 use_sidecar: false
