@@ -7,6 +7,7 @@ api:
   enabled: true
   tag: latest
   label: server
+  use_pd: false
 
   memory:
     request: "128Mi"

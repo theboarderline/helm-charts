@@ -1,0 +1,14 @@
+{{- if and (.Values.enabled) (.Values.api.use_pd) }}
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gce-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+{{- end }}

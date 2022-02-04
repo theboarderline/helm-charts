@@ -19,6 +19,13 @@ spec:
       labels:
         app: api-dep
     spec:
+      {{- if $root.Values.api.use_pd }}
+      volumes:
+        - name: gce-volume
+          persistentVolumeClaim:
+            claimName: gce-pvc
+      {{- end }}
+
       serviceAccountName: {{ .Values.namespace -}}-sa
       restartPolicy: Always
       containers:
@@ -34,6 +41,12 @@ spec:
           limits:
             memory: {{ required "API Memory Limits Required" .Values.api.memory.limit }}
             cpu: {{ required "API CPU Limits Required" .Values.api.cpu.limit }}
+
+        {{- if $root.Values.api.use_pd }}
+        volumeMounts:
+          - mountPath: "/var"
+            name: gce-volume
+        {{- end }}
 
         {{- if ne .Values.namespace "boatload" }}
         livenessProbe:
@@ -51,7 +64,7 @@ spec:
           periodSeconds: 10
         {{- end }}
 
-        {{- if and (not .Values.db.proxy) (.Values.db.local) }}
+        {{- if and (not .Values.db.proxy) (and (.Values.db.local) (not .Values.api.use_pd)) }}
         command: ["/bin/sh"]
         args: ["-c", "./bin/init_db.sh && gunicorn -b 0.0.0.0:8000 {{ .Values.api.label -}}.wsgi"]
         {{- end }}
