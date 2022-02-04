@@ -8,6 +8,7 @@ api:
   tag: latest
   label: server
   use_pd: false
+  pd_size: 5Gi
 
   memory:
     request: "128Mi"
