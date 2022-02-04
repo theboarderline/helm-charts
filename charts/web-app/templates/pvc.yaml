@@ -9,6 +9,6 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-    storage: {{ required "REQUIRED: api.disk_size" .Values.api.disk_size }}
+      storage: {{ required "REQUIRED: api.disk_size" .Values.api.disk_size }}
 
 {{- end }}
