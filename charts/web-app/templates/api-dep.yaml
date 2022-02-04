@@ -44,7 +44,7 @@ spec:
 
         {{- if .Values.api.use_pd }}
         volumeMounts:
-          - mountPath: "/var"
+          - mountPath: "/backend/var"
             name: gce-volume
         {{- end }}
 
