@@ -19,7 +19,7 @@ spec:
       labels:
         app: api-dep
     spec:
-      {{- if $root.Values.api.use_pd }}
+      {{- if .Values.api.use_pd }}
       volumes:
         - name: gce-volume
           persistentVolumeClaim:
@@ -42,7 +42,7 @@ spec:
             memory: {{ required "API Memory Limits Required" .Values.api.memory.limit }}
             cpu: {{ required "API CPU Limits Required" .Values.api.cpu.limit }}
 
-        {{- if $root.Values.api.use_pd }}
+        {{- if .Values.api.use_pd }}
         volumeMounts:
           - mountPath: "/var"
             name: gce-volume
