@@ -26,7 +26,7 @@ spec:
             claimName: gce-pvc
       {{- end }}
 
-      serviceAccountName: {{ .Values.namespace -}}-sa
+      serviceAccountName: {{ .Release.Namespace -}}-sa
       restartPolicy: Always
       containers:
       - name: api
@@ -230,5 +230,6 @@ spec:
       {{- end }}
 
 {{- end }}
+
 
 
