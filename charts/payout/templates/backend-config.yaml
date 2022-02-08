@@ -5,8 +5,8 @@ kind: BackendConfig
 metadata:
   name: gke-backendconfig
 spec:
-  # securityPolicy:
-  #   name: us-only
+  securityPolicy:
+    name: us-only
 
   cdn:
     enabled: false
