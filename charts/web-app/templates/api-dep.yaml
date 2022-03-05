@@ -44,7 +44,7 @@ spec:
 
         {{- if .Values.api.use_pd }}
         volumeMounts:
-          - mountPath: "/backend/var"
+          - mountPath: /backend/var
             name: gce-volume
         {{- end }}
 
@@ -64,7 +64,7 @@ spec:
           periodSeconds: 10
         {{- end }}
 
-        {{- if and (not .Values.db.proxy) (and (.Values.db.local) (not .Values.api.use_pd)) }}
+        {{- if .Values.db.init }}
         command: ["/bin/sh"]
         args: ["-c", "./bin/init_db.sh && gunicorn -b 0.0.0.0:8000 {{ .Values.api.label -}}.wsgi"]
         {{- end }}
