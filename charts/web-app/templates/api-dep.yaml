@@ -152,6 +152,7 @@ spec:
           value: {{ include "app_sa" . }}
         {{- end }}
 
+        {{- if .Values.agile.enabled }}
         - name: AGILE_CRM_REST_KEY
         {{- if .Values.secrets.enabled }}
           valueFrom:
@@ -160,6 +161,7 @@ spec:
               key: agile-crm-rest-key
         {{- else }}
           value: {{ required "REQUIRED: agile.key" .Values.agile.key }}
+        {{- end }}
         {{- end }}
 
         {{- if .Values.twilio.enabled }}

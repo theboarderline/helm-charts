@@ -63,8 +63,8 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 5
 
-        env:
         {{- if .Values.firebase.enabled }}
+        env:
         - name: FIREBASE_KEY
         {{- if .Values.secrets.enabled }}
           valueFrom:
