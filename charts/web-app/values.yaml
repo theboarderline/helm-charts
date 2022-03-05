@@ -61,6 +61,10 @@ django:
   enabled: false
   use_email: false
 
+input_path: /tmp/input
+gin:
+  enabled: false
+
 db:
   proxy: false
   init: false

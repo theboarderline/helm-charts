@@ -81,8 +81,17 @@ spec:
         - name: PRIVATE_BUCKET
           value: {{ include "private_bucket" . }}
 
-        {{- if .Values.django.enabled }}
+        {{- if .Values.gin.enabled }}
+        - name: GIN_MODE
+          value: release
+        {{- end }}
 
+        {{- if .Values.input_path }}
+        - name: INPUT_PATH
+          value: {{ .Values.input_path }}
+        {{- end }}
+
+        {{- if .Values.django.enabled }}
         {{- if .Values.django.email }}
         - name: DJANGO_EMAIL
           value: {{ .Values.django.email }}
