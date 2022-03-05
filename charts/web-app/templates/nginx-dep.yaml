@@ -28,10 +28,10 @@ spec:
           allowPrivilegeEscalation: false
         volumeMounts:
         - name: react-env
-          mountPath: "/var/www/html"
+          mountPath: /var/www/env
           readOnly: true
         - name: api-redirects
-          mountPath: "/etc/nginx/conf.d"
+          mountPath: /etc/nginx/conf.d
           readOnly: true
 
         resources:

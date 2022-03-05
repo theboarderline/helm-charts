@@ -7,11 +7,11 @@ data:
     window.LIFECYCLE = '{{- .Values.lifecycle -}}';
     window.API_URL = 'https://{{- include "domain" . -}}/';
     window.STATIC_BUCKET = '{{- include "bucket" . -}}';
-    {{- if .Values.django.oauth }}
-    window.OAUTH_ID = '{{- .Values.google.oauth.id -}}';
-    {{- end }}
     {{- if .Values.firebase.enabled }}
     window.AUTH_DOMAIN = '{{- include "app_project" . -}}.firebaseapp.com';
+    {{- end }}
+    {{- if .Values.google.number }}
+    window.GOOGLE_NUMBER = '{{- .Values.google.number -}}';
     {{- end }}
 
 ---
