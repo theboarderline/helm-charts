@@ -80,17 +80,17 @@ spec:
         - containerPort: 80
           name: https
           protocol: TCP
-    volumes:
-      - name: react-env
-        configMap:
-          name: react-config
-          items:
-          - key: env.js
-            path: env.js
-      - name: api-redirects
-        configMap:
-          name: api-config
-          items:
-          - key: api.conf
-            path: api.conf
+      volumes:
+        - name: react-env
+          configMap:
+            name: react-config
+            items:
+            - key: env.js
+              path: env.js
+        - name: api-redirects
+          configMap:
+            name: api-config
+            items:
+            - key: api.conf
+              path: api.conf
 {{- end }}
