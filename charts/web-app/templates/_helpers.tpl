@@ -30,7 +30,7 @@
 
 
 {{- define "app_project" -}}
-  {{- .Values.namespace -}}-app-project
+  {{- .Release.Namespace -}}-app-project
 {{- end -}}
 
 
@@ -59,29 +59,29 @@
   {{- if .Values.db.instance }}
     {{- .Values.db.instance }}
   {{- else -}}
-    {{- .Values.namespace -}}-instance
+    {{- .Release.Namespace -}}-instance
   {{- end -}}
 
 {{- end -}}
 
 
 {{- define "app_sa" -}}
-  {{- .Values.namespace -}}-workload@{{- include "app_project" . -}}.iam
+  {{- .Release.Namespace -}}-workload@{{- include "app_project" . -}}.iam
 {{- end -}}
 
 
 {{- define "bucket" -}}
-  {{- .Values.lifecycle -}}-{{- .Values.namespace -}}-web-static
+  {{- .Values.lifecycle -}}-{{- .Release.Namespace -}}-web-static
 {{- end -}}
 
 
 {{- define "private_bucket" -}}
-  {{- .Values.lifecycle -}}-{{- .Values.namespace -}}-private
+  {{- .Values.lifecycle -}}-{{- .Release.Namespace -}}-private
 {{- end -}}
 
 
 {{- define "ip_name" -}}
-  {{- .Values.namespace -}}-ip
+  {{- .Release.Namespace -}}-ip
 {{- end -}}
 
 
