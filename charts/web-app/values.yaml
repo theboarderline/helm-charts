@@ -11,8 +11,8 @@ api:
   disk_size: 5Gi
 
   memory:
-    request: "128Mi"
-    limit: "512Mi"
+    request: 128Mi
+    limit: 2Gi
   cpu:
     request: .2
     limit: 1

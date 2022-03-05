@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: react-config
+data:
+  env.js: |
+    window.LIFECYCLE = '{{- .Values.lifecycle -}}';
+    window.API_URL = 'https://{{- include "domain" . -}}/';
+    window.STATIC_BUCKET = '{{- include "bucket" . -}}';
+    {{- if .Values.django.oauth }}
+    window.OAUTH_ID = '{{- .Values.google.oauth.id -}}';
+    {{- end }}
+    {{- if .Values.firebase.enabled }}
+    window.AUTH_DOMAIN = '{{- include "app_project" . -}}.firebaseapp.com';
+    {{- end }}
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-config
+data:
+  api.conf: |
+    location /api/ {
+        proxy_set_header Host {{- include "domain" . -}};
+        proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
+    }
+    location /admin/ {
+        proxy_set_header Host {{- include "domain" . -}};
+        proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
+    }
+    location /redirect/ {
+        proxy_set_header Host {{- include "domain" . -}};
+        proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
+    }
+    location /accounts/ {
+        proxy_set_header Host {{- include "domain" . -}};
+        proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
+    }

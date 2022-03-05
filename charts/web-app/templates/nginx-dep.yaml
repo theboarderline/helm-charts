@@ -8,7 +8,7 @@ metadata:
     tier: frontend
   name: nginx-dep
 spec:
-  replicas: {{ required "Nginx Replicas Required" .Values.nginx.replicas }}
+  replicas: {{ required "REQUIRED: nginx.replicas" .Values.nginx.replicas }}
   strategy:
     type: RollingUpdate
   selector:
@@ -19,20 +19,28 @@ spec:
       labels:
         app: nginx-dep
     spec:
-      serviceAccountName: {{ .Values.namespace -}}-sa
+      serviceAccountName: {{ .Release.Namespace -}}-sa
       containers:
       - name: nginx
         image: {{ include "nginx_image" . }}
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
+        volumeMounts:
+        - name: react-env
+          mountPath: "/var/www/html"
+          readOnly: true
+        - name: api-redirects
+          mountPath: "/etc/nginx/conf.d"
+          readOnly: true
+
         resources:
           requests:
-            memory: {{ required "Nginx Memory Requests Required" .Values.nginx.memory.request }}
-            cpu: {{ required "Nginx CPU Requests Required" .Values.nginx.cpu.request }}
+            memory: {{ required "REQUIRED: nginx.memory.request" .Values.nginx.memory.request }}
+            cpu: {{ required "REQUIRED: nginx.cpu.request" .Values.nginx.cpu.request }}
           limits:
-            memory: {{ required "Nginx Memory Limits Required" .Values.nginx.memory.limit }}
-            cpu: {{ required "Nginx CPI Limits Required" .Values.nginx.cpu.limit }}
+            memory: {{ required "REQUIRED: nginx.memory.limit" .Values.nginx.memory.limit }}
+            cpu: {{ required "REQUIRED: nginx.cpu.limit" .Values.nginx.cpu.limit }}
 
         startupProbe:
           httpGet:
@@ -56,24 +64,7 @@ spec:
           periodSeconds: 5
 
         env:
-        - name: LIFECYCLE
-          value: {{ required "Application Lifecycle Required" .Values.lifecycle }}
-        - name: NAMESPACE
-          value: {{ required "REQUIRED: namespace" .Values.namespace }}
-        - name: DOMAIN
-          value: {{ include "domain" . }}
-        - name: STATIC_BUCKET
-          value: {{ include "bucket" . }}
-
-        {{- if .Values.django.oauth }}
-        - name: OAUTH_ID
-          value: {{ .Values.google.oauth.id }}
-        {{- end }}
-
         {{- if .Values.firebase.enabled }}
-        - name: AUTH_DOMAIN
-          value: {{ include "app_project" . -}}.firebaseapp.com
-
         - name: FIREBASE_KEY
         {{- if .Values.secrets.enabled }}
           valueFrom:
@@ -83,12 +74,23 @@ spec:
         {{- else }}
           value: fake-firebase-key
         {{- end }}
-
         {{- end }}
 
         ports:
         - containerPort: 80
           name: https
           protocol: TCP
-
+    volumes:
+      - name: react-env
+        configMap:
+          name: react-config
+          items:
+          - key: env.js
+            path: env.js
+      - name: api-redirects
+        configMap:
+          name: api-config
+          items:
+          - key: api.conf
+            path: api.conf
 {{- end }}

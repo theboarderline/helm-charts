@@ -48,7 +48,7 @@ spec:
             name: gce-volume
         {{- end }}
 
-        {{- if ne .Values.namespace "boatload" }}
+        {{- if ne .Release.Namespace "boatload" }}
         livenessProbe:
           httpGet:
             path: /api/
@@ -174,7 +174,7 @@ spec:
               name: secrets-manager
               key: twilio-account-sid
 
-        {{- if eq .Values.namespace "coleman" }}
+        {{- if eq .Release.Namespace "coleman" }}
         - name: TWILIO_NUMBER_IL
           value: '{{ required "IL Phone number required for CGS" .Values.twilio.numbers.il }}'
         - name: TWILIO_NUMBER_WA
@@ -202,7 +202,7 @@ spec:
 
         {{- end }}
 
-        {{- if eq .Values.namespace "boatload" }}
+        {{- if eq .Release.Namespace "boatload" }}
         - name: BASE_ID
           value: '{{ required "Base ID required to use Airtable" .Values.airtable.base_id }}'
         - name: API_KEY
