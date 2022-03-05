@@ -23,18 +23,18 @@ metadata:
 data:
   api.conf: |
     location /api/ {
-        proxy_set_header Host {{- include "domain" . -}};
+        proxy_set_header Host {{ include "domain" . -}};
         proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
     }
     location /admin/ {
-        proxy_set_header Host {{- include "domain" . -}};
+        proxy_set_header Host {{ include "domain" . -}};
         proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
     }
     location /redirect/ {
-        proxy_set_header Host {{- include "domain" . -}};
+        proxy_set_header Host {{ include "domain" . -}};
         proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
     }
     location /accounts/ {
-        proxy_set_header Host {{- include "domain" . -}};
+        proxy_set_header Host {{ include "domain" . -}};
         proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
     }
