@@ -32,25 +32,6 @@ spec:
         supplementalGroups:
           - 150
 
-      volumes:
-        - name: log-dir
-          emptyDir: {}
-        - name: body-dir
-          emptyDir: {}
-        - name: proxy-dir
-          emptyDir: {}
-        - name: cache-proxy-dir
-          emptyDir: {}
-        - name: cache-client-dir
-          emptyDir: {}
-        - name: fast-cgi-dir
-          emptyDir: {}
-        - name: uwsgi-dir
-          emptyDir: {}
-        - name: scgi-dir
-          emptyDir: {}
-        - name: pid-dir
-          emptyDir: {}
 
       serviceAccountName: {{ .Release.Namespace -}}-sa
       containers:
@@ -153,4 +134,22 @@ spec:
             items:
             - key: api.conf
               path: api.conf
+        - name: log-dir
+          emptyDir: {}
+        - name: body-dir
+          emptyDir: {}
+        - name: proxy-dir
+          emptyDir: {}
+        - name: cache-proxy-dir
+          emptyDir: {}
+        - name: cache-client-dir
+          emptyDir: {}
+        - name: fast-cgi-dir
+          emptyDir: {}
+        - name: uwsgi-dir
+          emptyDir: {}
+        - name: scgi-dir
+          emptyDir: {}
+        - name: pid-dir
+          emptyDir: {}
 {{- end }}
