@@ -9,10 +9,10 @@
 {{- define "domain" -}}
 
   {{- if eq .Values.lifecycle "prod" }}
-  {{- required "Google Domain Required" .Values.google.domain }}
+  {{- required "REQUIRED: google.domain" .Values.google.domain }}
 
   {{- else }}
-  {{- .Values.lifecycle -}}.{{- required "Google Domain Required" .Values.google.domain }}
+  {{- .Values.lifecycle -}}.{{- required "REQUIRED: google.domain" .Values.google.domain }}
 
   {{- end }}
 
@@ -20,17 +20,25 @@
 
 
 {{- define "gke_project" -}}
+  {{- if .Values.gke_project_id }}
+  {{- .Values.gke_project_id }}
+  {{- else }}
   {{- include "lifecycle_letter" . -}}-{{- required "REQUIRED: proj_identifier" .Values.proj_identifier -}}-gke-project
+  {{- end }}
 {{- end -}}
 
 
 {{- define "db_project" -}}
-  {{- include "lifecycle_letter" . -}}-{{- .Values.proj_identifier -}}-db-project
+  {{- if .Values.db_project_id }}
+  {{- .Values.db_project_id }}
+  {{- else }}
+  {{- include "lifecycle_letter" . -}}-{{- required "REQUIRED: .proj_identifier" .Values.proj_identifier -}}-db-project
+  {{- end }}
 {{- end -}}
 
 
 {{- define "app_project" -}}
-  {{- .Release.Namespace -}}-app-project
+  {{- required "REQUIRED: app_code" .Values.app_code -}}-app-project
 {{- end -}}
 
 
@@ -59,29 +67,34 @@
   {{- if .Values.db.instance }}
     {{- .Values.db.instance }}
   {{- else -}}
-    {{- .Release.Namespace -}}-instance
+    {{- required "REQUIRED: app_code" .Values.app_code -}}-instance
   {{- end -}}
 
 {{- end -}}
 
 
 {{- define "app_sa" -}}
-  {{- .Release.Namespace -}}-workload@{{- include "app_project" . -}}.iam
+  {{- required "REQUIRED: app_code" .Values.app_code -}}-workload@{{- include "app_project" . -}}.iam
+{{- end -}}
+
+
+{{- define "ksa_name" -}}
+  {{- required "REQUIRED: app_code" .Values.app_code -}}-sa
 {{- end -}}
 
 
 {{- define "bucket" -}}
-  {{- .Values.lifecycle -}}-{{- .Release.Namespace -}}-web-static
+  {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-web-static
 {{- end -}}
 
 
 {{- define "private_bucket" -}}
-  {{- .Values.lifecycle -}}-{{- .Release.Namespace -}}-private
+  {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-private
 {{- end -}}
 
 
 {{- define "ip_name" -}}
-  {{- .Release.Namespace -}}-ip
+  {{- required "REQUIRED: app_code" .Values.app_code -}}-ip
 {{- end -}}
 
 

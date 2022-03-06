@@ -32,8 +32,6 @@ spec:
         supplementalGroups:
           - 150
 
-
-      serviceAccountName: {{ .Release.Namespace -}}-sa
       containers:
       - name: nginx
         image: {{ include "nginx_image" . }}

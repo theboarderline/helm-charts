@@ -43,7 +43,7 @@ spec:
             claimName: gce-pvc
       {{- end }}
 
-      serviceAccountName: {{ .Release.Namespace -}}-sa
+      serviceAccountName: {{ include "ksa_name" . }}
       restartPolicy: Always
       containers:
       - name: api
@@ -76,7 +76,7 @@ spec:
             name: sqlite-dir
         {{- end }}
 
-        {{- if ne .Release.Namespace "boatload" }}
+        {{- if ne .Values.app_code "boatload" }}
         livenessProbe:
           httpGet:
             path: /api/
@@ -213,7 +213,7 @@ spec:
               name: secrets-manager
               key: twilio-account-sid
 
-        {{- if eq .Release.Namespace "coleman" }}
+        {{- if eq .Values.app_code "coleman" }}
         - name: TWILIO_NUMBER_IL
           value: '{{ required "IL Phone number required for CGS" .Values.twilio.numbers.il }}'
         - name: TWILIO_NUMBER_WA
@@ -239,7 +239,7 @@ spec:
         {{- end }}
         {{- end }}
 
-        {{- if eq .Release.Namespace "boatload" }}
+        {{- if eq .Values.app_code "boatload" }}
         - name: BASE_ID
           value: '{{ required "REQUIRED: airtable.base_id" .Values.airtable.base_id }}'
         - name: API_KEY
