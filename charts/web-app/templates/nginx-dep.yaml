@@ -16,16 +16,37 @@ spec:
       app: nginx-dep
   template:
     metadata:
+      annotations:
+        container.apparmor.security.beta.kubernetes.io/nginx: runtime/default
+        container.seccomp.security.alpha.kubernetes.io/nginx: runtime/default
       labels:
         app: nginx-dep
     spec:
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      securityContext:
+        runAsUser: 115
+        runAsGroup: 125
+        fsGroup: 190
+        supplementalGroups:
+          - 150
+
       serviceAccountName: {{ .Release.Namespace -}}-sa
       containers:
       - name: nginx
         image: {{ include "nginx_image" . }}
         imagePullPolicy: Always
+
         securityContext:
           allowPrivilegeEscalation: false
+          privileged: false
+          procMount: default
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          seccompProfile:
+            type: RuntimeDefault
+
         volumeMounts:
         - name: react-env
           mountPath: /var/www/env

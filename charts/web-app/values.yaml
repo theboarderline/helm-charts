@@ -8,6 +8,7 @@ api:
   tag: latest
   label: server
   use_pd: false
+  mount_pd: false
   disk_size: 5Gi
 
   memory:

@@ -8,7 +8,7 @@ metadata:
     app: api-dep
     tier: backend
 spec:
-  replicas: {{ required "API Replicas required" .Values.api.replicas }}
+  replicas: {{ required "REQUIRED: api.replicas" .Values.api.replicas }}
   strategy:
     type: RollingUpdate
   selector:
@@ -16,10 +16,23 @@ spec:
       app: api-dep
   template:
     metadata:
+      annotations:
+        container.apparmor.security.beta.kubernetes.io/api: runtime/default
+        container.seccomp.security.alpha.kubernetes.io/api: runtime/default
       labels:
         app: api-dep
     spec:
-      {{- if .Values.api.use_pd }}
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      securityContext:
+        runAsUser: 115
+        runAsGroup: 125
+        fsGroup: 190
+        supplementalGroups:
+          - 150
+
+      {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
       volumes:
         - name: gce-volume
           persistentVolumeClaim:
@@ -32,17 +45,25 @@ spec:
       - name: api
         image: {{ include "api_image" . }}
         imagePullPolicy: Always
+
         securityContext:
           allowPrivilegeEscalation: false
+          privileged: false
+          procMount: default
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          seccompProfile:
+            type: RuntimeDefault
+
         resources:
           requests:
-            memory: {{ required "API Memory Requests Required" .Values.api.memory.request }}
-            cpu: {{ required "API CPU Requests Required" .Values.api.cpu.request }}
+            memory: {{ required "REQUIRED: api.memory.request" .Values.api.memory.request }}
+            cpu: {{ required "REQUIRED: api.cpu.request" .Values.api.cpu.request }}
           limits:
-            memory: {{ required "API Memory Limits Required" .Values.api.memory.limit }}
-            cpu: {{ required "API CPU Limits Required" .Values.api.cpu.limit }}
+            memory: {{ required "REQUIRED: api.memory.limit" .Values.api.memory.limit }}
+            cpu: {{ required "REQUIRED: api.cpu.limit" Values.api.cpu.limit }}
 
-        {{- if .Values.api.use_pd }}
+        {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
         volumeMounts:
           - mountPath: /backend/var
             name: gce-volume
@@ -133,7 +154,6 @@ spec:
           value: {{ required "REQUIRED: django.oauth_secret" .Values.django.oauth_secret }}
         {{- end }}
         {{- end }}
-
         {{- end }}
 
         {{- if .Values.sendgrid.enabled }}
@@ -149,7 +169,6 @@ spec:
         {{- else }}
           value: {{ required "REQUIRED: sendgrid.key" .Values.sendgrid.key }}
         {{- end }}
-
         {{- end }}
 
         {{- if .Values.db.proxy }}
@@ -200,22 +219,20 @@ spec:
             secretKeyRef:
               name: secrets-manager
               key: twilio-number-sid-wa
-
         {{- else }}
         - name: TWILIO_NUMBER
-          value: '{{ required "Phone number required if using Twilio" .Values.twilio.number }}'
+          value: '{{ required "REQUIRED: twilio.number" .Values.twilio.number }}'
         - name: TWILIO_NUMBER_SID
           valueFrom:
             secretKeyRef:
               name: secrets-manager
               key: twilio-number-sid
         {{- end }}
-
         {{- end }}
 
         {{- if eq .Release.Namespace "boatload" }}
         - name: BASE_ID
-          value: '{{ required "Base ID required to use Airtable" .Values.airtable.base_id }}'
+          value: '{{ required "REQUIRED: airtable.base_id" .Values.airtable.base_id }}'
         - name: API_KEY
           valueFrom:
             secretKeyRef:
@@ -233,11 +250,17 @@ spec:
         imagePullPolicy: Always
         command:
         - /cloud_sql_proxy
-        - -instances={{- include "db_project" . -}}:{{- required "Region Required" .Values.google.region -}}:{{- include "instance_name" . }}=tcp:127.0.0.1:5432
+        - -instances={{- include "db_project" . -}}:{{- required "REQUIRED: google.region" .Values.google.region -}}:{{- include "instance_name" . }}=tcp:127.0.0.1:5432
         - -enable_iam_login
+
         securityContext:
-          runAsNonRoot: true
           allowPrivilegeEscalation: false
+          privileged: false
+          procMount: default
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          seccompProfile:
+            type: RuntimeDefault
       {{- end }}
 
 {{- end }}
