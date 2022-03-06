@@ -61,7 +61,7 @@ spec:
             cpu: {{ required "REQUIRED: api.cpu.request" .Values.api.cpu.request }}
           limits:
             memory: {{ required "REQUIRED: api.memory.limit" .Values.api.memory.limit }}
-            cpu: {{ required "REQUIRED: api.cpu.limit" Values.api.cpu.limit }}
+            cpu: {{ required "REQUIRED: api.cpu.limit" .Values.api.cpu.limit }}
 
         {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
         volumeMounts:
