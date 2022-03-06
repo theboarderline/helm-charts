@@ -9,8 +9,10 @@ metadata:
     tier: backend
 spec:
   replicas: {{ required "REQUIRED: api.replicas" .Values.api.replicas }}
+  {{- if and (.Values.use_pd) (.Values.mount_pd) }}
   strategy:
     type: RollingUpdate
+  {{- end }}
   selector:
     matchLabels:
       app: api-dep
