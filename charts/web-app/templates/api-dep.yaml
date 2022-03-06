@@ -98,6 +98,8 @@ spec:
         env:
         - name: LIFECYCLE
           value: {{ .Values.lifecycle }}
+        - name: IS_LOCAL
+          value: "false"
         - name: USE_GCS
           value: "true"
         - name: DOMAIN
