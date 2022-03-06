@@ -32,8 +32,10 @@ spec:
         supplementalGroups:
           - 150
 
-      {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
       volumes:
+        - name: sqlite-dir
+          emptyDir: {}
+      {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
         - name: gce-volume
           persistentVolumeClaim:
             claimName: gce-pvc
@@ -63,10 +65,13 @@ spec:
             memory: {{ required "REQUIRED: api.memory.limit" .Values.api.memory.limit }}
             cpu: {{ required "REQUIRED: api.cpu.limit" .Values.api.cpu.limit }}
 
-        {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
         volumeMounts:
+        {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
           - mountPath: /backend/var
             name: gce-volume
+        {{- else }}
+          - mountPath: /backend/var
+            name: sqlite-dir
         {{- end }}
 
         {{- if ne .Release.Namespace "boatload" }}
