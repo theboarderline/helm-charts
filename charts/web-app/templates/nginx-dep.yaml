@@ -32,6 +32,26 @@ spec:
         supplementalGroups:
           - 150
 
+      volumes:
+        - name: log-dir
+          emptyDir: {}
+        - name: body-dir
+          emptyDir: {}
+        - name: proxy-dir
+          emptyDir: {}
+        - name: cache-proxy-dir
+          emptyDir: {}
+        - name: cache-client-dir
+          emptyDir: {}
+        - name: fast-cgi-dir
+          emptyDir: {}
+        - name: uwsgi-dir
+          emptyDir: {}
+        - name: scgi-dir
+          emptyDir: {}
+        - name: pid-dir
+          emptyDir: {}
+
       serviceAccountName: {{ .Release.Namespace -}}-sa
       containers:
       - name: nginx
@@ -54,6 +74,25 @@ spec:
         - name: api-redirects
           mountPath: /etc/nginx/conf.d
           readOnly: true
+
+        - name: log-dir
+          mountPath: /var/log/nginx
+        - name: body-dir
+          mountPath: /var/lib/nginx/body
+        - name: proxy-dir
+          mountPath: /var/lib/nginx/proxy
+        - name: cache-proxy-dir
+          mountPath: /var/cache/nginx/proxy_temp
+        - name: cache-client-dir
+          mountPath: /var/cache/nginx/client_temp
+        - name: fast-cgi-dir
+          mountPath: /var/cache/nginx/fastcgi_temp
+        - name: uwsgi-dir
+          mountPath: /var/cache/nginx/uwsgi_temp
+        - name: scgi-dir
+          mountPath: /var/cache/nginx/scgi_temp
+        - name: pid-dir
+          mountPath: /var/run
 
         resources:
           requests:
