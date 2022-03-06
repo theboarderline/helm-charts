@@ -114,12 +114,12 @@ spec:
         {{- if .Values.gin.enabled }}
         - name: GIN_MODE
           value: release
-        {{- end }}
-
         {{- if .Values.input_path }}
         - name: INPUT_PATH
-          value: {{ .Values.input_path }}
+          value: {{ .Values.gin.input_path }}
         {{- end }}
+        {{- end }}
+
 
         {{- if .Values.django.enabled }}
         {{- if .Values.django.email }}

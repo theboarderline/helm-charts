@@ -62,8 +62,8 @@ django:
   enabled: false
   use_email: false
 
-input_path: /tmp/input
 gin:
+  input_path: /tmp/input
   enabled: false
 
 db:
