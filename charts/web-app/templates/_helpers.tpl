@@ -94,7 +94,7 @@
 
 
 {{- define "ip_name" -}}
-  {{- required "REQUIRED: app_code" .Values.app_code -}}-ip
+  {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-ip
 {{- end -}}
 
 
