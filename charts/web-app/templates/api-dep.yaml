@@ -114,7 +114,7 @@ spec:
         {{- if .Values.gin.enabled }}
         - name: GIN_MODE
           value: release
-        {{- if .Values.input_path }}
+        {{- if .Values.gin.input_path }}
         - name: INPUT_PATH
           value: {{ .Values.gin.input_path }}
         {{- end }}
