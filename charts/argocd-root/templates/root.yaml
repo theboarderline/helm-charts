@@ -13,7 +13,7 @@ spec:
     server: {{ .Values.destination.server }}
     namespace: {{ .Values.namespace }}
   source:
-    path: charts/argocd-root
+    path: charts/root
     repoURL: {{ include "repo_url" . }}
     targetRevision: {{ include "targetRevision" . }}
     helm:
