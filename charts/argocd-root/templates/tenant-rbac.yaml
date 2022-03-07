@@ -16,9 +16,6 @@ spec:
     path: charts/tenant-rbac
     repoURL: {{ include "repo_url" . }}
     targetRevision: {{ include "targetRevision" . }}
-    helm:
-      valueFiles:
-        - "values/{{- required "REQUIRED: lifecycle" .Values.lifecycle -}}.yaml"
   syncPolicy:
     automated:
       prune: true

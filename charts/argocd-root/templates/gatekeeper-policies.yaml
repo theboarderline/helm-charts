@@ -16,9 +16,6 @@ spec:
     path: charts/gatekeeper-policies
     repoURL: {{ include "repo_url" . }}
     targetRevision: {{ include "targetRevision" . }}
-    helm:
-      valueFiles:
-        - "values/{{- required "REQUIRED: lifecycle" .Values.lifecycle -}}.yaml"
   syncPolicy:
     automated:
       prune: true
