@@ -1,9 +1,9 @@
-{{- if .Values.argocd.enabled }}
+{{- if .Values.tenant_rbac.enabled }}
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: tenant-rbac
   namespace: {{ .Values.namespace }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -11,9 +11,9 @@ spec:
   project: {{ .Values.root_project }}
   destination:
     server: {{ .Values.destination.server }}
-    namespace: {{ .Values.namespace }}
+    namespace: tenant-rbac
   source:
-    path: charts/argo-cd
+    path: charts/tenant-rbac
     repoURL: {{ include "repo_url" . }}
     targetRevision: {{ include "targetRevision" . }}
     helm:
