@@ -1,0 +1,84 @@
+{{- range .Values.tenants }}
+
+{{- if .editors }}
+apiVersion: rbacmanager.reactiveops.io/v1beta1
+kind: RBACDefinition
+metadata:
+  name: editor-access
+rbacBindings:
+  - name: {{ .name }}-editors
+    subjects:
+    {{- range .editors }}
+      - kind: User
+        name: {{ . }}
+    {{- end }}
+    roleBindings:
+      {{- range .apps }}
+      {{- $app := . }}
+      {{- range $.Values.lifecycles }}
+      - namespace: {{ . -}}-{{ $app.name }}
+        clusterRole: view
+      {{- if ne . "prod" }}
+      - namespace: {{ . -}}-{{ $app.name }}
+        clusterRole: create
+      - namespace: {{ . -}}-{{ $app.name }}
+        clusterRole: edit
+      - namespace: {{ . -}}-{{ $app.name }}
+        clusterRole: delete
+      {{- end }}
+      {{- end }}
+      {{- end }}
+
+{{- end }}
+
+---
+
+{{- if .viewers }}
+apiVersion: rbacmanager.reactiveops.io/v1beta1
+kind: RBACDefinition
+metadata:
+  name: viewer-access
+rbacBindings:
+  - name: {{ .name }}-viewers
+    subjects:
+    {{- range .viewers }}
+      - kind: User
+        name: {{ . }}
+    {{- end }}
+    roleBindings:
+      {{- range .apps }}
+      {{- $app := . }}
+      {{- range $.Values.lifecycles }}
+      - namespace: {{ . -}}-{{ $app.name }}
+        clusterRole: view
+      {{- end }}
+      {{- end }}
+
+{{- end }}
+
+---
+apiVersion: rbacmanager.reactiveops.io/v1beta1
+kind: RBACDefinition
+metadata:
+  name: cicd-access
+rbacBindings:
+  {{- range .apps }}
+  {{- $app := . }}
+  {{- range $.Values.lifecycles }}
+  - name: {{ . }}-{{- $app.name -}}-tenant-cicd
+    subjects:
+      - kind: User
+        name: {{ . -}}-{{- $app.name -}}-cicd@{{- $app.name -}}-app-project.gserviceaccount.com	
+    roleBindings:
+      - namespace: {{ . -}}-{{ $app.name }}
+        clusterRole: view
+      - namespace: {{ . -}}-{{ $app.name }}
+        clusterRole: create
+      - namespace: {{ . -}}-{{ $app.name }}
+        clusterRole: edit
+      - namespace: {{ . -}}-{{ $app.name }}
+        clusterRole: delete
+  {{- end }}
+  {{- end }}
+
+{{- end }}
