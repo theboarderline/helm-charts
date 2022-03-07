@@ -1,112 +1,44 @@
+
+namespace: argo-cd
+
 root_project: root-project
 root_group: root-viewers
-namespace: argo-cd
 
 destination:
   server: https://kubernetes.default.svc
-  namespace: argo-cd
 
-source:
-  targetRevision: ""
-
-self:
+root:
   enabled: false
-  source:
-    path: charts/argocd-root
-    chart: ""
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
 
 argocd:
   enabled: false
-  source:
-    path: charts/argo-cd
-    chart: ""
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+
+config:
+  enabled: false
 
 events:
   enabled: false
-  source:
-    path: charts/argo-events
-    chart: ""
-  destination:
-    namespace: argo-events
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
 
 rollouts:
   enabled: false
-  source:
-    path: charts/argo-rollouts
-    chart: ""
-  destination:
-    namespace: argo-rollouts
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
 
 workflows:
   enabled: false
-  source:
-    path: charts/argo-workflows
-    chart: ""
-  destination:
-    namespace: argo-workflows
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
 
 gatekeeper:
   enabled: true
-  source:
-    path: charts/gatekeeper
-    chart: ""
-  destination:
-    namespace: gatekeeper-system
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
 
 gatekeeper_policies:
   enabled: true
-  source:
-    path: charts/gatekeeper-policies
-    chart: ""
-  destination:
-    namespace: gatekeeper-system
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
 
 secrets:
   enabled: true
-  destination:
-    namespace: external-secrets
-  source:
-    path: charts/external-secrets
-    chart: ""
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+
+infra_admin:
+  enabled: false
+
+infra_tenants:
+  enabled: false
 
 platform:
   enabled: true
-  source:
-    path: charts/argocd-tenants
-    chart: ""
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true

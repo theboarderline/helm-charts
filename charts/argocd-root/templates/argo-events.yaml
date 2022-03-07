@@ -1,9 +1,9 @@
-{{ if .Values.platform.enabled }}
+{{- if .Values.events.enabled }}
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform
+  name: argo-events
   namespace: {{ .Values.namespace }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -11,10 +11,10 @@ spec:
   project: {{ .Values.root_project }}
   destination:
     server: {{ .Values.destination.server }}
-    namespace: {{ .Values.namespace }}
+    namespace: argo-events
   source:
-    path: charts/argocd-tenants
-    repoURL: {{ include "repo_url" . }}
+    path: argo-events
+    repoURL: {{ .Values.source.repoURL }}
     targetRevision: {{ include "targetRevision" . }}
     helm:
       valueFiles:
@@ -27,4 +27,4 @@ spec:
       - CreateNamespace=true
       - PruneLast=false
 
-{{ end }}
+{{- end }}

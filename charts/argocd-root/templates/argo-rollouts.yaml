@@ -1,9 +1,9 @@
-{{ if .Values.self.enabled }}
+{{- if .Values.rollouts.enabled }}
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: self
+  name: argo-rollouts
   namespace: {{ .Values.namespace }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -13,22 +13,18 @@ spec:
     server: {{ .Values.destination.server }}
     namespace: {{ .Values.destination.namespace }}
   source:
-    {{- if .Values.self.source.chart }}
-    chart: {{ .Values.self.source.chart }}
-    {{- else }}
-    path: {{ .Values.self.source.path }}
-    {{- end }}
-    repoURL: {{ .Values.self.source.repoURL }}
-    targetRevision: {{ include "self.targetRevision" . }}
+    path: charts/argo-rollouts
+    repoURL: {{ .Values.source.repoURL }}
+    targetRevision: {{ include "targetRevision" . }}
     helm:
       valueFiles:
         - "values/{{- required "REQUIRED: lifecycle" .Values.lifecycle -}}.yaml"
   syncPolicy:
     automated:
-      prune: {{ .Values.self.syncPolicy.automated.prune }}
-      selfHeal: {{ .Values.self.syncPolicy.automated.selfHeal }}
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - PruneLast=true
+      - PruneLast=false
 
-{{ end }}
+{{- end }}

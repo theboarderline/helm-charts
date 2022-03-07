@@ -11,22 +11,18 @@ spec:
   project: {{ .Values.root_project }}
   destination:
     server: {{ .Values.destination.server }}
-    namespace: {{ .Values.gatekeeper.destination.namespace }}
+    namespace: gatekeeper-system
   source:
-    {{- if .Values.gatekeeper_policies.source.chart }}
-    chart: {{ .Values.gatekeeper_policies.source.chart }}
-    {{- else }}
-    path: {{ .Values.gatekeeper_policies.source.path }}
-    {{- end }}
-    repoURL: {{ .Values.gatekeeper_policies.source.repoURL }}
-    targetRevision: {{ include "gatekeeper_policies.targetRevision" . }}
+    path: charts/gatekeeper-policies
+    repoURL: {{ include "repo_url" . }}
+    targetRevision: {{ include "targetRevision" . }}
     helm:
       valueFiles:
-        - "values/{{- .Values.lifecycle }}.yaml"
+        - "values/{{- required "REQUIRED: lifecycle" .Values.lifecycle -}}.yaml"
   syncPolicy:
     automated:
-      prune: {{ .Values.gatekeeper_policies.syncPolicy.automated.prune }}
-      selfHeal: {{ .Values.gatekeeper_policies.syncPolicy.automated.selfHeal }}
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
       - PruneLast=false

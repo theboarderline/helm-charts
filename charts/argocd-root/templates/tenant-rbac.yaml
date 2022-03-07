@@ -1,9 +1,9 @@
-{{ if .Values.platform.enabled }}
+{{- if .Values.argocd.enabled }}
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform
+  name: argocd
   namespace: {{ .Values.namespace }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -13,7 +13,7 @@ spec:
     server: {{ .Values.destination.server }}
     namespace: {{ .Values.namespace }}
   source:
-    path: charts/argocd-tenants
+    path: charts/argo-cd
     repoURL: {{ include "repo_url" . }}
     targetRevision: {{ include "targetRevision" . }}
     helm:
@@ -24,7 +24,7 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+      - CreateNamespace=false
       - PruneLast=false
 
-{{ end }}
+{{- end }}

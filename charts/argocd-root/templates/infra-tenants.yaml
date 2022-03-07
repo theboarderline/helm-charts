@@ -1,9 +1,9 @@
-{{ if .Values.platform.enabled }}
+{{- if .Values.infra_tenants.enabled }}
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform
+  name: infra-tenants
   namespace: {{ .Values.namespace }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -11,9 +11,9 @@ spec:
   project: {{ .Values.root_project }}
   destination:
     server: {{ .Values.destination.server }}
-    namespace: {{ .Values.namespace }}
+    namespace: infra-tenants
   source:
-    path: charts/argocd-tenants
+    path: charts/infra-tenant
     repoURL: {{ include "repo_url" . }}
     targetRevision: {{ include "targetRevision" . }}
     helm:
@@ -24,7 +24,7 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+      - CreateNamespace=false
       - PruneLast=false
 
-{{ end }}
+{{- end }}
