@@ -1830,6 +1830,17 @@ entries:
     urls:
     - https://github.com/theboarderline/helm-charts/releases/download/payout-0.1.0/payout-0.1.0.tgz
     version: 0.1.0
+  rbac-manager:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-03-07T18:38:38.802494255Z"
+    description: Used to managed rbac for shared GKE cluster
+    digest: df6f91efcb373ec3e37e37caa1ea5f75f18cd6fb9bac89d459e7121851ade306
+    name: rbac-manager
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/rbac-manager-0.0.1/rbac-manager-0.0.1.tgz
+    version: 0.0.1
   web-app:
   - apiVersion: v2
     appVersion: 1.0.0
