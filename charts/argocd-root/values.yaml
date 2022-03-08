@@ -34,6 +34,12 @@ gatekeeper_policies:
 secrets:
   enabled: true
 
+rbac_manager:
+  enabled: true
+
+tenant_rbac:
+  enabled: true
+
 infra_admin:
   enabled: false
 
@@ -42,3 +48,5 @@ infra_tenants:
 
 platform:
   enabled: true
+
+

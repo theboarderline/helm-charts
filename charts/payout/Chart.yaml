@@ -3,4 +3,4 @@ name: payout
 description: A Helm chart for deploying Bret's payout calculator to Kubernetes
 type: application
 appVersion: 1.0.0
-version: 0.1.4
+version: 0.1.5

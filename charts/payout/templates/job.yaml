@@ -9,7 +9,7 @@ spec:
     spec:
       containers:
       - name: payout-calculate
-        image: us-central1-docker.pkg.dev/tp2-app-project/prod/api:latest
+        image: gcr.io/walker-cpl/tp2
         command:
           - bash
           - -c
