@@ -22,7 +22,7 @@ spec:
         lifecycle: {{ required "REQUIRED: lifecycle" $.Values.lifecycle }}
         sa_project_id: {{ include "sa_project_id" $ }}
         proj_identifier: {{ required "REQUIRED: proj_identifier" $.Values.proj_identifier }}
-        apps: {{ print "\n" }}{{ required "REQUIRED: apps" $.Values.apps | toYaml | indent 10 }}
+        apps: {{ print "\n" }}{{ .apps | toYaml | indent 10 }}
   syncPolicy:
     automated:
       prune: true
