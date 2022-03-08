@@ -1,9 +1,9 @@
-{{- if .Values.app_infra.enabled }}
+{{- if .Values.apps_iam.enabled }}
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps-admin
+  name: apps-iam
   namespace: {{ .Values.namespace }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -11,9 +11,9 @@ spec:
   project: {{ .Values.root_project }}
   destination:
     server: {{ .Values.destination.server }}
-    namespace: apps-admin
+    namespace: apps-iam
   source:
-    path: charts/infra-tenant
+    path: charts/apps-iam
     repoURL: {{ include "repo_url" . }}
     targetRevision: {{ include "targetRevision" . }}
     helm:
@@ -24,7 +24,7 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=false
+      - CreateNamespace=true
       - PruneLast=false
 
 {{- end }}
