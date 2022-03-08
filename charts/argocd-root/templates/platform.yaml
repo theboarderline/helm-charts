@@ -13,7 +13,7 @@ spec:
     server: {{ .Values.destination.server }}
     namespace: {{ .Values.namespace }}
   source:
-    path: charts/argocd-tenants
+    path: charts/platform
     repoURL: {{ include "repo_url" . }}
     targetRevision: {{ include "targetRevision" . }}
     helm:
