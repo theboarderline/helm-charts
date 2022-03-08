@@ -17,6 +17,8 @@ spec:
     repoURL: {{ .Values.source.repoURL }}
     targetRevision: {{ include "targetRevision" . }}
     helm:
+      values: |
+        lifecycle: {{ required "REQUIRED: lifecycle" .Values.lifecycle }}
       valueFiles:
         - "values/{{- required "REQUIRED: lifecycle" .Values.lifecycle -}}.yaml"
   syncPolicy:

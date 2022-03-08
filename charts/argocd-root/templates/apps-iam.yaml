@@ -20,8 +20,6 @@ spec:
       values: |
         lifecycle: {{ required "REQUIRED: lifecycle" .Values.lifecycle }}
         sa_project_id: {{ include "sa_project_id" . }}
-      valueFiles:
-        - "values/{{- required "REQUIRED: lifecycle" .Values.lifecycle -}}.yaml"
   syncPolicy:
     automated:
       prune: true
