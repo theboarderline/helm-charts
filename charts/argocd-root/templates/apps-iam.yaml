@@ -5,24 +5,24 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: {{ .name -}}-app-iam
-  namespace: {{ .Values.namespace }}
+  namespace: {{ $.Values.namespace }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: {{ .Values.root_project }}
+  project: {{ $.Values.root_project }}
   destination:
-    server: {{ .Values.destination.server }}
+    server: {{ $.Values.destination.server }}
     namespace: apps-iam
   source:
     path: charts/apps-iam
-    repoURL: {{ include "repo_url" . }}
-    targetRevision: {{ include "targetRevision" . }}
+    repoURL: {{ include "repo_url" $ }}
+    targetRevision: {{ include "targetRevision" $ }}
     helm:
       values: |
-        lifecycle: {{ required "REQUIRED: lifecycle" .Values.lifecycle }}
-        sa_project_id: {{ include "sa_project_id" . }}
-        proj_identifier: {{ required "REQUIRED: proj_identifier" .Values.proj_identifier }}
-        apps: {{ print "\n" }}{{ required "REQUIRED: apps" .Values.apps | toYaml | indent 10 }}
+        lifecycle: {{ required "REQUIRED: lifecycle" $.Values.lifecycle }}
+        sa_project_id: {{ include "sa_project_id" $ }}
+        proj_identifier: {{ required "REQUIRED: proj_identifier" $.Values.proj_identifier }}
+        apps: {{ print "\n" }}{{ required "REQUIRED: apps" $.Values.apps | toYaml | indent 10 }}
   syncPolicy:
     automated:
       prune: true
