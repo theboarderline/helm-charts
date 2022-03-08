@@ -4,6 +4,8 @@ namespace: argo-cd
 root_project: root-project
 root_group: root-viewers
 
+proj_identifier: platform
+
 destination:
   server: https://kubernetes.default.svc
 
