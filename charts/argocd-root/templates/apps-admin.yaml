@@ -1,9 +1,9 @@
-{{- if .Values.infra_tenants.enabled }}
+{{- if .Values.app_infra.enabled }}
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: infra-tenants
+  name: apps-admin
   namespace: {{ .Values.namespace }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -11,7 +11,7 @@ spec:
   project: {{ .Values.root_project }}
   destination:
     server: {{ .Values.destination.server }}
-    namespace: infra-tenants
+    namespace: apps-admin
   source:
     path: charts/infra-tenant
     repoURL: {{ include "repo_url" . }}
