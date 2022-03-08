@@ -1,9 +1,10 @@
 {{- if .Values.apps_iam.enabled }}
+{{- range .Values.tenants }}
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps-iam
+  name: {{ .name -}}-app-iam
   namespace: {{ .Values.namespace }}
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -21,7 +22,7 @@ spec:
         lifecycle: {{ required "REQUIRED: lifecycle" .Values.lifecycle }}
         sa_project_id: {{ include "sa_project_id" . }}
         proj_identifier: {{ required "REQUIRED: proj_identifier" .Values.proj_identifier }}
-        tenants: {{ print "\n" }}{{ required "REQUIRED: tenants" .Values.tenants | toYaml | indent 8 }}
+        tenants: {{ print "\n" }}{{ required "REQUIRED: apps" .Values.apps | toYaml | indent 10 }}
   syncPolicy:
     automated:
       prune: true
@@ -30,4 +31,5 @@ spec:
       - CreateNamespace=true
       - PruneLast=false
 
+{{- end }}
 {{- end }}
