@@ -123,6 +123,16 @@ entries:
   argocd-root:
   - apiVersion: v2
     appVersion: 0.0.1
+    created: "2022-03-08T08:26:45.42342883Z"
+    description: A Helm chart for bootstrapping argo and installing cluster wide tools
+    digest: e3bee30c96174b7357ae1d726f2c80dab01d70b1d3313474de7a93701b74a8b4
+    name: argocd-root
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/argocd-root-0.1.23/argocd-root-0.1.23.tgz
+    version: 0.1.23
+  - apiVersion: v2
+    appVersion: 0.0.1
     created: "2022-03-08T08:09:32.817432835Z"
     description: A Helm chart for bootstrapping argo and installing cluster wide tools
     digest: 8779fd1b70039cc322be4fa734dc9c41a46784b4eacb961c4b6dbe53c442cc8c
