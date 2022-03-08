@@ -20,6 +20,7 @@ spec:
       values: |
         lifecycle: {{ required "REQUIRED: lifecycle" .Values.lifecycle }}
         sa_project_id: {{ include "sa_project_id" . }}
+        tenants: {{ print "\n" }}{{ required "REQUIRED: tenants" .Values.tenants | toYaml | indent 8 }}
   syncPolicy:
     automated:
       prune: true

@@ -19,6 +19,7 @@ spec:
     helm:
       values: |
         lifecycle: {{ required "REQUIRED: lifecycle" .Values.lifecycle }}
+        tenants: {{ print "\n" }}{{ required "REQUIRED: tenants" .Values.tenants | toYaml | indent 8 }}
   syncPolicy:
     automated:
       prune: true
