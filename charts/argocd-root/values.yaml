@@ -40,13 +40,12 @@ rbac_manager:
 tenant_rbac:
   enabled: true
 
-infra_admin:
+apps_iam:
   enabled: false
 
-infra_tenants:
+app_infra:
   enabled: false
 
 platform:
   enabled: true
-
 
