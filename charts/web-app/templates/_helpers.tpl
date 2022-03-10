@@ -19,15 +19,6 @@
 {{- end }}
 
 
-{{- define "gke_project" -}}
-  {{- if .Values.gke_project_id }}
-  {{- .Values.gke_project_id }}
-  {{- else }}
-  {{- include "lifecycle_letter" . -}}-{{- required "REQUIRED: proj_identifier" .Values.proj_identifier -}}-gke-project
-  {{- end }}
-{{- end -}}
-
-
 {{- define "db_project" -}}
   {{- if .Values.db_project_id }}
   {{- .Values.db_project_id }}
