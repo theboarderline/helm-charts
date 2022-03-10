@@ -49,6 +49,10 @@ ingress:
   http: false
   https: true
 
+network_policy:
+  enabled: false
+
+
 autoscaler:
   enabled: false
 
