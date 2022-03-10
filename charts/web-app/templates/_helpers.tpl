@@ -6,16 +6,20 @@
 {{- end }}
 
 
-{{- define "domain" -}}
-
-  {{- if eq .Values.lifecycle "prod" }}
-  {{- required "REQUIRED: google.domain" .Values.google.domain }}
-
-  {{- else }}
-  {{- .Values.lifecycle -}}.{{- required "REQUIRED: google.domain" .Values.google.domain }}
-
+{{- define "base_domain" -}}
+  {{- if .Values.domain }}
+    {{- .Values.domain }}
+  {{ else if .Values.google.domain }}
+    {{- .Values.google.domain }}
   {{- end }}
+{{- end }}
 
+{{- define "domain" -}}
+  {{- if eq .Values.lifecycle "prod" }}
+    {{- include "base_domain" $ }}
+  {{- else }}
+    {{- required "REQUIRED: lifecycle" .Values.lifecycle -}}.{{- include "base_domain" $ }}
+  {{- end }}
 {{- end }}
 
 
