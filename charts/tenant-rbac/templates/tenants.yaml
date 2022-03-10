@@ -1,10 +1,13 @@
 {{- range .Values.tenants }}
 
+{{- if .apps }}
+{{- if $.Values.lifecycles }}
+
 {{- if .editors }}
 apiVersion: rbacmanager.reactiveops.io/v1beta1
 kind: RBACDefinition
 metadata:
-  name: editor-access
+  name: {{ .name -}}-editor-access
 rbacBindings:
   - name: {{ .name }}-editors
     subjects:
@@ -37,7 +40,7 @@ rbacBindings:
 apiVersion: rbacmanager.reactiveops.io/v1beta1
 kind: RBACDefinition
 metadata:
-  name: viewer-access
+  name: {{ .name -}}-viewer-access
 rbacBindings:
   - name: {{ .name }}-viewers
     subjects:
@@ -60,7 +63,7 @@ rbacBindings:
 apiVersion: rbacmanager.reactiveops.io/v1beta1
 kind: RBACDefinition
 metadata:
-  name: cicd-access
+  name: {{ .name -}}-cicd-access
 rbacBindings:
   {{- range .apps }}
   {{- $app := . }}
@@ -68,7 +71,7 @@ rbacBindings:
   - name: {{ . }}-{{- $app.name -}}-tenant-cicd
     subjects:
       - kind: User
-        name: {{ . -}}-{{- $app.name -}}-cicd@{{- $app.name -}}-app-project.gserviceaccount.com	
+        name: {{ . -}}-{{- $app.name -}}-app-cicd@{{- $app.name -}}-app-project.gserviceaccount.com	
     roleBindings:
       - namespace: {{ . -}}-{{ $app.name }}
         clusterRole: view
@@ -81,4 +84,7 @@ rbacBindings:
   {{- end }}
   {{- end }}
 
+
+{{- end }}
+{{- end }}
 {{- end }}
