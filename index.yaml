@@ -1817,6 +1817,17 @@ entries:
     version: 0.0.1
   gatekeeper:
   - apiVersion: v2
+    created: "2022-03-10T08:12:53.307525624Z"
+    dependencies:
+    - name: gatekeeper
+      repository: https://open-policy-agent.github.io/gatekeeper/charts
+      version: 3.3.0
+    digest: 806015f5b7232dc75d378c4f01845c33e0d195f0988e72f047d1b34f1146d1b8
+    name: gatekeeper
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/gatekeeper-0.0.2/gatekeeper-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
     created: "2021-11-22T19:09:07.609121165Z"
     dependencies:
     - name: gatekeeper
@@ -1828,6 +1839,16 @@ entries:
     - https://github.com/theboarderline/helm-charts/releases/download/gatekeeper-0.0.1/gatekeeper-0.0.1.tgz
     version: 0.0.1
   gatekeeper-policies:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-03-10T08:12:53.458978515Z"
+    description: Gatekeeper policies
+    digest: a248a98db172d8a8554a9bf66909c7373259a2ee330ec4a1552ab183f27a3773
+    name: gatekeeper-policies
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/gatekeeper-policies-0.0.3/gatekeeper-policies-0.0.3.tgz
+    version: 0.0.3
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2021-11-24T20:29:23.337647775Z"
@@ -1912,6 +1933,16 @@ entries:
   payout:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-03-10T08:12:53.61380853Z"
+    description: A Helm chart for deploying Bret's payout calculator to Kubernetes
+    digest: 8d82fb0bb908b3718f20f57d503d5fbe4494d48c968a6ccae38c7ff522a0ec84
+    name: payout
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/payout-0.1.6/payout-0.1.6.tgz
+    version: 0.1.6
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-03-06T03:16:41.279174109Z"
     description: A Helm chart for deploying Bret's payout calculator to Kubernetes
     digest: f9ea19acb895fd80f4465363a58a7583095a933bef372bdfeb06362e8d0641c7
@@ -1971,7 +2002,28 @@ entries:
     urls:
     - https://github.com/theboarderline/helm-charts/releases/download/rbac-manager-0.0.1/rbac-manager-0.0.1.tgz
     version: 0.0.1
+  tenant-rbac:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-03-10T08:12:53.769586181Z"
+    description: Used to managed rbac for tenants in a shared GKE cluster
+    digest: 72832710af4b00cb539917e7e176bb14ed52d740c2612b3c3e0853c324a76612
+    name: tenant-rbac
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/tenant-rbac-0.0.3/tenant-rbac-0.0.3.tgz
+    version: 0.0.3
   web-app:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-03-10T08:12:53.933578435Z"
+    description: A Helm chart for deploying web applications
+    digest: bbb9fb5387955ddcaadb9aa5a503f6949d33079c21dd1df5a65a409d9a88007b
+    name: web-app
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/web-app-0.1.29/web-app-0.1.29.tgz
+    version: 0.1.29
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2022-03-06T09:44:57.526149908Z"
