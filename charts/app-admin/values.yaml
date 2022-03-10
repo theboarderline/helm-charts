@@ -1,7 +1,0 @@
-
-config_connect:
-  project: false
-  iam: false
-  dns_zone: false
-  dns_record: false
-  provision_ip: false
