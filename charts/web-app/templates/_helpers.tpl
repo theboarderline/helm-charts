@@ -1,11 +1,4 @@
 
-{{- define "lifecycle_letter" -}}
-
-  {{- substr 0 1 .Values.lifecycle -}}
-
-{{- end }}
-
-
 {{- define "domain" -}}
   {{- if eq .Values.lifecycle "prod" }}
     {{- required "REQUIRED: domain" .Values.domain }}
@@ -13,6 +6,7 @@
     {{- .Values.lifecycle -}}.{{- required "REQUIRED: domain" .Values.domain }}
   {{- end }}
 {{- end }}
+
 
 {{- define "db_project" -}}
   {{- required "REQUIRED: db_project_id" .Values.db_project_id }}
@@ -45,18 +39,20 @@
 
 
 {{- define "instance_name" -}}
-
   {{- if .Values.db.instance }}
     {{- .Values.db.instance }}
   {{- else -}}
     {{- required "REQUIRED: app_code" .Values.app_code -}}-instance
   {{- end -}}
-
 {{- end -}}
 
 
 {{- define "app_sa" -}}
-  {{- required "REQUIRED: app_code" .Values.app_code -}}-workload@{{- include "app_project" . -}}.iam
+  {{- if $.Values.sa }}
+    {{- $.Values.app_sa }}
+  {{- else }}
+    {{- required "REQUIRED: app_code" .Values.app_code -}}-workload@{{- include "app_project" . -}}.iam
+  {{- end }}
 {{- end -}}
 
 
@@ -66,17 +62,31 @@
 
 
 {{- define "bucket" -}}
-  {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-web-static
+  {{- if $.Values.public_bucket }}
+    {{- $.Values.public_bucket }}
+  {{- else }}
+    {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-web-static
+  {{- end }}
 {{- end -}}
 
 
+
+
 {{- define "private_bucket" -}}
+  {{- if $.Values.private_bucket }}
+    {{- $.Values.private_bucket }}
+  {{- else }}
   {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-private
+  {{- end }}
 {{- end -}}
 
 
 {{- define "ip_name" -}}
-  {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-ip
+  {{- if $.Values.ip_name }}
+    {{- $.Values.ip_name }}
+  {{- else }}
+    {{- $.Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-ip
+  {{- end }}
 {{- end -}}
 
 
