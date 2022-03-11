@@ -24,11 +24,7 @@
 
 
 {{- define "db_project" -}}
-  {{- if .Values.db_project_id }}
-  {{- .Values.db_project_id }}
-  {{- else }}
-  {{- include "lifecycle_letter" . -}}-{{- required "REQUIRED: .proj_identifier" .Values.proj_identifier -}}-db-project
-  {{- end }}
+  {{- required "REQUIRED: db_project_id" .Values.db_project_id }}
 {{- end -}}
 
 
