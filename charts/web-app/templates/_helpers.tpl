@@ -6,22 +6,13 @@
 {{- end }}
 
 
-{{- define "base_domain" -}}
-  {{- if .Values.domain }}
-    {{- .Values.domain }}
-  {{ else if .Values.google.domain }}
-    {{- .Values.google.domain }}
-  {{- end }}
-{{- end }}
-
 {{- define "domain" -}}
   {{- if eq .Values.lifecycle "prod" }}
-    {{- include "base_domain" $ }}
+    {{- required "REQUIRED: domain" .Values.domain }}
   {{- else }}
-    {{- required "REQUIRED: lifecycle" .Values.lifecycle -}}.{{- include "base_domain" $ }}
+    {{- .Values.lifecycle -}}.{{- required "REQUIRED: domain" .Values.domain }}
   {{- end }}
 {{- end }}
-
 
 {{- define "db_project" -}}
   {{- required "REQUIRED: db_project_id" .Values.db_project_id }}
