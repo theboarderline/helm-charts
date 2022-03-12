@@ -1,9 +1,13 @@
 
 {{- define "domain" -}}
-  {{- if eq .Values.lifecycle "prod" }}
-    {{- required "REQUIRED: domain" .Values.domain }}
+  {{- if .Values.lifecycle }}
+    {{- if eq .Values.lifecycle "prod" }}
+      {{- required "REQUIRED: domain" .Values.domain }}
+    {{- else }}
+      {{- .Values.lifecycle -}}.{{- required "REQUIRED: domain" .Values.domain }}
+    {{- end }}
   {{- else }}
-    {{- .Values.lifecycle -}}.{{- required "REQUIRED: domain" .Values.domain }}
+    {{- .Values.domain -}}
   {{- end }}
 {{- end }}
 

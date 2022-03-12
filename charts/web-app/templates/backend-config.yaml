@@ -8,6 +8,13 @@ spec:
   securityPolicy:
     name: {{ .Values.security_policy }}
 
+  {{- if .Values.google.iap }}
+  iap:
+    enabled: {{ .Values.google.enable_iap }}
+    oauthClientCredentials:
+      secretName: oauth-credentials
+  {{- end }}
+
   {{- if and (ne .Values.lifecycle "ops") (ne .Values.lifecycle "dev") }}
   cdn:
     enabled: true

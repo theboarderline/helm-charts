@@ -9,7 +9,7 @@ metadata:
     tier: backend
 spec:
   replicas: {{ required "REQUIRED: api.replicas" .Values.api.replicas }}
-  {{- if and (.Values.use_pd) (.Values.mount_pd) }}
+  {{- if or (not .Values.use_pd) (not .Values.mount_pd) }}
   strategy:
     type: RollingUpdate
   {{- end }}
@@ -121,48 +121,50 @@ spec:
         {{- end }}
 
 
+        {{- if .Values.use_oauth }}
+        {{- if .Values.external_secrets.enabled }}
+        - name: OAUTH_ID
+          valueFrom:
+            secretKeyRef:
+              name: oauth-credentials
+              key: client_id
+        - name: OAUTH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: oauth-credentials
+              key: client_secret
+        {{- end }}
+        {{- end }}
+
         {{- if .Values.django.enabled }}
+
         {{- if .Values.django.email }}
         - name: DJANGO_EMAIL
           value: {{ .Values.django.email }}
         {{- end }}
 
         - name: DJANGO_KEY
-        {{- if .Values.secrets.enabled }}
           valueFrom:
             secretKeyRef:
-              name: secrets-manager
+              name: app-secrets
               key: django-key
-        {{- else }}
-          value: fake-django-key
-        {{- end }}
-
-        {{- if .Values.django.use_email }}
-        - name: EMAIL_PASSWORD
-        {{- if .Values.secrets.enabled }}
-          valueFrom:
-            secretKeyRef:
-              name: secrets-manager
-              key: email-password
-        {{- else }}
-          value: {{ required "REQUIRED: django.email_password" .Values.django.email_password }}
-        {{- end }}
-        {{- end }}
 
         {{- if .Values.django.oauth_id }}
         - name: OAUTH_ID
           value: {{ .Values.django.oauth_id }}
 
         - name: OAUTH_SECRET
-        {{- if .Values.secrets.enabled }}
+          {{- if .Values.secrets.enabled }}
           valueFrom:
             secretKeyRef:
-              name: secrets-manager
+              name: app-secrets
               key: oauth-secret
-        {{- else }}
+          {{- else }}
           value: {{ required "REQUIRED: django.oauth_secret" .Values.django.oauth_secret }}
+          {{- end }}
+
         {{- end }}
-        {{- end }}
+
         {{- end }}
 
         {{- if .Values.sendgrid.enabled }}
@@ -170,14 +172,10 @@ spec:
           value: {{ .Values.sendgrid.email }}
 
         - name: SENDGRID_KEY
-        {{- if .Values.secrets.enabled }}
           valueFrom:
             secretKeyRef:
-              name: secrets-manager
+              name: app-secrets
               key: sendgrid-key
-        {{- else }}
-          value: {{ required "REQUIRED: sendgrid.key" .Values.sendgrid.key }}
-        {{- end }}
         {{- end }}
 
         {{- if .Values.db.proxy }}
@@ -191,26 +189,22 @@ spec:
 
         {{- if .Values.agile.enabled }}
         - name: AGILE_CRM_REST_KEY
-        {{- if .Values.secrets.enabled }}
           valueFrom:
             secretKeyRef:
-              name: secrets-manager
+              name: app-secrets
               key: agile-crm-rest-key
-        {{- else }}
-          value: {{ required "REQUIRED: agile.key" .Values.agile.key }}
-        {{- end }}
         {{- end }}
 
         {{- if .Values.twilio.enabled }}
         - name: TWILIO_AUTH_TOKEN
           valueFrom:
             secretKeyRef:
-              name: secrets-manager
+              name: app-secrets
               key: twilio-auth-token
         - name: TWILIO_ACCOUNT_SID
           valueFrom:
             secretKeyRef:
-              name: secrets-manager
+              name: app-secrets
               key: twilio-account-sid
 
         {{- if eq .Values.app_code "coleman" }}
@@ -221,12 +215,12 @@ spec:
         - name: TWILIO_NUMBER_SID_IL
           valueFrom:
             secretKeyRef:
-              name: secrets-manager
+              name: app-secrets
               key: twilio-number-sid-il
         - name: TWILIO_NUMBER_SID_WA
           valueFrom:
             secretKeyRef:
-              name: secrets-manager
+              name: app-secrets
               key: twilio-number-sid-wa
         {{- else }}
         - name: TWILIO_NUMBER
@@ -234,8 +228,7 @@ spec:
         - name: TWILIO_NUMBER_SID
           valueFrom:
             secretKeyRef:
-              name: secrets-manager
-              key: twilio-number-sid
+              name: app-secrets
         {{- end }}
         {{- end }}
 
@@ -245,7 +238,7 @@ spec:
         - name: API_KEY
           valueFrom:
             secretKeyRef:
-              name: secrets-manager
+              name: app-secrets
               key: api-key
         {{- end }}
 

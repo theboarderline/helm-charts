@@ -43,13 +43,15 @@ google:
 security_policy: us-only
 ssl_policy: tls-12
 
+external_secrets:
+  enabled: false
+
 ingress:
   http: false
   https: true
 
 network_policy:
   enabled: false
-
 
 autoscaler:
   enabled: false
