@@ -208,7 +208,7 @@ spec:
               key: twilio-account-sid
 
         - name: TWILIO_REPLY_NUMBER
-          value: {{ required "REQUIRED: twilio.reply_number" .Values.twilio.reply_number }}
+          value: '{{ required "REQUIRED: twilio.reply_number" .Values.twilio.reply_number }}'
 
         {{- if eq .Values.app_code "coleman" }}
         - name: TWILIO_NUMBER_IL
