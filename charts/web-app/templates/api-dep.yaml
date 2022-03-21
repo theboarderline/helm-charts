@@ -169,13 +169,16 @@ spec:
 
         {{- if .Values.oauth.google.enabled }}
         - name: GOOGLE_OAUTH_ID
-          value: {{ .Values.oauth.google.oauth_id }}
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: google-oauth-id
 
         - name: GOOGLE_OAUTH_SECRET
           valueFrom:
             secretKeyRef:
               name: app-secrets
-              key: oauth-secret
+              key: google-oauth-secret
         {{- end }}
 
         {{- if .Values.oauth.github.enabled }}
