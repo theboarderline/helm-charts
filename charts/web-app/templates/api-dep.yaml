@@ -167,6 +167,53 @@ spec:
 
         {{- end }}
 
+        {{- if .Values.oauth.google.enabled }}
+        - name: GOOGLE_OAUTH_ID
+          value: {{ .Values.oauth.google.oauth_id }}
+
+        - name: GOOGLE_OAUTH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: oauth-secret
+        {{- end }}
+
+        {{- if .Values.oauth.github.enabled }}
+        - name: GITHUB_OAUTH_ID
+          value: {{ .Values.oauth.github.oauth_id }}
+
+        - name: GITHUB_OAUTH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: github-oauth-secret
+        {{- end }}
+
+        {{- if .Values.oauth.facebook.enabled }}
+        - name: FACEBOOK_OAUTH_ID
+          value: {{ .Values.oauth.facebook.oauth_id }}
+
+        - name: FACEBOOK_OAUTH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: facebook-oauth-secret
+        {{- end }}
+
+        {{- if .Values.oauth.twitter.enabled }}
+        - name: TWITTER_OAUTH_ID
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: twitter-api-key
+
+        - name: TWITTER_OAUTH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: twitter-api-key-secret
+        {{- end }}
+
         {{- if .Values.sendgrid.enabled }}
         - name: SENDGRID_EMAIL
           value: {{ .Values.sendgrid.email }}

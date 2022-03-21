@@ -43,6 +43,19 @@ google:
 security_policy: us-only
 ssl_policy: tls-12
 
+oauth:
+  google:
+    enabled: false
+
+  github:
+    enabled: false
+
+  facebook:
+    enabled: false
+
+  twitter:
+    enabled: false
+
 external_secrets:
   enabled: false
 
