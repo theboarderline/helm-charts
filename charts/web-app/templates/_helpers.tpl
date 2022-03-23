@@ -23,17 +23,12 @@
 
 
 {{- define "api_image" -}}
-  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/{{- .Values.lifecycle -}}/api:{{- .Values.api.tag }}
+  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/{{- required "REQUIRED: google.registry" .Values.google.registry -}}/api:{{- .Values.api.tag }}
 {{- end -}}
 
 
 {{- define "nginx_image" -}}
-  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/{{- .Values.lifecycle -}}/nginx:{{- .Values.nginx.tag }}
-{{- end -}}
-
-
-{{- define "agile_image" -}}
-  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/{{- .Values.lifecycle -}}/agile-connector:{{- .Values.api.tag }}
+  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/{{- required "REQUIRED: google.registry" .Values.google.registry -}}/nginx:{{- .Values.nginx.tag }}
 {{- end -}}
 
 
