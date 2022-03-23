@@ -19,6 +19,7 @@ spec:
   template:
     metadata:
       annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
         container.apparmor.security.beta.kubernetes.io/api: runtime/default
         container.seccomp.security.alpha.kubernetes.io/api: runtime/default
       labels:
