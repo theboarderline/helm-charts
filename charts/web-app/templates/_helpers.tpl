@@ -12,6 +12,11 @@
 {{- end }}
 
 
+{{- define "registry_name" -}}
+  {{- required "REQUIRED: lifecycle" .Values.lifecycle }}-{{- required "REQUIRED: google.registry" .Values.google.registry }}
+{{- end -}}
+
+
 {{- define "db_project" -}}
   {{- required "REQUIRED: db_project_id" .Values.db_project_id }}
 {{- end -}}
@@ -23,12 +28,12 @@
 
 
 {{- define "api_image" -}}
-  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/{{- required "REQUIRED: google.registry" .Values.google.registry -}}/api:{{- .Values.api.tag }}
+  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/api:{{- .Values.api.tag }}
 {{- end -}}
 
 
 {{- define "nginx_image" -}}
-  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/{{- required "REQUIRED: google.registry" .Values.google.registry -}}/nginx:{{- .Values.nginx.tag }}
+  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/nginx:{{- .Values.nginx.tag }}
 {{- end -}}
 
 
