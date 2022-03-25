@@ -3,7 +3,6 @@ kind: K8sRestrictRoleBindings
 metadata:
   name: restrict-role-bindings
 spec:
-  enforcementAction: dryrun
   match:
     kinds:
       - apiGroups: [""]

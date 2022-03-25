@@ -3,7 +3,6 @@ kind: K8sPSPReadOnlyRootFilesystem
 metadata:
   name: psp-readonly-root-filesystem
 spec:
-  enforcementAction: dryrun
   match:
     kinds:
       - apiGroups: [""]

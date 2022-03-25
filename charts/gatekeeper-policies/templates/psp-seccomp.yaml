@@ -3,7 +3,6 @@ kind: K8sPSPSeccomp
 metadata:
   name: psp-seccomp
 spec:
-  enforcementAction: dryrun
   match:
     kinds:
       - apiGroups: [""]

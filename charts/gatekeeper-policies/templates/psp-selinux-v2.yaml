@@ -3,7 +3,6 @@ kind: K8sPSPSELinuxV2
 metadata:
   name: psp-selinux-v2
 spec:
-  enforcementAction: dryrun
   match:
     kinds:
       - apiGroups: [""]

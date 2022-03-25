@@ -3,7 +3,6 @@ kind: K8sPSPCapabilities
 metadata:
   name: psp-capabilities
 spec:
-  enforcementAction: dryrun
   match:
     kinds:
       - apiGroups: [""]

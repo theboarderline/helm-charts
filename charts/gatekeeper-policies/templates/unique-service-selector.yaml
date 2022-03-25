@@ -3,7 +3,6 @@ kind: K8sUniqueServiceSelector
 metadata:
   name: unique-service-selector
 spec:
-  enforcementAction: dryrun
   match:
     kinds:
       - apiGroups: ["extensions", "networking.k8s.io"]

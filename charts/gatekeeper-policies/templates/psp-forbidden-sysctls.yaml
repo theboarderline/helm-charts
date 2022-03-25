@@ -3,7 +3,6 @@ kind: K8sPSPForbiddenSysctls
 metadata:
   name: psp-forbidden-sysctls
 spec:
-  enforcementAction: dryrun
   match:
     kinds:
       - apiGroups: [""]

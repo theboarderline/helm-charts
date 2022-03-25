@@ -3,17 +3,17 @@ kind: K8sPSPVolumeTypes
 metadata:
   name: psp-volume-types
 spec:
-  enforcementAction: dryrun
   match:
     kinds:
       - apiGroups: [""]
         kinds: ["Pod"]
   parameters:
     volumes:
-    - hostPath
-    - flexVolume
-    - projected
-    - emptyDir
     - configMap
-    - secrets
     - downwardAPI
+    - emptyDir
+    - flexVolume
+    - hostPath
+    - persistentVolumeClaim
+    - projected
+    - secrets

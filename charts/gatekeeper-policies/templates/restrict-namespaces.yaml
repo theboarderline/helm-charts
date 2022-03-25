@@ -3,7 +3,6 @@ kind: K8sRestrictNamespaces
 metadata:
   name: restrict-namespaces
 spec:
-  enforcementAction: dryrun
   match:
     kinds:
       - apiGroups: [""]
@@ -13,7 +12,10 @@ spec:
       - "default"
       - "kube-public"
       - "kube-system"
+      - "kube-node-lease"
       - "gatekeeper-system"
+      - "external-secrets"
+      - "rbac-manager"
       - "argo-cd"
       - "argo-events"
       - "argo-rollouts"

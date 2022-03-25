@@ -3,7 +3,6 @@ kind: K8sPodsRequireSecurityContext
 metadata:
   name: psp-require-security-context
 spec:
-  enforcementAction: dryrun
   match:
     kinds:
       - apiGroups: [""]
