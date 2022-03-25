@@ -1,0 +1,70 @@
+
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPartialPolicy
+metadata:
+  name: {{ include "lifecycle" $ -}}-gke-partial-policy
+spec:
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: Project
+    external: {{ include "gke_project_id" $ }}
+  bindings:
+    - role: roles/compute.publicIpAdmin
+      members:
+        {{- range .Values.tenants }}
+        {{- range .apps }}
+        {{- if .enabled }}
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .name -}}-infra-admin@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+        {{- end }}
+        {{- end }}
+        {{- end }}
+    - role: roles/monitoring.admin
+      members:
+        {{- range .Values.tenants }}
+        {{- range .apps }}
+        {{- if .enabled }}
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .name -}}-infra-admin@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+        {{- end }}
+        {{- end }}
+        {{- end }}
+    - role: roles/container.viewer
+      members:
+        {{- range .Values.tenants }}
+        {{- range .apps }}
+        {{- if .enabled }}
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .name -}}-app-cicd@{{- .name -}}-app-project.iam.gserviceaccount.com
+        {{- end }}
+        {{- end }}
+        {{- end }}
+
+---
+
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPartialPolicy
+metadata:
+  name: {{ include "lifecycle" $ -}}-db-partial-policy
+spec:
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: Project
+    external: {{ include "db_project_id" $ }}
+  bindings:
+    - role: roles/cloudsql.client
+      members:
+        {{- range .Values.tenants }}
+        {{- range .apps }}
+        {{- if .enabled }}
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .name -}}-app-workload@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+        {{- end }}
+        {{- end }}
+        {{- end }}
+    - role: roles/cloudsql.instanceUser
+      members:
+        {{- range .Values.tenants }}
+        {{- range .apps }}
+        {{- if .enabled }}
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .name -}}-infra-admin@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+        {{- end }}
+        {{- end }}
+        {{- end }}
+

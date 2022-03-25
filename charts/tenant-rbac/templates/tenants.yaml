@@ -1,7 +1,7 @@
 {{- range .Values.tenants }}
 
 {{- if .apps }}
-{{- if $.Values.lifecycles }}
+{{- if $.Values.app_lifecycles }}
 
 {{- if .editors }}
 apiVersion: rbacmanager.reactiveops.io/v1beta1
@@ -18,7 +18,7 @@ rbacBindings:
     roleBindings:
       {{- range .apps }}
       {{- $app := . }}
-      {{- range $.Values.lifecycles }}
+      {{- range $.Values.app_lifecycles }}
       - namespace: {{ . -}}-{{ $app.name }}
         clusterRole: view
       {{- if ne . "prod" }}
@@ -32,11 +32,12 @@ rbacBindings:
       {{- end }}
       {{- end }}
 
+---
 {{- end }}
 
----
 
 {{- if .viewers }}
+
 apiVersion: rbacmanager.reactiveops.io/v1beta1
 kind: RBACDefinition
 metadata:
@@ -51,15 +52,15 @@ rbacBindings:
     roleBindings:
       {{- range .apps }}
       {{- $app := . }}
-      {{- range $.Values.lifecycles }}
+      {{- range $.Values.app_lifecycles }}
       - namespace: {{ . -}}-{{ $app.name }}
         clusterRole: view
       {{- end }}
       {{- end }}
 
+---
 {{- end }}
 
----
 apiVersion: rbacmanager.reactiveops.io/v1beta1
 kind: RBACDefinition
 metadata:
@@ -67,7 +68,7 @@ metadata:
 rbacBindings:
   {{- range .apps }}
   {{- $app := . }}
-  {{- range $.Values.lifecycles }}
+  {{- range $.Values.app_lifecycles }}
   - name: {{ . }}-{{- $app.name -}}-tenant-cicd
     subjects:
       - kind: User
@@ -84,6 +85,7 @@ rbacBindings:
   {{- end }}
   {{- end }}
 
+---
 
 {{- end }}
 {{- end }}

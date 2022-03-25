@@ -1,0 +1,69 @@
+{{- if .Values.cloudbuild }}
+
+apiVersion: cloudbuild.cnrm.cloud.google.com/v1beta1
+kind: CloudBuildTrigger
+metadata:
+  name: {{ include "app_namespace" $ -}}-trigger
+  annotations:
+    cnrm.cloud.google.com/project-id: {{ include "app_project_id" . }}
+spec:
+  disabled: false
+  github:
+    owner: {{ required "REQUIRED: github_org" .Values.github_org }}
+    name: {{ required "REQUIRED: app_code" .Values.app_code }} 
+    push:
+      branch: {{ include "branch" . }}
+  serviceAccountRef:
+    external: {{ include "cicd_sa" $ }}
+  includedFiles:
+    - "react/**"
+    - "api/**"
+  build:
+    timeout: 1200s
+    options:
+      logging: STACKDRIVER_ONLY
+    {{- if true }}
+      machineType: E2_HIGHCPU_8
+    {{- end }}
+
+    step:
+      - id: "Build-API"
+        name: "gcr.io/kaniko-project/executor:latest"
+        args:
+          - --destination={{- include "api_image" . }}:$COMMIT_SHA
+          - --destination={{- include "api_image" . }}:latest
+          - --context=./api
+          - --cache=true
+          - --cache-ttl=240h
+
+      - id: "Build-React"
+        name: "gcr.io/kaniko-project/executor:latest"
+        args:
+          - --destination={{- include "nginx_image" . }}:$COMMIT_SHA
+          - --destination={{- include "nginx_image" . }}:latest
+          - --context=./react
+          - --cache=true
+          - --cache-ttl=240h
+
+      # - id: Gcloud
+      #   name: "gcr.io/cloud-builders/gcloud-slim"
+      #   entrypoint: "bash"
+      #   args:
+      #     - "-c"
+      #     - |
+      #       gcloud container clusters get-credentials {{ include "cluster_name" $ }} --zone={{- required "REQUIRED: google.zone" $.Values.google.zone }} --project={{- include "gke_project_id" $ }}
+      #
+      # - id: Helm-Upgrade
+      #   name: gcr.io/walker-cpl/helm
+      #   entrypoint: bash
+      #   args:
+      #     - "-c"
+      #     - |
+      #       helm dep update ./charts/web-app &&
+      #       helm upgrade -i {{ include "app_namespace" $ }} ./charts/web-app -f ./charts/web-app/values/{{- include "lifecycle" $ -}}.yaml -n {{ include "app_namespace" $ }} --create-namespace --set web-app.api.tag=$COMMIT_SHA --set web-app.nginx.tag=$COMMIT_SHA --set web-app.gke_project_id={{- include "gke_project_id" . }} --set web-app.db_project_id={{- include "db_project_id" $ }} --set web-app.app_code={{- $.Values.app_code }} --set web-app.google.domain={{- include "domain" $ }}
+      #   env:
+      #     - "CLOUDSDK_COMPUTE_ZONE=${_ZONE}"
+      #     - "CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER}"
+
+{{- end }}
+

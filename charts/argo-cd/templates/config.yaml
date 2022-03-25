@@ -1,0 +1,41 @@
+{{- if .Values.ingress -}}
+
+apiVersion: networking.gke.io/v1beta1
+kind: FrontendConfig
+metadata:
+  name: argocd-frontendconfig
+spec:
+  sslPolicy: tls-12
+  redirectToHttps:
+    enabled: true
+    responseCodeName: MOVED_PERMANENTLY_DEFAULT
+
+---
+
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: argocd-backendconfig
+spec:
+  {{- if .Values.google.cloud_armor_policy }}
+  securityPolicy:
+    name: {{ .Values.google.cloud_armor_policy }}
+  {{- end }}
+
+  {{- if .Values.google.use_iap }}
+  iap:
+    enabled: {{ .Values.google.use_iap }}
+    oauthclientCredentials:
+      secretName: oauth-credentials
+  {{- end }}
+
+  healthCheck:
+    checkIntervalSec: 30
+    timeoutSec: 5
+    healthyThreshold: 1
+    unhealthyThreshold: 2
+    type: HTTP
+    requestPath: /healthz
+    port: 8080
+
+{{- end -}}

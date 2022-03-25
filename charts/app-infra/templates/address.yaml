@@ -1,0 +1,13 @@
+{{- if .Values.create_ip }}
+
+apiVersion: compute.cnrm.cloud.google.com/v1beta1
+kind: ComputeAddress
+metadata:
+  name: {{ include "ip_name" $ }}-cc
+  annotations:
+    cnrm.cloud.google.com/project-id: {{ include "gke_project_id" . }}
+spec:
+  location: global
+  ipVersion: IPV4
+
+{{- end }}

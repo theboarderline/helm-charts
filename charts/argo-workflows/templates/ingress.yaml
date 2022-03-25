@@ -1,0 +1,28 @@
+{{- if .Values.ingress -}}
+
+apiVersion: networking.gke.io/v1beta2
+kind: ManagedCertificate
+metadata:
+  name: argo-workflows-cert
+spec:
+  domains:
+    - {{ include "domain" . }}
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argo-workflows-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: argo-workflows-ip
+    networking.gke.io/managed-certificates: argo-workflows-cert
+    networking.gke.io/v1beta1.FrontendConfig: argo-workflows-frontendconfig
+spec:
+  defaultBackend:
+    service:
+      name: argo-workflows-svc
+      port:
+        number: 443
+
+{{- end -}}

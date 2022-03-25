@@ -1,0 +1,18 @@
+{{- if .Values.create_dns }}
+
+apiVersion: dns.cnrm.cloud.google.com/v1beta1
+kind: DNSRecordSet
+metadata:
+  name: {{ include "lifecycle" $ -}}-dns-record
+  annotations:
+    cnrm.cloud.google.com/project-id: {{ include "app_project_id" . }}
+spec:
+  name: "{{- include "domain" . -}}."
+  type: "A"
+  ttl: 8600
+  managedZoneRef:
+    external: {{ .Values.app_code -}}-dns-zone
+  rrdatas:
+  - {{ required "REQUIRED: google.ip_address" .Values.google.ip_address }}
+
+{{- end }}

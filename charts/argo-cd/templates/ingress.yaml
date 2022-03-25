@@ -1,0 +1,28 @@
+{{- if .Values.ingress -}}
+
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: argocd-cert
+spec:
+  domains:
+    - {{ include "domain" . }}
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: argocd-ip
+    networking.gke.io/managed-certificates: argocd-cert
+    networking.gke.io/v1beta1.FrontendConfig: argocd-frontendconfig
+spec:
+  defaultBackend:
+    service:
+      name: argocd-svc
+      port:
+        number: 443
+
+{{- end -}}

@@ -1,0 +1,15 @@
+
+google:
+  artifact_repo: image-repo
+  region: us-central1
+  zone: us-central1-a
+  ip_address: "34.98.67.242"
+
+
+artifact_registry: true
+cloudbuild: true
+create_ip: true
+create_dns: true
+storage: true
+  
+
