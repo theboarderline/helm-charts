@@ -2025,6 +2025,16 @@ entries:
   tenant-rbac:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-03-25T05:38:40.388576211Z"
+    description: Used to managed rbac for tenants in a shared GKE cluster
+    digest: 058eafbe37aa004891c92825533f5bbb48b0377dd2093a899a526c5cb3e453ee
+    name: tenant-rbac
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/tenant-rbac-0.0.5/tenant-rbac-0.0.5.tgz
+    version: 0.0.5
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-03-10T08:12:53.769586181Z"
     description: Used to managed rbac for tenants in a shared GKE cluster
     digest: 72832710af4b00cb539917e7e176bb14ed52d740c2612b3c3e0853c324a76612
