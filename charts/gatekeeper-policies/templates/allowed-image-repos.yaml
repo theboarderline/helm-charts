@@ -19,6 +19,7 @@ spec:
   parameters:
     repos:
     - us-central1-docker.pkg.dev/{{- $app.name -}}-app-project/{{- . }}
+    - us-central1-docker.pkg.dev/{{- $app.name -}}-app-project/{{- . -}}-images
 
 ---
 
