@@ -13,7 +13,11 @@
 
 
 {{- define "registry_name" -}}
-  {{- required "REQUIRED: lifecycle" .Values.lifecycle }}-{{- required "REQUIRED: google.registry" .Values.google.registry }}
+  {{- if eq (.Values.google.registry) (.Values.lifecycle) }}
+    {{- .Values.google.registry }}
+  {{- else }}
+    {{- required "REQUIRED: lifecycle" .Values.lifecycle }}-{{- required "REQUIRED: google.registry" .Values.google.registry }}
+  {{- end -}}
 {{- end -}}
 
 
