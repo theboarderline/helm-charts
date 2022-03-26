@@ -1,0 +1,59 @@
+
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPartialPolicy
+metadata:
+  name: {{ include "lifecycle" $ -}}-{{- .Values.app_code -}}-iam-policy
+spec:
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: Project
+    external: {{ .Values.app_code -}}-app-project
+  bindings:
+    - role: roles/artifactregistry.admin
+      members:
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-infra-admin@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+
+    - role: roles/cloudbuild.builds.editor
+      members:
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-infra-admin@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+
+    - role: roles/dns.admin
+      members:
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-infra-admin@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+
+    - role: roles/iam.serviceAccountUser
+      members:
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-infra-admin@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+
+    - role: roles/storage.admin
+      members:
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-infra-admin@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+
+    - role: roles/storage.objectAdmin
+      members:
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-app-cicd@{{- .Values.app_code -}}-app-project.iam.gserviceaccount.com
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-app-workload@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+
+    - role: roles/logging.logWriter
+      members:
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-app-cicd@{{- .Values.app_code -}}-app-project.iam.gserviceaccount.com
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-app-workload@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+
+    - role: roles/errorreporting.writer
+      members:
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-app-workload@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+
+    - role: roles/monitoring.metricWriter
+      members:
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-app-workload@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+
+    - role: roles/artifactregistry.writer
+      members:
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-app-cicd@{{- .Values.app_code -}}-app-project.iam.gserviceaccount.com
+
+    {{- if .Values.external_secrets }}
+    - role: roles/secretmanager.secretAccessor
+      members:
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-external-secrets@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+    {{- end }}
+

@@ -1,0 +1,40 @@
+
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPartialPolicy
+metadata:
+  name: {{ include "lifecycle" $ -}}-{{- .Values.app_code -}}-gke-partial-policy
+spec:
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: Project
+    external: {{ include "gke_project_id" $ }}
+  bindings:
+    - role: roles/compute.publicIpAdmin
+      members:
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-infra-admin@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+    - role: roles/monitoring.admin
+      members:
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-infra-admin@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+    - role: roles/container.viewer
+      members:
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-app-cicd@{{- .Values.app_code -}}-app-project.iam.gserviceaccount.com
+
+---
+
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPartialPolicy
+metadata:
+  name: {{ include "lifecycle" $ -}}-{{- .Values.app_code -}}-db-partial-policy
+spec:
+  resourceRef:
+    apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+    kind: Project
+    external: {{ include "db_project_id" $ }}
+  bindings:
+    - role: roles/cloudsql.client
+      members:
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-app-workload@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+    - role: roles/cloudsql.instanceUser
+      members:
+        - member: serviceAccount:{{- include "lifecycle" $ -}}-{{- .Values.app_code -}}-infra-admin@{{- include "sa_project_id" $ -}}.iam.gserviceaccount.com
+
