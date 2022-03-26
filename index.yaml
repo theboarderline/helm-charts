@@ -11,6 +11,17 @@ entries:
     urls:
     - https://github.com/theboarderline/helm-charts/releases/download/app-chart-0.0.3/app-chart-0.0.3.tgz
     version: 0.0.3
+  app-iam:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-03-26T00:13:37.949817616Z"
+    description: Deploys app level service accounts and workload identity bindings
+    digest: eb6f66a54c16921be30ace087da2882d78b6ca9d2ed6940fb551fdd787829ecf
+    name: app-iam
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/app-iam-0.0.2/app-iam-0.0.2.tgz
+    version: 0.0.2
   argo-cd:
   - apiVersion: v2
     created: "2021-11-22T06:13:24.675567539Z"
