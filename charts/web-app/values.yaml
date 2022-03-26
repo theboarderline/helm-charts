@@ -57,6 +57,9 @@ oauth:
   twitter:
     enabled: false
 
+external_dns:
+  enabled: false
+
 external_secrets:
   enabled: false
 
