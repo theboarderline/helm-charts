@@ -258,6 +258,7 @@ spec:
             secretKeyRef:
               name: app-secrets
               key: twilio-auth-token
+
         - name: TWILIO_ACCOUNT_SID
           valueFrom:
             secretKeyRef:
@@ -270,13 +271,16 @@ spec:
         {{- if eq .Values.app_code "coleman" }}
         - name: TWILIO_NUMBER_IL
           value: '{{ required "IL Phone number required for CGS" .Values.twilio.numbers.il }}'
+
         - name: TWILIO_NUMBER_WA
           value: '{{ required "WA Phone number required for CGS" .Values.twilio.numbers.wa }}'
+
         - name: TWILIO_NUMBER_SID_IL
           valueFrom:
             secretKeyRef:
               name: app-secrets
               key: twilio-number-sid-il
+
         - name: TWILIO_NUMBER_SID_WA
           valueFrom:
             secretKeyRef:
@@ -285,6 +289,7 @@ spec:
         {{- else }}
         - name: TWILIO_NUMBER
           value: '{{ required "REQUIRED: twilio.number" .Values.twilio.number }}'
+
         - name: TWILIO_NUMBER_SID
           valueFrom:
             secretKeyRef:
@@ -297,6 +302,7 @@ spec:
             secretKeyRef:
               name: app-secrets
               key: twilio-flex-workspace-id
+
         - name: FLEX_WORKFLOW_SID
           valueFrom:
             secretKeyRef:
