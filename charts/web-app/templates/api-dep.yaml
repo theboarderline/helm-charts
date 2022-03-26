@@ -303,6 +303,7 @@ spec:
               name: app-secrets
               key: twilio-flex-workflow-sid
         {{- end }}
+        {{- end }}
 
         {{- if eq .Values.app_code "boatload" }}
         - name: BASE_ID
