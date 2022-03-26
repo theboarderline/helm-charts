@@ -91,6 +91,8 @@ db:
 
 twilio:
   enabled: false
+  flex:
+    enabled: false
 
 firebase:
   enabled: false

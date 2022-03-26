@@ -290,6 +290,18 @@ spec:
             secretKeyRef:
               name: app-secrets
         {{- end }}
+
+        {{- if .Values.twilio.flex.enabled }}
+        - name: FLEX_WORKSPACE_ID
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: twilio-flex-workspace-id
+        - name: FLEX_WORKFLOW_SID
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: twilio-flex-workflow-sid
         {{- end }}
 
         {{- if eq .Values.app_code "boatload" }}
