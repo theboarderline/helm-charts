@@ -169,7 +169,7 @@ spec:
 
         {{- end }}
 
-        {{- if .Values.oauth.google.enabled }}
+        {{ if .Values.oauth.google.enabled }}
         - name: GOOGLE_OAUTH_ID
           valueFrom:
             secretKeyRef:
@@ -181,7 +181,7 @@ spec:
             secretKeyRef:
               name: app-secrets
               key: google-oauth-secret
-        {{- end }}
+        {{ end }}
 
         {{- if .Values.oauth.github.enabled }}
         - name: GITHUB_OAUTH_ID
