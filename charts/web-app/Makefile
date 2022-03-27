@@ -3,4 +3,4 @@
 all: test
 
 test:
-	helm template test . --set web-app.db_project_id=db-project --set web-app.app_code=test
+	helm template test . --set lifecycle=dev --set db_project_id=db-project --set app_code=test
