@@ -32,12 +32,12 @@
 
 
 {{- define "api_image" -}}
-  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/{{- required "REQUIRED: lifecycle" .Values.lifecycle -}}/api:{{- .Values.api.tag }}
+  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/api:{{- .Values.api.tag }}
 {{- end -}}
 
 
 {{- define "nginx_image" -}}
-  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/{{- required "REQUIRED: lifecycle" .Values.lifecycle -}}/nginx:{{- .Values.nginx.tag }}
+  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/nginx:{{- .Values.nginx.tag }}
 {{- end -}}
 
 
