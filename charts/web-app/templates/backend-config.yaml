@@ -8,14 +8,14 @@ spec:
   securityPolicy:
     name: {{ .Values.security_policy }}
 
-  {{- if .Values.google.iap }}
+  {{- if or (.Values.google.iap.enabled) (.Values.google.iap.test.enabled) }}
   iap:
-    enabled: {{ .Values.google.enable_iap }}
+    enabled: {{ .Values.google.iap.enabled }}
     oauthClientCredentials:
       secretName: oauth-credentials
   {{- end }}
 
-  {{- if and (ne .Values.lifecycle "ops") (ne .Values.lifecycle "dev") }}
+  {{- if or (eq .Values.lifecycle "stage") (eq .Values.lifecycle "prod") }}
   cdn:
     enabled: true
     cachePolicy:

@@ -254,11 +254,11 @@ spec:
         {{- end }}
 
         {{- if .Values.twilio.enabled }}
-        - name: TWILIO_AUTH_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: app-secrets
-              key: twilio-auth-token
+        - name: TWILIO_NUMBER
+          value: '{{ required "REQUIRED: twilio.number" .Values.twilio.number }}'
+
+        - name: TWILIO_REPLY_NUMBER
+          value: '{{ required "REQUIRED: twilio.reply_number" .Values.twilio.reply_number }}'
 
         - name: TWILIO_ACCOUNT_SID
           valueFrom:
@@ -266,36 +266,11 @@ spec:
               name: app-secrets
               key: twilio-account-sid
 
-        - name: TWILIO_REPLY_NUMBER
-          value: '{{ required "REQUIRED: twilio.reply_number" .Values.twilio.reply_number }}'
-
-        {{- if eq .Values.app_code "coleman" }}
-        - name: TWILIO_NUMBER_IL
-          value: '{{ required "IL Phone number required for CGS" .Values.twilio.numbers.il }}'
-
-        - name: TWILIO_NUMBER_WA
-          value: '{{ required "WA Phone number required for CGS" .Values.twilio.numbers.wa }}'
-
-        - name: TWILIO_NUMBER_SID_IL
+        - name: TWILIO_AUTH_TOKEN
           valueFrom:
             secretKeyRef:
               name: app-secrets
-              key: twilio-number-sid-il
-
-        - name: TWILIO_NUMBER_SID_WA
-          valueFrom:
-            secretKeyRef:
-              name: app-secrets
-              key: twilio-number-sid-wa
-        {{- else }}
-        - name: TWILIO_NUMBER
-          value: '{{ required "REQUIRED: twilio.number" .Values.twilio.number }}'
-
-        - name: TWILIO_NUMBER_SID
-          valueFrom:
-            secretKeyRef:
-              name: app-secrets
-        {{- end }}
+              key: twilio-auth-token
 
         {{- if .Values.twilio.flex.enabled }}
         - name: FLEX_WORKSPACE_ID
@@ -310,6 +285,7 @@ spec:
               name: app-secrets
               key: twilio-flex-workflow-sid
         {{- end }}
+
         {{- end }}
 
         {{- if eq .Values.app_code "boatload" }}
