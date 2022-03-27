@@ -93,7 +93,7 @@ spec:
         {{- end }}
 
         {{- if .Values.django.enabled }}
-        {{- if or (!.Values.api.use_pd) (!.Values.api.mount_pd) }}
+        {{- if or (not .Values.api.use_pd) (not .Values.api.mount_pd) }}
         command: ["/bin/sh"]
         args: ["-c", "./bin/init_db.sh && gunicorn -b 0.0.0.0:8000 {{ .Values.api.label -}}.wsgi"]
         {{- end }}
