@@ -75,15 +75,13 @@ spec:
             cpu: {{ required "REQUIRED: api.cpu.limit" .Values.api.cpu.limit }}
 
         volumeMounts:
+          - mountPath: /backend/secrets
+            name: app-secrets
           - mountPath: /backend/var
         {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
             name: gce-volume
         {{- else }}
             name: sqlite-dir
-        {{- end }}
-        {{- if .Values.oauth.google.sheets.enabled }}
-          - mountPath: {{ required "REQUIRED: oauth.google.sheets.path" .Values.oauth.google.sheets.path }}
-            name: app-secrets
         {{- end }}
 
         {{- if ne .Values.app_code "boatload" }}
@@ -195,7 +193,7 @@ spec:
 
         {{- if .Values.oauth.google.sheets.enabled }}
         - name: OAUTH_JSON_PATH
-          value: {{ required "REQUIRED: oauth.google.sheets.path" .Values.oauth.google.sheets.path }}/google-oauth-creds
+          value: /backend/secrets/google-oauth-creds
         {{- end }}
 
         {{- if .Values.oauth.github.enabled }}
