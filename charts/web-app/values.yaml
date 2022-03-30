@@ -51,6 +51,8 @@ ssl_policy: tls-12
 oauth:
   google:
     enabled: false
+    sheets:
+      enabled: false
 
   github:
     enabled: false

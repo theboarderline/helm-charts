@@ -44,6 +44,13 @@ spec:
             claimName: gce-pvc
       {{- end }}
 
+      {{- if .Values.oauth.google.sheets.enabled }}
+        - name: google-oauth-creds
+          secretKeyRef:
+            name: app-secrets
+            key: google-oauth-creds
+      {{- end }}
+
       serviceAccountName: {{ include "ksa_name" . }}
       restartPolicy: Always
       containers:
@@ -74,6 +81,10 @@ spec:
             name: gce-volume
         {{- else }}
             name: sqlite-dir
+        {{- end }}
+        {{- if .Values.oauth.google.sheets.enabled }}
+          - mountPath: {{ required "REQUIRED: oauth.google.sheets.path" .Values.oauth.google.sheets.path }}
+            name: google-oauth-creds
         {{- end }}
 
         {{- if ne .Values.app_code "boatload" }}
@@ -181,6 +192,11 @@ spec:
             secretKeyRef:
               name: app-secrets
               key: google-oauth-secret
+        {{ end }}
+
+        {{ if .Values.oauth.google.sheets.enabled }}
+        - name: GOOGLE_OAUTH_JSON_TOKEN_PATH
+          value: {{ required "REQUIRED: oauth.google.sheets.path" .Values.oauth.google.sheets.path }}
         {{ end }}
 
         {{- if .Values.oauth.github.enabled }}
