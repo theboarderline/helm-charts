@@ -45,10 +45,9 @@ spec:
       {{- end }}
 
       {{- if .Values.oauth.google.sheets.enabled }}
-        - name: google-oauth-creds
-          secretKeyRef:
-            name: app-secrets
-            key: google-oauth-creds
+        - name: app-secrets
+          secret:
+            secretName: app-secrets
       {{- end }}
 
       serviceAccountName: {{ include "ksa_name" . }}
@@ -84,7 +83,7 @@ spec:
         {{- end }}
         {{- if .Values.oauth.google.sheets.enabled }}
           - mountPath: {{ required "REQUIRED: oauth.google.sheets.path" .Values.oauth.google.sheets.path }}
-            name: google-oauth-creds
+            name: app-secrets
         {{- end }}
 
         {{- if ne .Values.app_code "boatload" }}
