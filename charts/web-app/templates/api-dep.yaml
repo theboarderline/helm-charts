@@ -36,18 +36,15 @@ spec:
           - 150
 
       volumes:
+        - name: app-secrets
+          secret:
+            secretName: app-secrets
         - name: sqlite-dir
           emptyDir: {}
       {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
         - name: gce-volume
           persistentVolumeClaim:
             claimName: gce-pvc
-      {{- end }}
-
-      {{- if .Values.oauth.google.sheets.enabled }}
-        - name: app-secrets
-          secret:
-            secretName: app-secrets
       {{- end }}
 
       serviceAccountName: {{ include "ksa_name" . }}
