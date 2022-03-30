@@ -53,6 +53,7 @@ oauth:
     enabled: false
     sheets:
       enabled: false
+      path: /backend/secrets
 
   github:
     enabled: false

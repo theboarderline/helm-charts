@@ -196,7 +196,7 @@ spec:
 
         {{- if .Values.oauth.google.sheets.enabled }}
         - name: OAUTH_JSON_PATH
-          value: {{ required "REQUIRED: oauth.google.sheets.path" .Values.oauth.google.sheets.path }}
+          value: {{ required "REQUIRED: oauth.google.sheets.path" .Values.oauth.google.sheets.path }}/google-oauth-creds
         {{- end }}
 
         {{- if .Values.oauth.github.enabled }}
