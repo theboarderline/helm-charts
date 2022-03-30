@@ -194,10 +194,10 @@ spec:
               key: google-oauth-secret
         {{ end }}
 
-        {{ if .Values.oauth.google.sheets.enabled }}
-        - name: GOOGLE_OAUTH_JSON_TOKEN_PATH
+        {{- if .Values.oauth.google.sheets.enabled }}
+        - name: OAUTH_JSON_PATH
           value: {{ required "REQUIRED: oauth.google.sheets.path" .Values.oauth.google.sheets.path }}
-        {{ end }}
+        {{- end }}
 
         {{- if .Values.oauth.github.enabled }}
         - name: GITHUB_OAUTH_ID
