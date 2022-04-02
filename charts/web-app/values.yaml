@@ -11,21 +11,22 @@ api:
 
   memory:
     request: 64Mi
-    limit: 1Gi
+    limit: 256Mi
   cpu:
-    request: .2
+    request: .25
     limit: 1
+
   replicas: 1
   max_replicas: 5
   target_cpu: 80
-  target_mem: 512Mi
+  target_mem: 128Mi
 
 nginx:
   enabled: true
   tag: latest
   memory:
-    request: "5Mi"
-    limit: "50Mi"
+    request: 5Mi
+    limit: 50Mi
   cpu:
     request: .1
     limit: .5
