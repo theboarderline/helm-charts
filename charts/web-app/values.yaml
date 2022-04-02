@@ -37,6 +37,7 @@ nginx:
 google:
   region: us-central1
   zone: us-central1-a
+  registry: ""
   # registry: app-images
   iap:
     enabled: false
