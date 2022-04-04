@@ -13,7 +13,7 @@ api:
     request: 64Mi
     limit: 256Mi
   cpu:
-    request: .25
+    request: .1
     limit: 1
 
   replicas: 1
@@ -28,7 +28,7 @@ nginx:
     request: 5Mi
     limit: 50Mi
   cpu:
-    request: .1
+    request: .05
     limit: .5
   replicas: 1
   max_replicas: 3
