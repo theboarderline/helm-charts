@@ -58,7 +58,7 @@ spec:
           allowPrivilegeEscalation: false
           privileged: false
           procMount: default
-          readOnlyRootFilesystem: false
+          readOnlyRootFilesystem: true
           runAsNonRoot: true
           seccompProfile:
             type: RuntimeDefault
