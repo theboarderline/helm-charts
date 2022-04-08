@@ -16,4 +16,4 @@ spec:
     - hostPath
     - persistentVolumeClaim
     - projected
-    - secrets
+    - secret
