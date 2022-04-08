@@ -13,7 +13,6 @@ spec:
     - downwardAPI
     - emptyDir
     - flexVolume
-    - hostPath
     - persistentVolumeClaim
     - projected
     - secret
