@@ -1,0 +1,21 @@
+{{- if and (.Values.enabled) (not .Values.local) }}
+{{- if and (.Values.ingress.mci) (.Values.ingress.primary) }}
+
+apiVersion: networking.gke.io/v1
+kind: MultiClusterIngress
+metadata:
+  name: ingress-mci
+  # annotations:
+  #   kubernetes.io/ingress.global-static-ip-name: {{ include "ip_name" . }}
+  #   networking.gke.io/managed-certificates: google-cert
+  #   networking.gke.io/v1beta1.FrontendConfig: gke-frontendconfig
+spec:
+  template:
+    spec:
+      backend:
+        serviceName: nginx-mcs
+        servicePort: 443
+
+{{- end }}
+{{- end }}
+

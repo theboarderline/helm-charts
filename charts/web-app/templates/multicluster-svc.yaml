@@ -1,0 +1,31 @@
+{{- if and (.Values.enabled) (not .Values.local) }}
+{{- if and (.Values.ingress.mci) (.Values.ingress.primary) }}
+
+apiVersion: networking.gke.io/v1
+kind: MultiClusterService
+metadata:
+  name: nginx-mcs
+  labels:
+    app: nginx-mcs
+    tier: frontend
+spec:
+  template:
+    labels:
+      app: nginx-mcs-svc
+      tier: frontend
+    metadata:
+      annotations:
+        cloud.google.com/backend-config: '{"default": "gke-backendconfig"}'
+    spec:
+      selector:
+        app: nginx-dep
+      ports:
+      - name: http
+        protocol: TCP
+        port: 443
+        targetPort: 80
+
+
+{{- end }}
+{{- end }}
+

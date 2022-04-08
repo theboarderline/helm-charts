@@ -76,8 +76,10 @@ nginx_ingress:
   enabled: false
 
 ingress:
+  mci: false
   http: false
   https: true
+  cert: true
 
 network_policy:
   enabled: false
