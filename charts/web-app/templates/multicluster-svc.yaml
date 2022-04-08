@@ -24,7 +24,9 @@ spec:
         protocol: TCP
         port: 443
         targetPort: 80
-
+  clusters:
+  - link: us-central1/central-cluster
+  - link: us-east4/east-cluster
 
 {{- end }}
 {{- end }}
