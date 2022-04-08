@@ -1852,6 +1852,16 @@ entries:
   gatekeeper-policies:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-04-08T23:35:41.780873347Z"
+    description: Gatekeeper policies
+    digest: f7b07a4cd6d60b652f7791a0ed23a2401d172a3c0343dfb25f6c4b78bec6e43f
+    name: gatekeeper-policies
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/gatekeeper-policies-0.0.6/gatekeeper-policies-0.0.6.tgz
+    version: 0.0.6
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-03-25T05:24:14.706419654Z"
     description: Gatekeeper policies
     digest: 80d233e4191b0950385caec871bcf88279c1674a38fedbc7a3a7ba8ea6cf5fbd
