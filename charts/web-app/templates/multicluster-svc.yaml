@@ -11,9 +11,6 @@ metadata:
     tier: frontend
 spec:
   template:
-    labels:
-      app: nginx-mcs-svc
-      tier: frontend
     metadata:
       annotations:
         cloud.google.com/backend-config: '{"default": "gke-backendconfig"}'
