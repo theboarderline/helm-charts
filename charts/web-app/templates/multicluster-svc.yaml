@@ -23,7 +23,9 @@ spec:
         targetPort: 80
   clusters:
   - link: us-central1/central-cluster
+  {{- if .Values.ingress.failover }}
   - link: us-east4/east-cluster
+  {{- end }}
 
 {{- end }}
 {{- end }}
