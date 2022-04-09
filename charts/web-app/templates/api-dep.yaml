@@ -37,16 +37,24 @@ spec:
           - 150
 
       volumes:
+        - name: backend-dir
+          emptyDir: {}
+        - name: tmp-dir
+          emptyDir: {}
+        - name: usr-tmp-dir
+          emptyDir: {}
+        - name: var-tmp-dir
+          emptyDir: {}
+        {{- if or (.Values.secrets.enabled) (.Values.external_secrets.enabled) }}
         - name: app-secrets
           secret:
             secretName: app-secrets
-        - name: sqlite-dir
-          emptyDir: {}
-      {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
+        {{- end }}
+        {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
         - name: gce-volume
           persistentVolumeClaim:
             claimName: gce-pvc
-      {{- end }}
+        {{- end }}
 
       serviceAccountName: {{ include "ksa_name" . }}
       restartPolicy: Always
@@ -77,12 +85,14 @@ spec:
           - mountPath: /backend/secrets
             name: app-secrets
         {{- end }}
-          - mountPath: /backend/var
-        {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
-            name: gce-volume
-        {{- else }}
-            name: sqlite-dir
-        {{- end }}
+          - mountPath: /backend
+            name: backend-dir
+          - mountPath: /tmp
+            name: tmp-dir
+          - mountPath: /usr/tmp
+            name: usr-tmp-dir
+          - mountPath: /var/tmp
+            name: var-tmp-dir
 
         {{- if ne .Values.app_code "boatload" }}
         livenessProbe:
