@@ -73,8 +73,10 @@ spec:
             cpu: {{ required "REQUIRED: api.cpu.limit" .Values.api.cpu.limit }}
 
         volumeMounts:
+        {{- if or (.Values.secrets.enabled) (.Values.external_secrets.enabled) }}
           - mountPath: /backend/secrets
             name: app-secrets
+        {{- end }}
           - mountPath: /backend/var
         {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
             name: gce-volume
