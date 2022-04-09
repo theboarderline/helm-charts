@@ -154,17 +154,21 @@ spec:
         {{- end }}
 
         - name: DJANGO_KEY
+          {{- if or (.Values.secrets.enabled) (.Values.external_secrets.enabled) }}
           valueFrom:
             secretKeyRef:
               name: app-secrets
               key: django-key
+          {{- else }}
+          value: fake-key
+          {{- end }}
 
         {{- if .Values.django.oauth_id }}
         - name: OAUTH_ID
           value: {{ .Values.django.oauth_id }}
 
         - name: OAUTH_SECRET
-          {{- if .Values.secrets.enabled }}
+          {{- if or (.Values.secrets.enabled) (.Values.external_secrets.enabled) }}
           valueFrom:
             secretKeyRef:
               name: app-secrets
