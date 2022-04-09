@@ -37,7 +37,7 @@ spec:
           - 150
 
       volumes:
-        - name: backend-dir
+        - name: db-dir
           emptyDir: {}
         - name: tmp-dir
           emptyDir: {}
@@ -85,8 +85,8 @@ spec:
           - mountPath: /backend/secrets
             name: app-secrets
         {{- end }}
-          - mountPath: /backend
-            name: backend-dir
+          - mountPath: /backend/var
+            name: db-dir
           - mountPath: /tmp
             name: tmp-dir
           - mountPath: /usr/tmp
