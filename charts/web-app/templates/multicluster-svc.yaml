@@ -5,6 +5,7 @@ apiVersion: networking.gke.io/v1
 kind: MultiClusterService
 metadata:
   name: nginx-mcs
+  namespace: {{ .Release.Namespace }}
   labels:
     app: nginx-mcs
     tier: frontend

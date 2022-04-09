@@ -5,6 +5,7 @@ apiVersion: "cilium.io/v2"
 kind: CiliumNetworkPolicy
 metadata:
   name: network-policy
+  namespace: {{ .Release.Namespace }}
 spec:
   endpointSelector: {}
 

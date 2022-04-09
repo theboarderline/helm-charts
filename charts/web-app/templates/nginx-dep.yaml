@@ -3,10 +3,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: nginx-dep
+  namespace: {{ .Release.Namespace }}
   labels:
     app: nginx-dep
     tier: frontend
-  name: nginx-dep
 spec:
   replicas: {{ required "REQUIRED: nginx.replicas" .Values.nginx.replicas }}
   strategy:

@@ -5,6 +5,7 @@ apiVersion: networking.gke.io/v1
 kind: MultiClusterIngress
 metadata:
   name: ingress-mci
+  namespace: {{ .Release.Namespace }}
   # annotations:
   #   kubernetes.io/ingress.global-static-ip-name: {{ include "ip_name" . }}
   #   networking.gke.io/managed-certificates: google-cert

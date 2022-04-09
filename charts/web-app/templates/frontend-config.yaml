@@ -4,6 +4,7 @@ apiVersion: networking.gke.io/v1beta1
 kind: FrontendConfig
 metadata:
   name: gke-frontendconfig
+  namespace: {{ .Release.Namespace }}
 spec:
   sslPolicy: {{ .Values.ssl_policy }}
   redirectToHttps:

@@ -4,6 +4,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-dep
+  namespace: {{ .Release.Namespace }}
   labels:
     app: api-dep
     tier: backend

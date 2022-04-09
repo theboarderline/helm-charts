@@ -4,6 +4,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: gce-pvc
+  namespace: {{ .Release.Namespace }}
 spec:
   accessModes:
     - ReadWriteOnce

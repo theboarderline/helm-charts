@@ -4,6 +4,7 @@ apiVersion: cloud.google.com/v1
 kind: BackendConfig
 metadata:
   name: gke-backendconfig
+  namespace: {{ .Release.Namespace }}
 spec:
   securityPolicy:
     name: {{ .Values.security_policy }}
