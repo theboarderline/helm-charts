@@ -6,14 +6,14 @@ kind: MultiClusterService
 metadata:
   name: nginx-mcs
   namespace: {{ .Release.Namespace }}
+  metadata:
+    annotations:
+      cloud.google.com/backend-config: '{"default": "gke-backendconfig"}'
   labels:
     app: nginx-mcs
     tier: frontend
 spec:
   template:
-    metadata:
-      annotations:
-        cloud.google.com/backend-config: '{"default": "gke-backendconfig"}'
     spec:
       selector:
         app: nginx-dep
