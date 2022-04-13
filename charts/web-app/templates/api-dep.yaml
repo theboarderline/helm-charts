@@ -37,23 +37,25 @@ spec:
           - 150
 
       volumes:
-        - name: db-dir
-          emptyDir: {}
         - name: tmp-dir
           emptyDir: {}
         - name: usr-tmp-dir
           emptyDir: {}
         - name: var-tmp-dir
           emptyDir: {}
+
         {{- if or (.Values.secrets.enabled) (.Values.external_secrets.enabled) }}
         - name: app-secrets
           secret:
             secretName: app-secrets
         {{- end }}
+
+        - name: db-volume
         {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
-        - name: gce-volume
           persistentVolumeClaim:
             claimName: gce-pvc
+        {{- else }}
+          emptyDir: {}
         {{- end }}
 
       serviceAccountName: {{ include "ksa_name" . }}
@@ -86,7 +88,7 @@ spec:
             name: app-secrets
         {{- end }}
           - mountPath: /backend/var
-            name: db-dir
+            name: db-volume
           - mountPath: /tmp
             name: tmp-dir
           - mountPath: /usr/tmp
