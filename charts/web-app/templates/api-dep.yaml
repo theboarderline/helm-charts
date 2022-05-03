@@ -121,17 +121,21 @@ spec:
 
         env:
         - name: LIFECYCLE
-          value: {{ .Values.lifecycle }}
+          value: {{ $.Values.lifecycle }}
         - name: IS_LOCAL
           value: "false"
         - name: USE_GCS
           value: "true"
         - name: DOMAIN
-          value: {{ include "domain" . }}
+          value: {{ include "domain" $ }}
         - name: STATIC_BUCKET
-          value: {{ include "bucket" . }}
+          value: {{ include "bucket" $ }}
         - name: PRIVATE_BUCKET
-          value: {{ include "private_bucket" . }}
+          value: {{ include "private_bucket" $ }}
+        - name: INGEST_BUCKET
+          value: {{ include "ingest_bucket" $ }}
+        - name: CLEAN_DATA_BUCKET
+          value: {{ include "clean_data_bucket" $ }}
 
         {{- if .Values.gin.enabled }}
         - name: GIN_MODE
