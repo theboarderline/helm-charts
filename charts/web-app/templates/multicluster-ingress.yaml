@@ -1,17 +1,18 @@
 {{- if and (.Values.enabled) (not .Values.local) }}
-{{- if and (.Values.ingress.mci) (.Values.ingress.primary) }}
+{{- if .Values.ingress.mci }}
 
 apiVersion: networking.gke.io/v1
 kind: MultiClusterIngress
 metadata:
   name: ingress-mci
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ $.Release.Namespace }}
   annotations:
-    networking.gke.io/static-ip: {{ include "ip_name" . }}
+    configsync.gke.io/cluster-name-selector: {{ include "primary_cluster" $ }}
+    networking.gke.io/static-ip: {{ include "ip_name" $ }}
     networking.gke.io/managed-certificates: google-cert
     networking.gke.io/frontend-config: gke-frontendconfig
-    {{- if .Values.external_dns.enabled }}
-    external-dns.alpha.kubernetes.io/hostname: {{ include "domain" . -}}.
+    {{- if $.Values.external_dns.enabled }}
+    external-dns.alpha.kubernetes.io/hostname: {{ include "domain" $ -}}.
     {{- end }}
 
 spec:

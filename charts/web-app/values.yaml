@@ -1,6 +1,8 @@
 enabled: true
 local: false
 
+primary_cluster: central-cluster
+
 api:
   enabled: true
   tag: latest

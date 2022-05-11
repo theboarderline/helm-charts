@@ -21,6 +21,11 @@
 {{- end -}}
 
 
+{{- define "primary_cluster" -}}
+  {{- required "REQUIRED: primary_cluster" .Values.primary_cluster }}
+{{- end -}}
+
+
 {{- define "db_project" -}}
   {{- required "REQUIRED: db_project_id" .Values.db_project_id }}
 {{- end -}}
