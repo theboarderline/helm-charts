@@ -19,10 +19,6 @@ metadata:
     cloud.google.com/neg: '{"ingress": true}'
     {{- end }}
 
-    {{- if .Values.external_dns.enabled }}
-    external-dns.alpha.kubernetes.io/hostname: {{ include "domain" . -}}.
-    {{- end }}
-
   {{- end }}
 spec:
   type: ClusterIP

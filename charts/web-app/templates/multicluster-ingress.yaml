@@ -6,10 +6,14 @@ kind: MultiClusterIngress
 metadata:
   name: ingress-mci
   namespace: {{ .Release.Namespace }}
-  # annotations:
-  #   kubernetes.io/ingress.global-static-ip-name: {{ include "ip_name" . }}
-  #   networking.gke.io/managed-certificates: google-cert
-  #   networking.gke.io/v1beta1.FrontendConfig: gke-frontendconfig
+  annotations:
+    networking.gke.io/static-ip: {{ include "ip_name" . }}
+    networking.gke.io/managed-certificates: google-cert
+    networking.gke.io/frontend-config: gke-frontendconfig
+    {{- if .Values.external_dns.enabled }}
+    external-dns.alpha.kubernetes.io/hostname: {{ include "domain" . -}}.
+    {{- end }}
+
 spec:
   template:
     spec:
