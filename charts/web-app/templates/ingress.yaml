@@ -8,6 +8,7 @@ metadata:
   name: ingress-tls
   namespace: {{ .Release.Namespace }}
   annotations:
+    configsync.gke.io/cluster-name-selector: {{ include "primary_cluster" $ }}
     kubernetes.io/ingress.global-static-ip-name: {{ include "ip_name" . }}
     networking.gke.io/managed-certificates: google-cert
     networking.gke.io/v1beta1.FrontendConfig: gke-frontendconfig
