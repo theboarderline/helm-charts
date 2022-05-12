@@ -8,7 +8,7 @@ metadata:
   namespace: {{ $.Release.Namespace }}
   annotations:
     configsync.gke.io/cluster-name-selector: {{ include "primary_cluster" $ }}
-    cloud.google.com/backend-config: '{"default": "gke-backendconfig"}'
+    # cloud.google.com/backend-config: '{"default": "gke-backendconfig"}'
   labels:
     app: nginx-mcs
     tier: frontend
