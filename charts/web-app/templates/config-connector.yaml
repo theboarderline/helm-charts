@@ -1,3 +1,4 @@
+{{- if .Values.ingress.create_ip }}
 
 apiVersion: core.cnrm.cloud.google.com/v1beta1
 kind: ConfigConnectorContext
@@ -6,3 +7,4 @@ metadata:
 spec:
   googleServiceAccount: {{ include "app_admin_sa" $ }}
 
+{{- end }}
