@@ -81,7 +81,6 @@ ingress:
   mci: false
   primary: false
   use_failover: false
-  http: false
   https: true
   cert: true
 
