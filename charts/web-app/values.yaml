@@ -97,7 +97,7 @@ cilium:
   enabled: false
 
 django:
-  enabled: false
+  enabled: true
   use_email: false
 
 gin:
