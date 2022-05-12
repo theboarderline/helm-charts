@@ -1,7 +1,7 @@
 enabled: true
 local: false
 
-primary_cluster: central-cluster
+primary_cluster: central-cluster-membership
 
 api:
   enabled: true
