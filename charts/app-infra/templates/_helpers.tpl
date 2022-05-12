@@ -34,12 +34,6 @@
 {{- end }}
 
 
-{{- define "ip_name" }}
-  {{- include "app_namespace" $ }}-ip
-{{- end }}
-
-
-
 {{- define "branch" -}}
   {{- if eq .Values.lifecycle "prod" }}
     {{- "main" }}

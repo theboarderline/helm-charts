@@ -3,4 +3,4 @@ name: app-infra
 description: A Helm chart for deploying an applications level GCP resources
 type: application
 appVersion: 0.0.1
-version: 0.0.1
+version: 0.0.2
