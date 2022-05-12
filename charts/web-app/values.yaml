@@ -2,6 +2,7 @@ enabled: true
 local: false
 
 primary_cluster: central-cluster-membership
+sa_project_id: tbl-svc-acct-project
 
 api:
   enabled: true

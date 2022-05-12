@@ -26,6 +26,11 @@
 {{- end -}}
 
 
+{{- define "sa_project_id" -}}
+  {{- required "REQUIRED: sa_project_id" .Values.sa_project_id }}
+{{- end -}}
+
+
 {{- define "db_project" -}}
   {{- required "REQUIRED: db_project_id" .Values.db_project_id }}
 {{- end -}}
@@ -57,6 +62,15 @@
   {{- else -}}
     {{- required "REQUIRED: app_code" .Values.app_code -}}-instance
   {{- end -}}
+{{- end -}}
+
+
+{{- define "app_admin_sa" -}}
+  {{- if $.Values.sa }}
+    {{- $.Values.app_sa }}
+  {{- else }}
+    {{- required "REQUIRED: app_code" .Values.app_code -}}-admin@{{- include "sa_project_id" . -}}.iam.gserviceaccount.com
+  {{- end }}
 {{- end -}}
 
 
