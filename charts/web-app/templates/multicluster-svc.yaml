@@ -1,11 +1,11 @@
 {{- if and (.Values.enabled) (not .Values.local) }}
-{{- if and .Values.ingress.mci }}
+{{- if .Values.ingress.mci }}
 
 apiVersion: networking.gke.io/v1
 kind: MultiClusterService
 metadata:
   name: nginx-mcs
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ $.Release.Namespace }}
   annotations:
     configsync.gke.io/cluster-name-selector: {{ include "primary_cluster" $ }}
     cloud.google.com/backend-config: '{"default": "gke-backendconfig"}'
@@ -24,9 +24,7 @@ spec:
         targetPort: 80
   clusters:
   - link: us-central1/central-cluster
-  {{- if .Values.ingress.use_failover }}
   - link: us-east4/east-cluster
-  {{- end }}
 
 {{- end }}
 {{- end }}

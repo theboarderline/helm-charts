@@ -79,8 +79,6 @@ nginx_ingress:
 
 ingress:
   mci: false
-  primary: false
-  use_failover: false
   https: true
   cert: true
 
