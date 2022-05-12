@@ -1,6 +1,7 @@
 {{- if and (.Values.enabled) (not .Values.local) }}
 
-{{- if .Values.ingress.cert }}
+{{- if or (.Values.ingress.enabled) (.Values.ingress.cert) }}
+{{- if .Values.ingress.https }}
 
 apiVersion: networking.gke.io/v1beta2
 kind: ManagedCertificate
@@ -13,6 +14,7 @@ spec:
   domains:
     - {{ include "domain" . }}
 
+{{- end }}
 {{- end }}
 
 {{- end }}

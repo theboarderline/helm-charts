@@ -74,13 +74,15 @@ external_dns:
 external_secrets:
   enabled: false
 
-nginx_ingress:
+cert_manager:
   enabled: false
 
 ingress:
-  mci: false
+  enabled: true
   https: true
-  cert: true
+  cert: false
+  mci: false
+  nginx: false
 
 network_policy:
   enabled: false

@@ -1,22 +1,57 @@
 {{- if and (.Values.enabled) (not .Values.local) }}
 
-{{- if .Values.ingress.https }}
+{{- if .Values.ingress.enabled }}
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-tls
+  name: app-ingress
   namespace: {{ .Release.Namespace }}
   annotations:
     configsync.gke.io/cluster-name-selector: {{ include "primary_cluster" $ }}
     kubernetes.io/ingress.global-static-ip-name: {{ include "ip_name" . }}
-    networking.gke.io/managed-certificates: google-cert
+
+    {{- if .Values.ingress.https }}
     networking.gke.io/v1beta1.FrontendConfig: gke-frontendconfig
+    {{- if .Values.cert_manager.enabled }}
+    cert-manager.io/cluster-issuer: "letsencrypt-nginx"
+    kubernetes.io/tls-acme: "true"
+    {{- else }}
+    networking.gke.io/managed-certificates: google-cert
+    {{- end }}
+    {{- if .Values.ingress.nginx }}
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    {{- end }}
+    {{- end }}
+
     {{- if .Values.external_dns.enabled }}
     external-dns.alpha.kubernetes.io/hostname: {{ include "domain" . -}}.
     {{- end }}
 
 spec:
+  {{- if and (.Values.ingress.https) (.Values.ingress.nginx) (.Values.cert_manager.enabled) }}
+  tls:
+  - hosts:
+    - {{ include "domain" $ }}
+    secretName: ingress-certs
+  {{- end }}
+
+  {{- if .Values.ingress.nginx }}
+  rules:
+  - host: {{ include "domain" $ }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: nginx-svc
+            port:
+              name: http
+        path: /
+        pathType: Prefix
+
+  {{- else }}
+
   defaultBackend:
     service:
       {{- if .Values.nginx.enabled }}
@@ -28,6 +63,7 @@ spec:
       port:
         number: 80
       {{- end }}
+  {{- end }}
 
 
 {{- end }}
