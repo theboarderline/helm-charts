@@ -1,6 +1,6 @@
 {{- if and (.Values.enabled) (not .Values.local) }}
 
-{{- if .Values.ingress.enabled }}
+{{- if and (.Values.ingress.enabled) (not .Values.ingress.mci) }}
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
