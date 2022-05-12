@@ -5,6 +5,8 @@ kind: FrontendConfig
 metadata:
   name: gke-frontendconfig
   namespace: {{ .Release.Namespace }}
+  annotations:
+    configsync.gke.io/cluster-name-selector: {{ include "primary_cluster" $ }}
 spec:
   sslPolicy: {{ .Values.ssl_policy }}
   redirectToHttps:
