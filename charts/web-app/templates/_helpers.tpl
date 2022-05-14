@@ -13,11 +13,7 @@
 
 
 {{- define "registry_name" -}}
-  {{- if eq (.Values.google.registry) ("app-images") }}
-    {{- required "REQUIRED: lifecycle" .Values.lifecycle }}-{{- .Values.google.registry }}
-  {{- else }}
-    {{- .Values.lifecycle }}
-  {{- end -}}
+  {{- required "REQUIRED: google.registry" .Values.google.registry }}
 {{- end -}}
 
 
