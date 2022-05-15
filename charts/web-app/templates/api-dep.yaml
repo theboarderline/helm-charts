@@ -130,8 +130,6 @@ spec:
           value: {{ include "domain" $ }}
         - name: STATIC_BUCKET
           value: {{ include "bucket" $ }}
-        - name: PRIVATE_BUCKET
-          value: {{ include "private_bucket" $ }}
         - name: INGEST_BUCKET
           value: {{ include "ingest_bucket" $ }}
         - name: CLEAN_DATA_BUCKET

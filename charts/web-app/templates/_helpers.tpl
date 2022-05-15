@@ -93,15 +93,6 @@
 {{- end -}}
 
 
-{{- define "private_bucket" -}}
-  {{- if $.Values.private_bucket }}
-    {{- $.Values.private_bucket }}
-  {{- else }}
-    {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-private
-  {{- end }}
-{{- end -}}
-
-
 {{- define "ingest_bucket" -}}
   {{- if $.Values.ingest_bucket }}
     {{- $.Values.ingest_bucket }}
