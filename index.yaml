@@ -2077,6 +2077,16 @@ entries:
   web-app:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-05-16T07:12:02.95433097Z"
+    description: A Helm chart for deploying web applications
+    digest: c4af59fc82f5c42ce942859ffa5a7d0984ef409c243db81856df856d34476e8c
+    name: web-app
+    type: application
+    urls:
+    - https://github.com/theboarderline/helm-charts/releases/download/web-app-0.2.16/web-app-0.2.16.tgz
+    version: 0.2.16
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-05-16T06:21:02.166377558Z"
     description: A Helm chart for deploying web applications
     digest: ad05f8f1ed52fabfe7b4805812f0b860dea57cd2b0d88567dd61b7d3164e2867
