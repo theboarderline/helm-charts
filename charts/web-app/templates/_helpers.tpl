@@ -13,13 +13,7 @@
 
 
 {{- define "registry_name" -}}
-  {{- if eq (.Values.google.registry) ("app-images") }}
-    {{- required "REQUIRED: lifecycle" .Values.lifecycle }}-{{- .Values.google.registry }}
-  {{- else if .Values.google.registry }}
-    {{- .Values.google.registry }}
-  {{- else }}
-    {{- .Values.lifecycle }}
-  {{- end -}}
+  {{- required "REQUIRED: lifecycle" .Values.lifecycle }}-{{- .Values.app_code -}}-v2-images
 {{- end -}}
 
 
@@ -95,15 +89,6 @@
     {{- $.Values.public_bucket }}
   {{- else }}
     {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-web-static
-  {{- end }}
-{{- end -}}
-
-
-{{- define "private_bucket" -}}
-  {{- if $.Values.private_bucket }}
-    {{- $.Values.private_bucket }}
-  {{- else }}
-    {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-private
   {{- end }}
 {{- end -}}
 
