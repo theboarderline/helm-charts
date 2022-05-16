@@ -112,11 +112,7 @@
 
 
 {{- define "ip_name" -}}
-  {{- if $.Values.ip_name }}
-    {{- $.Values.ip_name }}
-  {{- else }}
-    {{- $.Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-ip
-  {{- end }}
+  {{- required "REQUIRED: lifecycle" .Values.lifecycle }}-{{- .Values.app_code -}}-v2-ip
 {{- end -}}
 
 
