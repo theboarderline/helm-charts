@@ -85,29 +85,17 @@
 
 
 {{- define "bucket" -}}
-  {{- if $.Values.public_bucket }}
-    {{- $.Values.public_bucket }}
-  {{- else }}
-    {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-web-static
-  {{- end }}
+  {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-v2-web-static
 {{- end -}}
 
 
 {{- define "ingest_bucket" -}}
-  {{- if $.Values.ingest_bucket }}
-    {{- $.Values.ingest_bucket }}
-  {{- else }}
-    {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-ingest
-  {{- end }}
+  {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-v2-ingest
 {{- end -}}
 
 
 {{- define "clean_data_bucket" -}}
-  {{- if $.Values.clean_data_bucket }}
-    {{- $.Values.clean_data_bucket }}
-  {{- else }}
-    {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-cleaned-data
-  {{- end }}
+  {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-v2-cleaned-data
 {{- end -}}
 
 
