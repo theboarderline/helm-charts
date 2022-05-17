@@ -53,9 +53,11 @@ spec:
         - name: react-env
           mountPath: /var/www/env
           readOnly: true
+        {{- if .Values.api.enabled }}
         - name: api-redirects
           mountPath: /etc/nginx/conf.d
           readOnly: true
+        {{- end }}
 
         - name: log-dir
           mountPath: /var/log/nginx
@@ -125,12 +127,14 @@ spec:
             items:
             - key: env.js
               path: env.js
+        {{- if .Values.api.enabled }}
         - name: api-redirects
           configMap:
             name: api-config
             items:
             - key: api.conf
               path: api.conf
+        {{- end }}
         - name: log-dir
           emptyDir: {}
         - name: body-dir
