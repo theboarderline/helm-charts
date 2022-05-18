@@ -107,7 +107,7 @@ gin:
 
 db:
   proxy: false
-  proxy_version: gcr.io/cloudsql-docker/gce-proxy:1.21.0
+  proxy_version: gcr.io/cloudsql-docker/gce-proxy:1.30.1
 
 twilio:
   enabled: false
