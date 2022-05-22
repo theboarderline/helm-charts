@@ -1,3 +1,4 @@
+{{- if .Values.enabled }}
 {{- if .Values.network_policy.enabled }}
 
 apiVersion: networking.k8s.io/v1
@@ -39,4 +40,5 @@ spec:
       ports:
         - port: 443
 
+{{- end }}
 {{- end }}
