@@ -8,6 +8,7 @@ metadata:
   labels:
     app: api-dep
     tier: backend
+    backstage.io/kubernetes-id: {{ .Values.app_code }}
 spec:
   replicas: {{ required "REQUIRED: api.replicas" .Values.api.replicas }}
   {{- if or (not .Values.use_pd) (not .Values.mount_pd) }}

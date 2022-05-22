@@ -8,6 +8,8 @@ kind: ManagedCertificate
 metadata:
   name: google-cert
   namespace: {{ .Release.Namespace }}
+  labels:
+    backstage.io/kubernetes-id: {{ .Values.app_code }}
   annotations:
     configsync.gke.io/cluster-name-selector: {{ include "primary_cluster" $ }}
 spec:

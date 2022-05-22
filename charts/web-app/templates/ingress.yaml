@@ -7,6 +7,8 @@ kind: Ingress
 metadata:
   name: app-ingress
   namespace: {{ .Release.Namespace }}
+  labels:
+    backstage.io/kubernetes-id: {{ .Values.app_code }}
   annotations:
     configsync.gke.io/cluster-name-selector: {{ include "primary_cluster" $ }}
     kubernetes.io/ingress.global-static-ip-name: {{ include "ip_name" . }}

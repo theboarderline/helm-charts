@@ -8,6 +8,7 @@ metadata:
   labels:
     app: api-svc
     tier: backend
+    backstage.io/kubernetes-id: {{ .Values.app_code }}
   {{- if not .Values.local }}
   annotations:
     cloud.google.com/backend-config: '{"default": "gke-backendconfig"}'

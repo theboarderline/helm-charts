@@ -5,6 +5,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: gce-pvc
   namespace: {{ .Release.Namespace }}
+  labels:
+    backstage.io/kubernetes-id: {{ .values.app_code }}
 spec:
   accessModes:
     - ReadWriteOnce

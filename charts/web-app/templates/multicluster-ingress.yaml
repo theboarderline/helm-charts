@@ -7,6 +7,8 @@ kind: MultiClusterIngress
 metadata:
   name: ingress-mci
   namespace: {{ $.Release.Namespace }}
+  labels:
+    backstage.io/kubernetes-id: {{ .Values.app_code }}
   annotations:
     configsync.gke.io/cluster-name-selector: {{ include "primary_cluster" $ }}
     networking.gke.io/static-ip: {{ include "ip_name" $ }}
