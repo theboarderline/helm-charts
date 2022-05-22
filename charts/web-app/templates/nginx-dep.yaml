@@ -8,7 +8,7 @@ metadata:
   labels:
     app: nginx-dep
     tier: frontend
-    backstage.io/kubernetes-id: {{ .values.app_code }}
+    backstage.io/kubernetes-id: {{ .Values.app_code }}
 spec:
   replicas: {{ required "REQUIRED: nginx.replicas" .Values.nginx.replicas }}
   strategy:

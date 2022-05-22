@@ -6,6 +6,8 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: api-autoscaler
   namespace: {{ .Release.Namespace }}
+  labels:
+    backstage.io/kubernetes-id: {{ .Values.app_code }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -34,6 +36,8 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: nginx-autoscaler
   namespace: {{ .Release.Namespace }}
+  labels:
+    backstage.io/kubernetes-id: {{ .Values.app_code }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
