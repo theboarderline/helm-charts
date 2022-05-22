@@ -24,6 +24,8 @@ spec:
         container.seccomp.security.alpha.kubernetes.io/nginx: runtime/default
       labels:
         app: nginx-dep
+        tier: frontend
+        backstage.io/kubernetes-id: {{ .Values.app_code }}
     spec:
       hostIPC: false
       hostNetwork: false
