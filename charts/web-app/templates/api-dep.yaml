@@ -25,6 +25,7 @@ spec:
         container.apparmor.security.beta.kubernetes.io/api: runtime/default
         container.seccomp.security.alpha.kubernetes.io/api: runtime/default
       labels:
+        app: api-dep
         namespace: {{ .Release.Namespace }}
         tier: backend
         backstage.io/kubernetes-id: {{ .Values.app_code }}
