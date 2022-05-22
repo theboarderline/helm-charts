@@ -7,7 +7,7 @@ metadata:
   name: nginx-svc
   namespace: {{ .Release.Namespace }}
   labels:
-    app: nginx-svc
+    namespace: {{ .Release.Namespace }}
     tier: frontend
     backstage.io/kubernetes-id: {{ .Values.app_code }}
   {{- if not .Values.local }}

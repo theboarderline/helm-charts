@@ -6,6 +6,7 @@ metadata:
   name: gce-pvc
   namespace: {{ .Release.Namespace }}
   labels:
+    namespace: {{ .Release.Namespace }}
     backstage.io/kubernetes-id: {{ .Values.app_code }}
 spec:
   accessModes:

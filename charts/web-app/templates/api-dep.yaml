@@ -6,7 +6,7 @@ metadata:
   name: api-dep
   namespace: {{ .Release.Namespace }}
   labels:
-    app: api-dep
+    namespace: {{ .Release.Namespace }}
     tier: backend
     backstage.io/kubernetes-id: {{ .Values.app_code }}
 spec:
@@ -25,7 +25,7 @@ spec:
         container.apparmor.security.beta.kubernetes.io/api: runtime/default
         container.seccomp.security.alpha.kubernetes.io/api: runtime/default
       labels:
-        app: api-dep
+        namespace: {{ .Release.Namespace }}
         tier: backend
         backstage.io/kubernetes-id: {{ .Values.app_code }}
     spec:

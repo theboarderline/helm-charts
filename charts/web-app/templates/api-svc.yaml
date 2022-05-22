@@ -6,7 +6,7 @@ metadata:
   name: api-svc
   namespace: {{ .Release.Namespace }}
   labels:
-    app: api-svc
+    namespace: {{ .Release.Namespace }}
     tier: backend
     backstage.io/kubernetes-id: {{ .Values.app_code }}
   {{- if not .Values.local }}
