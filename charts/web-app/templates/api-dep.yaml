@@ -48,7 +48,7 @@ spec:
         - name: var-tmp-dir
           emptyDir: {}
 
-        {{- if or (.Values.secrets.enabled) (.Values.external_secrets.enabled) }}
+        {{- if .Values.external_secrets.enabled }}
         - name: app-secrets
           secret:
             secretName: app-secrets
@@ -87,7 +87,7 @@ spec:
             cpu: {{ required "REQUIRED: api.cpu.limit" .Values.api.cpu.limit }}
 
         volumeMounts:
-        {{- if or (.Values.secrets.enabled) (.Values.external_secrets.enabled) }}
+        {{- if .Values.external_secrets.enabled }}
           - mountPath: /backend/secrets
             name: app-secrets
         {{- end }}
@@ -172,7 +172,7 @@ spec:
         {{- end }}
 
         - name: DJANGO_KEY
-          {{- if or (.Values.secrets.enabled) (.Values.external_secrets.enabled) }}
+          {{- if .Values.external_secrets.enabled }}
           valueFrom:
             secretKeyRef:
               name: app-secrets
@@ -186,7 +186,7 @@ spec:
           value: {{ .Values.django.oauth_id }}
 
         - name: OAUTH_SECRET
-          {{- if or (.Values.secrets.enabled) (.Values.external_secrets.enabled) }}
+          {{- if .Values.external_secrets.enabled }}
           valueFrom:
             secretKeyRef:
               name: app-secrets
