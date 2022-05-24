@@ -38,12 +38,12 @@
 
 
 {{- define "api_image" -}}
-  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/api:{{- .Values.api.tag }}
+  {{- "gcr.io" -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/api:{{- .Values.api.tag }}
 {{- end -}}
 
 
 {{- define "nginx_image" -}}
-  {{- .Values.google.region -}}-docker.pkg.dev/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/nginx:{{- .Values.nginx.tag }}
+  {{- "gcr.io" -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/nginx:{{- .Values.nginx.tag }}
 {{- end -}}
 
 
