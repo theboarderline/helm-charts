@@ -139,6 +139,20 @@ spec:
         - name: CLEAN_DATA_BUCKET
           value: {{ include "clean_data_bucket" $ }}
 
+        {{- if .Values.epsagon.enabled }}
+        - name: EPSAGON_APP_NAME
+          value: {{ .Values.app_code -}}-api
+        - name: EPSAGON_METADATA
+          value: "FALSE"
+        - name: AUTOWRAPT_BOOTSTRAP
+          value: epsagon
+        - name: EPSAGON_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: epsagon-token
+        {{- end }}
+
         {{- if .Values.gin.enabled }}
         - name: GIN_MODE
           value: release
@@ -150,7 +164,6 @@ spec:
 
 
         {{- if .Values.use_oauth }}
-        {{- if .Values.external_secrets.enabled }}
         - name: OAUTH_ID
           valueFrom:
             secretKeyRef:
@@ -161,7 +174,6 @@ spec:
             secretKeyRef:
               name: oauth-credentials
               key: client_secret
-        {{- end }}
         {{- end }}
 
         {{- if .Values.django.enabled }}
@@ -186,15 +198,10 @@ spec:
           value: {{ .Values.django.oauth_id }}
 
         - name: OAUTH_SECRET
-          {{- if .Values.external_secrets.enabled }}
           valueFrom:
             secretKeyRef:
               name: app-secrets
               key: oauth-secret
-          {{- else }}
-          value: {{ required "REQUIRED: django.oauth_secret" .Values.django.oauth_secret }}
-          {{- end }}
-
         {{- end }}
 
         {{- end }}

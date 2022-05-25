@@ -112,13 +112,28 @@ spec:
           periodSeconds: 5
 
         {{- if .Values.firebase.enabled }}
-        env:
         - name: FIREBASE_KEY
           valueFrom:
             secretKeyRef:
               name: app-secrets
               key: firebase-key
         {{- end }}
+
+        {{- if false }}
+        env:
+        - name: EPSAGON_APP_NAME
+          value: {{ .Values.app_code -}}-nginx
+        - name: EPSAGON_METADATA
+          value: "FALSE"
+        - name: AUTOWRAPT_BOOTSTRAP
+          value: epsagon
+        - name: EPSAGON_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: epsagon-token
+        {{- end }}
+
 
         ports:
         - containerPort: 80

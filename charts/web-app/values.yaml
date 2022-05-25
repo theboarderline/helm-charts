@@ -94,6 +94,9 @@ autoscaler:
 cilium:
   enabled: false
 
+epsagon:
+  enabled: false
+
 django:
   enabled: true
   use_email: false
