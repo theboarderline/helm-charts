@@ -141,7 +141,7 @@ spec:
 
         {{- if .Values.epsagon.enabled }}
         - name: EPSAGON_APP_NAME
-          value: {{ .Values.app_code -}}-api
+          value: {{ .Values.lifecycle -}}-{{ .Values.app_code -}}-api
         - name: EPSAGON_METADATA
           value: "FALSE"
         - name: AUTOWRAPT_BOOTSTRAP
