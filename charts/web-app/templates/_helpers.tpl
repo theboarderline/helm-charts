@@ -43,7 +43,7 @@
 
 
 {{- define "nginx_image" -}}
-  {{- "gcr.io" -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/nginx:{{- .Values.nginx.tag }}
+  {{- "gcr.io" -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/react:{{- .Values.nginx.tag }}
 {{- end -}}
 
 
