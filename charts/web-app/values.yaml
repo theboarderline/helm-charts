@@ -13,11 +13,11 @@ api:
   disk_size: 5Gi
 
   memory:
-    request: 64Mi
+    request: 128Mi
     limit: 256Mi
   cpu:
-    request: .1
-    limit: 1
+    request: .05
+    limit: .5
 
   replicas: 1
   max_replicas: 5
@@ -28,15 +28,15 @@ nginx:
   enabled: true
   tag: latest
   memory:
-    request: 5Mi
-    limit: 50Mi
+    request: 16Mi
+    limit: 32Mi
   cpu:
     request: .05
-    limit: .5
+    limit: .25
   replicas: 1
   max_replicas: 3
   target_cpu: 80
-  target_mem: 50Mi
+  target_mem: 24Mi
 
 google:
   region: us-central1
