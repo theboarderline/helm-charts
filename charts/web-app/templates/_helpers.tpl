@@ -13,7 +13,7 @@
 
 
 {{- define "registry_name" -}}
-  {{- required "REQUIRED: lifecycle" .Values.lifecycle }}-{{- .Values.app_code -}}-v2-images
+  {{- required "REQUIRED: lifecycle" .Values.lifecycle }}
 {{- end -}}
 
 
