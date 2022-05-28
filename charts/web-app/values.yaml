@@ -16,7 +16,7 @@ api:
     request: 128Mi
     limit: 256Mi
   cpu:
-    request: .05
+    request: .02
     limit: .5
 
   replicas: 1
@@ -28,15 +28,15 @@ nginx:
   enabled: true
   tag: latest
   memory:
-    request: 16Mi
-    limit: 32Mi
+    request: 8Mi
+    limit: 16Mi
   cpu:
-    request: .05
+    request: .01
     limit: .25
   replicas: 1
   max_replicas: 3
   target_cpu: 80
-  target_mem: 24Mi
+  target_mem: 12Mi
 
 google:
   region: us-central1
