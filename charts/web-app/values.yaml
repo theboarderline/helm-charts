@@ -73,6 +73,7 @@ external_dns:
 
 external_secrets:
   enabled: true
+  refresh_interval: 0
 
 cert_manager:
   enabled: false
