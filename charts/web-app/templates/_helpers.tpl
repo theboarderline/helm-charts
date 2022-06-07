@@ -73,12 +73,12 @@
 
 
 {{- define "api_image" -}}
-  {{- include "api_registry" . -}}/api:{{- .Values.api.tag }}
+  {{- include "api_registry" . -}}:{{- .Values.api.tag }}
 {{- end -}}
 
 
 {{- define "nginx_image" -}}
-  {{- include "nginx_registry" . -}}/react:{{- .Values.nginx.tag }}
+  {{- include "nginx_registry" . -}}:{{- .Values.nginx.tag }}
 {{- end -}}
 
 
