@@ -12,7 +12,7 @@ spec:
     owner: {{ required "REQUIRED: github_org" .Values.github_org }}
     name: {{ required "REQUIRED: app_code" .Values.app_code }} 
     push:
-      branch: {{ include "branch" . }}
+      branch: "^{{- include "branch" . -}}$"
   # serviceAccountRef:
   #   external: {{ include "cicd_sa" $ }}
   includedFiles:
