@@ -8,6 +8,15 @@
 {{- end }}
 
 
+{{- define "branch" -}}
+  {{- if eq .Values.lifecycle "prod" }}
+    {{- "main" }}
+  {{- else }}
+    {{- required "REQUIRED: lifecycle" .Values.lifecycle }}
+  {{- end }}
+{{- end }}
+
+
 {{- define "app_label" -}}
   {{- required "REQUIRED: lifecycle" .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}
 {{- end }}
@@ -15,6 +24,11 @@
 
 {{- define "registry_name" -}}
   {{- required "REQUIRED: lifecycle" .Values.lifecycle }}
+{{- end -}}
+
+
+{{- define "primary_cluster_name" -}}
+  {{- required "REQUIRED: primary_cluster_name" .Values.primary_cluster_name }}
 {{- end -}}
 
 

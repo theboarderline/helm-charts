@@ -1,6 +1,9 @@
 enabled: true
 local: false
 
+github_org: theboarderline
+
+primary_cluster_name: central-cluster
 primary_cluster: central-cluster-membership
 sa_project_id: tbl-svc-acct-project
 
@@ -43,8 +46,9 @@ google:
   zone: us-central1-a
   config_connector_context: false
   create_ip: false
-  registry: ""
+  create_cloudbuild: false
   monitoring_suite: false 
+  registry: ""
   iap:
     enabled: false
     test:
