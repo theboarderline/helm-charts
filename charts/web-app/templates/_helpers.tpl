@@ -29,7 +29,7 @@
 
 
 {{- define "gke_project" -}}
-  {{- required "REQUIRED: gke_project" .Values.gke_project }}
+  {{- required "REQUIRED: gke_project_id" .Values.gke_project_id }}
 {{- end -}}
 
 
