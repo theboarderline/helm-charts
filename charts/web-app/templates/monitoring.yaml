@@ -1,0 +1,38 @@
+{{- if .Values.google.monitoring_suite }}
+
+apiVersion: monitoring.cnrm.cloud.google.com/v1beta1
+kind: MonitoringUptimeCheckConfig
+metadata:
+  name: uptime-check
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    namespace: {{ .Release.Namespace }}
+    backstage.io/kubernetes-id: {{ .Values.app_code }}
+  annotations:
+    cnrm.cloud.google.com/project-id: {{ include "gke_project_id" $ }}
+spec:
+  projectRef:
+    external: projects/{{- include "gke_project_id" $ }}
+  displayName: {{ include "app_label" $ }}
+  period: 600s
+  timeout: 30s
+  # contentMatchers:
+  #   - content: ".*"
+  #     matcher: "MATCHES_REGEX"
+  selectedRegions:
+    - USA
+  monitoredResource:
+    type: uptime_url
+    filterLabels:
+      host: {{ include "domain" $ }}
+      # Replace ${PROJECT_ID?} with the ID of a monitored project.
+      # project_id: ${PROJECT_ID?}
+  httpCheck:
+    requestMethod: GET
+    path: /health/
+    port: 443
+    useSsl: true
+    validateSsl: true
+    maskHeaders: true
+
+{{- end }}

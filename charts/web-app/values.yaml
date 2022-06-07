@@ -41,7 +41,10 @@ nginx:
 google:
   region: us-central1
   zone: us-central1-a
+  config_connector_context: false
+  create_ip: false
   registry: ""
+  monitoring_suite: false 
   iap:
     enabled: false
     test:
@@ -82,7 +85,6 @@ ingress:
   enabled: true
   https: true
   cert: false
-  create_ip: false
   mci: false
   nginx: false
 

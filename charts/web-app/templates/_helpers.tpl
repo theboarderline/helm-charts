@@ -1,14 +1,15 @@
 
 {{- define "domain" -}}
-  {{- if .Values.lifecycle }}
-    {{- if eq .Values.lifecycle "prod" }}
-      {{- required "REQUIRED: domain" .Values.domain }}
-    {{- else }}
-      {{- .Values.lifecycle -}}.{{- required "REQUIRED: domain" .Values.domain }}
-    {{- end }}
+  {{- if eq .Values.lifecycle "prod" }}
+    {{- required "REQUIRED: domain" .Values.domain }}
   {{- else }}
-    {{- .Values.domain -}}
+    {{- .Values.lifecycle -}}.{{- required "REQUIRED: domain" .Values.domain }}
   {{- end }}
+{{- end }}
+
+
+{{- define "app_label" -}}
+  {{- required "REQUIRED: lifecycle" .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}
 {{- end }}
 
 
@@ -85,22 +86,22 @@
 
 
 {{- define "bucket" -}}
-  {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-v2-web-static
+  {{- include "app_label" $ -}}-v2-web-static
 {{- end -}}
 
 
 {{- define "ingest_bucket" -}}
-  {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-v2-ingest
+  {{- include "app_label" $ -}}-v2-ingest
 {{- end -}}
 
 
 {{- define "clean_data_bucket" -}}
-  {{- .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}-v2-cleaned-data
+  {{- include "app_label" $ -}}-v2-cleaned-data
 {{- end -}}
 
 
 {{- define "ip_name" -}}
-  {{- required "REQUIRED: lifecycle" .Values.lifecycle }}-{{- .Values.app_code -}}-v2-ip
+  {{- include "app_label" $ -}}-v2-ip
 {{- end -}}
 
 

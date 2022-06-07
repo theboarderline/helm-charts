@@ -1,4 +1,4 @@
-{{- if .Values.ingress.create_ip }}
+{{- if .Values.google.create_ip }}
 
 apiVersion: compute.cnrm.cloud.google.com/v1beta1
 kind: ComputeAddress
