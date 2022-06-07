@@ -1,9 +1,14 @@
 
+{{- define "lifecycle" -}}
+  {{- required "REQUIRED: lifecycle" .Values.lifecycle -}}
+{{- end }}
+
+
 {{- define "domain" -}}
   {{- if eq .Values.lifecycle "prod" }}
     {{- required "REQUIRED: domain" .Values.domain }}
   {{- else }}
-    {{- .Values.lifecycle -}}.{{- required "REQUIRED: domain" .Values.domain }}
+    {{- include "lifecycle" $ -}}.{{- required "REQUIRED: domain" .Values.domain }}
   {{- end }}
 {{- end }}
 
@@ -12,18 +17,18 @@
   {{- if eq .Values.lifecycle "prod" }}
     {{- "main" }}
   {{- else }}
-    {{- required "REQUIRED: lifecycle" .Values.lifecycle }}
+    {{- include "lifecycle" $ -}}
   {{- end }}
 {{- end }}
 
 
 {{- define "app_label" -}}
-  {{- required "REQUIRED: lifecycle" .Values.lifecycle -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}
+  {{- include "lifecycle" $ -}}-{{- required "REQUIRED: app_code" .Values.app_code -}}
 {{- end }}
 
 
 {{- define "registry_name" -}}
-  {{- required "REQUIRED: lifecycle" .Values.lifecycle }}
+  {{- include "lifecycle" $ -}}
 {{- end -}}
 
 
@@ -68,7 +73,7 @@
 
 
 {{- define "db_name" -}}
-  {{- .Values.lifecycle -}}-db
+  {{- include "lifecycle" $ -}}-db
 {{- end -}}
 
 
@@ -87,6 +92,11 @@
   {{- else }}
     {{- required "REQUIRED: app_code" .Values.app_code -}}-admin@{{- include "sa_project_id" . -}}.iam.gserviceaccount.com
   {{- end }}
+{{- end -}}
+
+
+{{- define "cicd_sa" -}}
+  {{- "projects/" -}}{{- include "app_project" $ }}/serviceAccounts/{{- include "app_label" $ -}}-cicd@{{- include "app_project" . }}.iam.gserviceaccount.com
 {{- end -}}
 
 

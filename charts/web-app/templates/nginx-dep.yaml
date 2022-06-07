@@ -113,7 +113,7 @@ spec:
 
         env:
         - name: LIFECYCLE
-          value: {{ $.Values.lifecycle }}
+          value: {{ include "lifecycle" $ }}
 
         {{- if .Values.firebase.enabled }}
         - name: FIREBASE_KEY
@@ -126,7 +126,7 @@ spec:
         {{- if .Values.epsagon.enabled }}
         env:
         - name: EPSAGON_APP_NAME
-          value: {{ .Values.lifecycle -}}-{{ .Values.app_code -}}-nginx
+          value: {{ include "app_label" -}}-nginx
         - name: EPSAGON_METADATA
           value: "FALSE"
         - name: AUTOWRAPT_BOOTSTRAP

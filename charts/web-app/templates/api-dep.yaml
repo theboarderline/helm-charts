@@ -125,7 +125,7 @@ spec:
 
         env:
         - name: LIFECYCLE
-          value: {{ $.Values.lifecycle }}
+          value: {{ include "lifecycle" $ }}
         - name: IS_LOCAL
           value: "false"
         - name: USE_GCS
@@ -141,7 +141,7 @@ spec:
 
         {{- if .Values.epsagon.enabled }}
         - name: EPSAGON_APP_NAME
-          value: {{ .Values.lifecycle -}}-{{ .Values.app_code -}}-api
+          value: {{ include "app_label" $ -}}-api
         - name: EPSAGON_METADATA
           value: "FALSE"
         - name: AUTOWRAPT_BOOTSTRAP
