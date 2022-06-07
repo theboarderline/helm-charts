@@ -49,7 +49,7 @@ google:
   create_cloudbuild: true
   create_registry: true
   monitoring_suite: true
-  registry: ""
+  registry: gcr.io
   iap:
     enabled: false
     test:

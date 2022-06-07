@@ -18,6 +18,7 @@ spec:
   includedFiles:
     - "react/**"
     - "api/**"
+    - "charts/web-app/**"
   build:
     timeout: 1800s
     options:
