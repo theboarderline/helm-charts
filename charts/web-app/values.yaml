@@ -45,9 +45,9 @@ google:
   region: us-central1
   zone: us-central1-a
   config_connector_context: false
-  create_ip: false
-  create_cloudbuild: false
-  monitoring_suite: false 
+  create_ip: true
+  create_cloudbuild: true
+  monitoring_suite: true
   registry: ""
   iap:
     enabled: false

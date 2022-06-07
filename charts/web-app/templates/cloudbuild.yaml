@@ -3,7 +3,7 @@
 apiVersion: cloudbuild.cnrm.cloud.google.com/v1beta1
 kind: CloudBuildTrigger
 metadata:
-  name: {{ include "app_namespace" $ -}}-cicd
+  name: {{ include "app_label" $ -}}-cicd
   annotations:
     cnrm.cloud.google.com/project-id: {{ include "app_project" . }}
 spec:
