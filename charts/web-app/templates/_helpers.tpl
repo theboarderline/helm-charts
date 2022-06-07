@@ -62,13 +62,23 @@
 {{- end -}}
 
 
+{{- define "api_registry" -}}
+  {{- required "REQUIRED: google.registry" .Values.google.registry -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/api
+{{- end -}}
+
+
+{{- define "nginx_registry" -}}
+  {{- required "REQUIRED: google.registry" .Values.google.registry -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/react
+{{- end -}}
+
+
 {{- define "api_image" -}}
-  {{- "gcr.io" -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/api:{{- .Values.api.tag }}
+  {{- include "api_registry" . -}}/api:{{- .Values.api.tag }}
 {{- end -}}
 
 
 {{- define "nginx_image" -}}
-  {{- "gcr.io" -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/react:{{- .Values.nginx.tag }}
+  {{- include "nginx_registry" . -}}/react:{{- .Values.nginx.tag }}
 {{- end -}}
 
 

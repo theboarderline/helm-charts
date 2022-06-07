@@ -30,8 +30,8 @@ spec:
       - id: "Build-API"
         name: "gcr.io/kaniko-project/executor:latest"
         args:
-          - --destination={{- include "api_image" . }}:$COMMIT_SHA
-          - --destination={{- include "api_image" . }}:latest
+          - --destination={{- include "api_registry" . }}:$COMMIT_SHA
+          - --destination={{- include "api_registry" . }}:latest
           - --context=./api
           - --cache=true
           - --cache-ttl=240h
@@ -39,8 +39,8 @@ spec:
       - id: "Build-React"
         name: "gcr.io/kaniko-project/executor:latest"
         args:
-          - --destination={{- include "nginx_image" . }}:$COMMIT_SHA
-          - --destination={{- include "nginx_image" . }}:latest
+          - --destination={{- include "nginx_registry" . }}:$COMMIT_SHA
+          - --destination={{- include "nginx_registry" . }}:latest
           - --context=./react
           - --cache=true
           - --cache-ttl=240h
