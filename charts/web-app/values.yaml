@@ -47,6 +47,7 @@ google:
   config_connector_context: false
   create_ip: true
   create_cloudbuild: true
+  create_registry: true
   monitoring_suite: true
   registry: ""
   iap:
