@@ -28,6 +28,11 @@
 {{- end -}}
 
 
+{{- define "gke_project" -}}
+  {{- required "REQUIRED: gke_project" .Values.gke_project }}
+{{- end -}}
+
+
 {{- define "db_project" -}}
   {{- required "REQUIRED: db_project_id" .Values.db_project_id }}
 {{- end -}}

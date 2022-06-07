@@ -9,7 +9,7 @@ metadata:
     namespace: {{ .Release.Namespace }}
     backstage.io/kubernetes-id: {{ .Values.app_code }}
   annotations:
-    cnrm.cloud.google.com/project-id: {{ include "gke_project_id" $ }}
+    cnrm.cloud.google.com/project-id: {{ include "gke_project" $ }}
 spec:
   location: global
   ipVersion: IPV4

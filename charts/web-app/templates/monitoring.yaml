@@ -9,10 +9,10 @@ metadata:
     namespace: {{ .Release.Namespace }}
     backstage.io/kubernetes-id: {{ .Values.app_code }}
   annotations:
-    cnrm.cloud.google.com/project-id: {{ include "gke_project_id" $ }}
+    cnrm.cloud.google.com/project-id: {{ include "gke_project" $ }}
 spec:
   projectRef:
-    external: projects/{{- include "gke_project_id" $ }}
+    external: projects/{{- include "gke_project" $ }}
   displayName: {{ include "app_label" $ }}
   period: 600s
   timeout: 30s
