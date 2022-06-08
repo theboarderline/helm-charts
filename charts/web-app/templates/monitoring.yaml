@@ -11,13 +11,13 @@ spec:
   enabled: true
   displayName: {{ include "app_label" . }} Alert Policy
   notificationChannels:
-    - external: "projects/{{- include "gke_project" $ -}}/notificationChannels/{{- required .Values.google.notification_channel -}}"
+    - external: "projects/{{- include "gke_project" $ -}}/notificationChannels/{{- required "REQUIRED: google.notification_channel" .Values.google.notification_channel -}}"
   combiner: OR
   conditions:
-  - displayName: Uptime check running
-    conditionAbsent:
-      filter: metric.type="monitoring.googleapis.com/uptime_check/check_passed" AND metric.label.check_id="{{- include "app_label" $ }} AND resource.type="uptime_url"
-      duration: 3900s
+    - displayName: Uptime check running
+      conditionAbsent:
+        filter: metric.type="monitoring.googleapis.com/uptime_check/check_passed" AND metric.label.check_id="{{- include "app_label" $ }} AND resource.type="uptime_url"
+        duration: 3900s
 
 ---
 
