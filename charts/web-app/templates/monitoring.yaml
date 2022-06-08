@@ -5,9 +5,6 @@ kind: MonitoringUptimeCheckConfig
 metadata:
   name: uptime-check
   namespace: {{ $.Release.Namespace }}
-  labels:
-    namespace: {{ .Release.Namespace }}
-    backstage.io/kubernetes-id: {{ .Values.app_code }}
   annotations:
     cnrm.cloud.google.com/project-id: {{ include "gke_project" $ }}
 spec:
@@ -25,8 +22,7 @@ spec:
     type: uptime_url
     filterLabels:
       host: {{ include "domain" $ }}
-      # Replace ${PROJECT_ID?} with the ID of a monitored project.
-      # project_id: ${PROJECT_ID?}
+      project_id: {{ include "gke_project" $ }}
   httpCheck:
     requestMethod: GET
     path: /health/

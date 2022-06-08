@@ -47,8 +47,8 @@ google:
   config_connector_context: false
   create_ip: true
   create_cloudbuild: true
-  create_registry: true
-  monitoring_suite: true
+  create_registry: false
+  monitoring_suite: false
   registry: gcr.io
   iap:
     enabled: false
