@@ -16,7 +16,7 @@ spec:
   conditions:
     - displayName: Uptime check running
       conditionAbsent:
-        filter: metric.type="monitoring.googleapis.com/uptime_check/check_passed" AND metric.label.check_id="{{- include "app_label" $ }} AND resource.type="uptime_url"
+        filter: metric.type="monitoring.googleapis.com/uptime_check/check_passed" AND metric.label.check_id="{{- include "app_label" $ }}" AND resource.type="uptime_url"
         duration: 3900s
 
 ---
@@ -31,7 +31,7 @@ metadata:
 spec:
   projectRef:
     external: projects/{{- include "gke_project" $ }}
-  resourceID: {{ include "app_label" $ }}
+  resourceID: {{ include "app_label" $ -}}-uptime
   displayName: {{ include "app_label" $ }}
   period: 600s
   timeout: 30s
