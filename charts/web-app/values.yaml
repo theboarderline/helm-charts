@@ -48,7 +48,9 @@ google:
   create_ip: true
   create_cloudbuild: true
   create_registry: false
-  monitoring_suite: false
+  create_storage_buckets: true
+  create_monitoring_suite: true
+  notification_channel: "4610371196665423148"
   registry: gcr.io
   iap:
     enabled: false
