@@ -5,10 +5,15 @@
 
 
 {{- define "domain" -}}
+  {{- required "REQUIRED: domain" .Values.domain }}
+{{- end }}
+
+
+{{- define "subdomain" -}}
   {{- if eq .Values.lifecycle "prod" }}
-    {{- required "REQUIRED: domain" .Values.domain }}
+    {{- include "domain" . }}
   {{- else }}
-    {{- include "lifecycle" $ -}}.{{- required "REQUIRED: domain" .Values.domain }}
+    {{- include "lifecycle" $ -}}.{{- include "domain" . }}
   {{- end }}
 {{- end }}
 

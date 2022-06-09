@@ -15,7 +15,7 @@ metadata:
     configsync.gke.io/cluster-name-selector: {{ include "primary_cluster" $ }}
 spec:
   domains:
-    - {{ include "domain" . }}
+    - {{ include "subdomain" . }}
 
 {{- end }}
 {{- end }}
