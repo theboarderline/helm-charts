@@ -10,7 +10,7 @@ data:
     window.LIFECYCLE = '{{- include "lifecycle" $ -}}';
     window.STATIC_BUCKET = '{{- include "bucket" . -}}';
     {{- if .Values.api.enabled }}
-    window.API_URL = 'https://{{- include "domain" . -}}/';
+    window.API_URL = 'https://{{- include "subdomain" . -}}/';
     {{- end }}
     {{- if .Values.firebase.enabled }}
     window.AUTH_DOMAIN = '{{- include "app_project" . -}}.firebaseapp.com';
@@ -31,19 +31,19 @@ metadata:
 data:
   api.conf: |
     location /api/ {
-        proxy_set_header Host {{ include "domain" . -}};
+        proxy_set_header Host {{ include "subdomain" . -}};
         proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
     }
     location /admin/ {
-        proxy_set_header Host {{ include "domain" . -}};
+        proxy_set_header Host {{ include "subdomain" . -}};
         proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
     }
     location /redirect/ {
-        proxy_set_header Host {{ include "domain" . -}};
+        proxy_set_header Host {{ include "subdomain" . -}};
         proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
     }
     location /accounts/ {
-        proxy_set_header Host {{ include "domain" . -}};
+        proxy_set_header Host {{ include "subdomain" . -}};
         proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
     }
 
