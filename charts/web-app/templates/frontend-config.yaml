@@ -1,6 +1,6 @@
 {{- if and (.Values.enabled) (not .Values.local) }}
 
-apiVersion: networking.gke.io/v1beta1
+apiVersion: networking.gke.io/v1
 kind: FrontendConfig
 metadata:
   name: gke-frontendconfig
