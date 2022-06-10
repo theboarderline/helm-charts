@@ -16,13 +16,12 @@ spec:
   # serviceAccountRef:
   #   external: {{ include "cicd_sa" $ }}
   includedFiles:
-    - "react/**"
-    - "api/**"
-    - "charts/web-app/**"
+    - "src/**"
+    - "deploy"
   build:
     timeout: 1800s
-    # options:
-    #   logging: STACKDRIVER_ONLY
+    options:
+      logging: LEGACY
     #   {{- if false }}
     #   machineType: E2_HIGHCPU_8
     #   {{- end }}
@@ -33,7 +32,7 @@ spec:
         args:
           - --destination={{- include "api_registry" . }}:$COMMIT_SHA
           - --destination={{- include "api_registry" . }}:latest
-          - --context=./api
+          - --context=./src/api
           - --cache=true
           - --cache-ttl=240h
 
@@ -42,7 +41,7 @@ spec:
         args:
           - --destination={{- include "nginx_registry" . }}:$COMMIT_SHA
           - --destination={{- include "nginx_registry" . }}:latest
-          - --context=./react
+          - --context=./src/react
           - --cache=true
           - --cache-ttl=240h
 
