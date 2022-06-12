@@ -131,7 +131,7 @@ spec:
         - name: USE_GCS
           value: "true"
         - name: DOMAIN
-          value: {{ include "domain" $ }}
+          value: {{ include "subdomain" $ }}
         - name: STATIC_BUCKET
           value: {{ include "bucket" $ }}
         - name: INGEST_BUCKET
