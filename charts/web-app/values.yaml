@@ -20,7 +20,7 @@ api:
     limit: 256Mi
   cpu:
     request: .005
-    limit: .25
+    limit: .5
 
   replicas: 1
   max_replicas: 5
