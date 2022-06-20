@@ -10,14 +10,6 @@ metadata:
     tier: backend
     backstage.io/kubernetes-id: {{ .Values.app_code }}
 spec:
-  {{- if .Values.non_preemptible }}
-  tolerations:
-  - key: "general"
-    operator: "Equal"
-    value: "true"
-    effect: "NoSchedule"
-  {{- end }}
-
   replicas: {{ required "REQUIRED: api.replicas" .Values.api.replicas }}
   {{- if or (not .Values.use_pd) (not .Values.mount_pd) }}
   strategy:
@@ -38,6 +30,14 @@ spec:
         tier: backend
         backstage.io/kubernetes-id: {{ .Values.app_code }}
     spec:
+      {{- if .Values.non_preemptible }}
+      tolerations:
+      - key: "general"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+      {{- end }}
+
       hostIPC: false
       hostNetwork: false
       hostPID: false
