@@ -30,13 +30,15 @@ spec:
         tier: backend
         backstage.io/kubernetes-id: {{ .Values.app_code }}
     spec:
-      {{- if .Values.non_preemptible }}
       tolerations:
+      {{- if .Values.non_preemptible }}
       - key: "general"
+      {{- else }}
+      - key: "preemptible"
+      {{- end }}
         operator: "Equal"
         value: "true"
         effect: "NoSchedule"
-      {{- end }}
 
       hostIPC: false
       hostNetwork: false
