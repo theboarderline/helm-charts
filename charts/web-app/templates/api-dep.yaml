@@ -37,7 +37,7 @@ spec:
       - key: preemptible
       {{- end }}
         operator: Equal
-        value: true
+        value: "true"
         effect: PreferNoSchedule
 
       hostIPC: false
