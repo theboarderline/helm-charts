@@ -1,5 +1,6 @@
 enabled: true
 local: false
+non_preemptible: false
 
 github_org: theboarderline
 

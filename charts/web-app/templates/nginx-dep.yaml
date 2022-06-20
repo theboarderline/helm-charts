@@ -10,6 +10,14 @@ metadata:
     tier: frontend
     backstage.io/kubernetes-id: {{ .Values.app_code }}
 spec:
+  {{- if .Values.non_preemptible }}
+  tolerations:
+  - key: "general"
+    operator: "Equal"
+    value: "true"
+    effect: "NoSchedule"
+  {{- end }}
+
   replicas: {{ required "REQUIRED: nginx.replicas" .Values.nginx.replicas }}
   strategy:
     type: RollingUpdate
