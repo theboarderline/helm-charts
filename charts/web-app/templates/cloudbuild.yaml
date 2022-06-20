@@ -17,7 +17,7 @@ spec:
   #   external: {{ include "cicd_sa" $ }}
   includedFiles:
     - "src/**"
-    - "deploy"
+    - "deploy/**"
   build:
     timeout: 1800s
     options:
