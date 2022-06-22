@@ -13,6 +13,6 @@ spec:
   charset: utf8
   collation: utf8
   instanceRef:
-    external: {{ include "app_code" $ }}-instance
+    external: {{ include "instance_name" $ }}
 
 {{- end }}
