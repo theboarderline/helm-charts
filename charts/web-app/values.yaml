@@ -49,7 +49,6 @@ google:
   create_ip: true
   create_cloudbuild: true
   create_registry: false
-  create_storage_buckets: true
   create_monitoring_suite: true
   notification_channel: "4610371196665423148"
   registry: gcr.io
@@ -60,10 +59,15 @@ google:
     bucket_list:
       - name: public-content
         key: PUBLIC_BUCKET
+        public: true
+
       - name: data-ingest
         key: DATA_INGEST_BUCKET
+        public: false
+
       - name: clean-data
         key: CLEAN_DATA_BUCKET
+        public: false
   iap:
     enabled: false
     test:
