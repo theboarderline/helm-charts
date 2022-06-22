@@ -8,7 +8,9 @@ metadata:
 data:
   env.js: |
     window.LIFECYCLE = '{{- include "lifecycle" $ -}}';
-    window.STATIC_BUCKET = '{{- include "bucket" . -}}';
+    {{- range .Values.google.storage.bucket_list }}
+    window.{{ .key }} = {{ include "app_label" $ -}}-{{- .name }}
+    {{- end }}
     {{- if .Values.api.enabled }}
     window.API_URL = 'https://{{- include "subdomain" . -}}/';
     {{- end }}
