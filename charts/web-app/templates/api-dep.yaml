@@ -142,12 +142,12 @@ spec:
           value: "true"
         - name: DOMAIN
           value: {{ include "subdomain" $ }}
-        - name: STATIC_BUCKET
-          value: {{ include "bucket" $ }}
-        - name: INGEST_BUCKET
-          value: {{ include "ingest_bucket" $ }}
-        - name: CLEAN_DATA_BUCKET
-          value: {{ include "clean_data_bucket" $ }}
+        {{- if .Values.google.storage.enabled }}
+        {{- range .Values.google.storage.bucket_list }}
+        - name: {{ .key }}
+          value: {{ include "app_label" $ -}}-{{- .name }}
+        {{- end }}
+        {{- end }}
 
         {{- if .Values.epsagon.enabled }}
         - name: EPSAGON_APP_NAME
