@@ -12,8 +12,8 @@ metadata:
 spec:
   instanceRef:
     external: {{ include "instance_name" $ }}
-  charset: utf8
-  collation: utf8
+  charset: UTF8
+  collation: en_us.UTF8
 
 ---
 
