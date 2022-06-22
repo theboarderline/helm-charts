@@ -1,0 +1,18 @@
+{{- if .Values.google.sql.enabled }}
+
+apiVersion: sql.cnrm.cloud.google.com/v1beta1
+kind: SQLDatabase
+metadata:
+  name: {{ include "lifecycle" $ -}}-db
+  annotations:
+    cnrm.cloud.google.com/project-id: {{ include "db_project" $ }}
+  labels:
+    namespace: {{ $.Release.Namespace }}
+    backstage.io/kubernetes-id: {{ $.Values.app_code }}
+spec:
+  charset: utf8
+  collation: utf8
+  instanceRef:
+    external: {{ include "app_code" $ }}-instance
+
+{{- end }}

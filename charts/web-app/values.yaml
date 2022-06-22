@@ -53,6 +53,17 @@ google:
   create_monitoring_suite: true
   notification_channel: "4610371196665423148"
   registry: gcr.io
+  sql:
+    enabled: false
+  storage:
+    enabled: true
+    bucket_list:
+      - name: public-content
+        key: PUBLIC_BUCKET
+      - name: data-ingest
+        key: DATA_INGEST_BUCKET
+      - name: clean-data
+        key: CLEAN_DATA_BUCKET
   iap:
     enabled: false
     test:

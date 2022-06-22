@@ -6,6 +6,9 @@ metadata:
   name: {{ include "app_label" $ -}}-cicd
   annotations:
     cnrm.cloud.google.com/project-id: {{ include "app_project" . }}
+  labels:
+    namespace: {{ .Release.Namespace }}
+    backstage.io/kubernetes-id: {{ .Values.app_code }}
 spec:
   disabled: {{ not .Values.enabled }}
   github:

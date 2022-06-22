@@ -5,11 +5,11 @@ kind: ComputeAddress
 metadata:
   name: {{ include "ip_name" $ }}
   namespace: {{ $.Release.Namespace }}
+  annotations:
+    cnrm.cloud.google.com/project-id: {{ include "gke_project" $ }}
   labels:
     namespace: {{ .Release.Namespace }}
     backstage.io/kubernetes-id: {{ .Values.app_code }}
-  annotations:
-    cnrm.cloud.google.com/project-id: {{ include "gke_project" $ }}
 spec:
   location: global
   ipVersion: IPV4
