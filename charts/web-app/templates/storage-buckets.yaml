@@ -19,5 +19,7 @@ spec:
       maxAgeSeconds: 3600
   uniformBucketLevelAccess: true
 
+---
+
 {{- end }}
 {{- end }}
