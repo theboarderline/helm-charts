@@ -12,6 +12,7 @@ metadata:
     namespace: {{ $.Release.Namespace }}
     backstage.io/kubernetes-id: {{ $.Values.app_code }}
 spec:
+  location: {{ required "REQUIRED: google.region" $.Values.google.region }}
   cors:
     - origin: ["https://{{- include "domain" $ -}}"]
       responseHeader: ["Content-Type"]
