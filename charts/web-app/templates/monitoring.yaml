@@ -31,8 +31,8 @@ metadata:
 spec:
   projectRef:
     external: projects/{{- include "gke_project" $ }}
-  resourceID: {{ include "app_label" $ -}}-uptime
-  displayName: {{ include "app_label" $ }}
+  resourceID: {{ include "app_label" $ -}}-uptime-check
+  displayName: {{ include "app_label" $ }}-uptime-check
   period: 600s
   timeout: 30s
   selectedRegions:
@@ -41,7 +41,7 @@ spec:
     type: uptime_url
     filterLabels:
       host: {{ include "domain" $ }}
-      # project_id: {{ include "gke_project" $ }}
+      project_id: {{ include "gke_project" $ }}
   httpCheck:
     requestMethod: GET
     path: /health/
