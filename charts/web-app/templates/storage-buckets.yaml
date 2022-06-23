@@ -26,18 +26,6 @@ spec:
 {{- if .public }}
 
 apiVersion: storage.cnrm.cloud.google.com/v1beta1
-kind: StorageDefaultObjectAccessControl
-metadata:
-  name: {{ include "app_label" $ -}}-{{- .name -}}-default-access
-spec:
-  bucketRef:
-    name: {{ include "app_label" $ -}}-{{- .name }}
-  entity: allUsers
-  role: READER
-
----
-
-apiVersion: storage.cnrm.cloud.google.com/v1beta1
 kind: StorageBucketAccessControl
 metadata:
   name: {{ include "app_label" $ -}}-{{- .name -}}-access
