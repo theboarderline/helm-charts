@@ -143,7 +143,7 @@ spec:
         - name: DOMAIN
           value: {{ include "subdomain" $ }}
 
-        {{- if .Values.google.storage.enabled }}
+        {{- if .Values.django.verify_email }}
         - name: VERIFY_EMAIL
           value: "true"
         {{- end }}
