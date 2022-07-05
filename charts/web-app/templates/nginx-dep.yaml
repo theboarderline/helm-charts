@@ -125,6 +125,10 @@ spec:
         - name: LIFECYCLE
           value: {{ include "lifecycle" $ }}
 
+        {{- if .Values.nginx.env }}
+{{- toYaml .Values.nginx.env | nindent 8 }}
+        {{- end }}
+
         {{- if .Values.firebase.enabled }}
         - name: FIREBASE_KEY
           valueFrom:

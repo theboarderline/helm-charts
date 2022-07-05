@@ -142,11 +142,21 @@ spec:
           value: "true"
         - name: DOMAIN
           value: {{ include "subdomain" $ }}
+
+        {{- if .Values.google.storage.enabled }}
+        - name: VERIFY_EMAIL
+          value: "true"
+        {{- end }}
+
         {{- if .Values.google.storage.enabled }}
         {{- range .Values.google.storage.bucket_list }}
         - name: {{ .key }}
           value: {{ include "app_label" $ -}}-{{- .name }}
         {{- end }}
+        {{- end }}
+
+        {{- if .Values.api.env }}
+{{- toYaml .Values.api.env | nindent 8 }}
         {{- end }}
 
         {{- if .Values.epsagon.enabled }}
