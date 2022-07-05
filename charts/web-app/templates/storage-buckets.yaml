@@ -14,7 +14,7 @@ metadata:
 spec:
   location: {{ required "REQUIRED: google.region" $.Values.google.region }}
   # cors:
-  #   - origin: ["https://{{- include "domain" $ -}}"]
+  #   - origin: ["https://{{- include "subdomain" $ -}}"]
   #     responseHeader: ["Content-Type"]
   #     method: ["*"]
   #     maxAgeSeconds: 3600
