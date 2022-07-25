@@ -18,7 +18,6 @@ spec:
         image: selenium/standalone-chrome
       - name: app-tests
         image: {{ include "selenium_image" . }}
-        command: ['sh', '-c', 'selenium-side-runner {{ .Values.app_code -}}.side']
         env:
         - name: DOMAIN
           value: {{ include "subdomain" $ }}
