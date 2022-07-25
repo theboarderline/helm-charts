@@ -21,6 +21,9 @@ spec:
   includedFiles:
     - "src/**"
     - "deploy/**"
+    {{- if .Values.selenium.enabled }}
+    - "selenium/**"
+    {{- end }}
   build:
     timeout: 1800s
     options:
