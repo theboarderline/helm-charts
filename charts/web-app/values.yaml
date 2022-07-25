@@ -45,6 +45,7 @@ nginx:
 google:
   region: us-central1
   zone: us-central1-a
+  wi_test: false
   config_connector_context: false
   create_ip: true
   create_cloudbuild: true
