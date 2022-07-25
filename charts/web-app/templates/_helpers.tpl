@@ -76,6 +76,10 @@
   {{- required "REQUIRED: google.registry" .Values.google.registry -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/react
 {{- end -}}
 
+{{- define "selenium_registry" -}}
+  {{- required "REQUIRED: google.registry" .Values.google.registry -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/selenium
+{{- end -}}
+
 
 {{- define "api_image" -}}
   {{- include "api_registry" . -}}:{{- .Values.api.tag }}
@@ -84,6 +88,10 @@
 
 {{- define "nginx_image" -}}
   {{- include "nginx_registry" . -}}:{{- .Values.nginx.tag }}
+{{- end -}}
+
+{{- define "selenium_image" -}}
+  {{- include "selenium_registry" . -}}:{{- .Values.selenium.tag }}
 {{- end -}}
 
 

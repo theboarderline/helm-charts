@@ -147,8 +147,10 @@ firebase:
 sendgrid:
   enabled: false
 
+selenium:
+  enabled: false
+  tag: latest
+
 agile:
   enabled: false
   replicas: 1
-
-

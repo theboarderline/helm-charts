@@ -48,6 +48,17 @@ spec:
           - --cache=true
           - --cache-ttl=240h
 
+      {{- if .Values.selenium.enabled }}
+      - id: "Build-Selenium"
+        name: "gcr.io/kaniko-project/executor:latest"
+        args:
+          - --destination={{- include "selenium_registry" . }}:$COMMIT_SHA
+          - --destination={{- include "selenium_registry" . }}:latest
+          - --context=./src/selenium
+          - --cache=true
+          - --cache-ttl=240h
+      {{- end }}
+
       - id: Gcloud
         name: "gcr.io/cloud-builders/gcloud-slim"
         entrypoint: "bash"

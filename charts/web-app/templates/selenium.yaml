@@ -1,0 +1,29 @@
+{{- if .Values.selenium.enabled }}
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: selenium
+  labels:
+    app: selenium
+spec:
+  template:
+    metadata:
+      name: selenium
+      labels:
+        app: selenium
+    spec:
+      containers:
+      - name: chrome
+        image: selenium/standalone-chrome
+      - name: app-tests
+        image: {{ include "selenium_image" . }}
+        command: ['sh', '-c', 'selenium-side-runner {{ .Values.app_code -}}.side']
+        env:
+        - name: DOMAIN
+          value: {{ include "subdomain" $ }}
+      restartPolicy: OnFailure
+      dnsPolicy: ClusterFirst
+
+{{- end }}
+
