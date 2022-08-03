@@ -45,7 +45,8 @@ nginx:
 google:
   region: us-central1
   zone: us-central1-a
-  wi_test: false
+  cdn:
+    enabled: false
   config_connector_context: false
   create_ip: true
   create_cloudbuild: true
@@ -75,6 +76,7 @@ google:
       enabled: false
   analytics:
     enabled: false
+  wi_test: false
 
 security_policy: us-only
 ssl_policy: tls-12

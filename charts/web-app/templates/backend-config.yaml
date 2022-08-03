@@ -16,12 +16,10 @@ spec:
       secretName: oauth-credentials
   {{- end }}
 
-  {{- if or (eq .Values.lifecycle "stage") (eq .Values.lifecycle "prod") }}
   cdn:
-    enabled: true
+    enabled: {{ .Values.google.cdn.enabled }}
     cachePolicy:
       includeHost: true
       includeProtocol: true
-  {{- end }}
 
 {{- end }}
