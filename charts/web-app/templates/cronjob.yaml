@@ -1,0 +1,22 @@
+{{- if .Values.import.enabled }}
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: import-data
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: curl
+            image: curlimages/curl
+            args: ['/bin/sh', '-c', 'curl https://{{- include "subdomain" $ -}}/api/batch $API_KEY']
+            env:
+            - name: API_KEY
+              value: 'fake-key'
+          restartPolicy: OnFailure
+
+{{- end }}
