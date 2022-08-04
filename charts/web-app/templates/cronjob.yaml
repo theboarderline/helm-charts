@@ -13,7 +13,7 @@ spec:
           containers:
           - name: curl
             image: curlimages/curl
-            args: ['/bin/sh', '-c', 'curl https://{{- include "subdomain" $ -}}/api/batch $API_KEY']
+            args: ['/bin/sh', '-c', 'curl https://{{- include "subdomain" $ -}}/api/batch -d "key=$API_KEY"']
             env:
             - name: API_KEY
               value: 'fake-key'
