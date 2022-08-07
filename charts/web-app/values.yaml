@@ -11,12 +11,12 @@ sa_project_id: tbl-svc-acct-project
 api:
   enabled: true
   tag: latest
+  containerPort: 8000
+  healthCheckPath: /api/
   label: server
   use_pd: false
   mount_pd: false
   disk_size: 5Gi
-  containerPort: 8000
-  healthCheckPath: /api/
 
   memory:
     request: 128Mi
@@ -33,6 +33,8 @@ api:
 nginx:
   enabled: true
   tag: latest
+  containerPort: 80
+  healthCheckPath: /health/
   memory:
     request: 8Mi
     limit: 16Mi

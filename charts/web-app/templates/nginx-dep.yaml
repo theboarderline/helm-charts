@@ -102,22 +102,22 @@ spec:
 
         startupProbe:
           httpGet:
-            path: /health/
-            port: 80
+            path: {{ .Values.nginx.healthCheckPath }}
+            port: {{ .Values.nginx.containerPort }}
           failureThreshold: 5
           periodSeconds: 5
 
         livenessProbe:
           httpGet:
-            path: /health/
-            port: 80
+            path: {{ .Values.nginx.healthCheckPath }}
+            port: {{ .Values.nginx.containerPort }}
           initialDelaySeconds: 5
           periodSeconds: 5
 
         readinessProbe:
           httpGet:
-            path: /health/
-            port: 80
+            path: {{ .Values.nginx.healthCheckPath }}
+            port: {{ .Values.nginx.containerPort }}
           initialDelaySeconds: 5
           periodSeconds: 5
 
@@ -153,7 +153,7 @@ spec:
         {{- end }}
 
         ports:
-        - containerPort: 80
+        - containerPort: {{ .Values.nginx.containerPort }}
           name: https
           protocol: TCP
       volumes:
