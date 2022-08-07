@@ -113,15 +113,15 @@ spec:
         {{- if ne .Values.app_code "boatload" }}
         livenessProbe:
           httpGet:
-            path: /api
-            port: 8000
+            path: {{ .Values.api.healthCheckPath }}
+            port: {{ .Values.api.containerPort }}
           initialDelaySeconds: 30
           periodSeconds: 10
 
         readinessProbe:
           httpGet:
-            path: /api
-            port: 8000
+            path: {{ .Values.api.healthCheckPath }}
+            port: {{ .Values.api.containerPort }}
           initialDelaySeconds: 30
           periodSeconds: 10
         {{- end }}
@@ -361,7 +361,7 @@ spec:
         {{- end }}
 
         ports:
-        - containerPort: 8000
+        - containerPort: {{ .Values.api.containerPort }}
           name: api-port
 
       {{- if .Values.db.proxy }}
