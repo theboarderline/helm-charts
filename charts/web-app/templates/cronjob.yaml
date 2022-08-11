@@ -11,6 +11,22 @@ spec:
       template:
         spec:
           containers:
+          - name: http
+            image: alpine/httpie
+            args:
+            - '/bin/sh'
+            - '-c'
+            - 'http api-svc.{{- .Release.Namespace -}}.svc/api/batch key="$API_KEY"'
+            env:
+            - name: API_KEY
+              {{- if .Values.external_secrets.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: django-key
+              {{- else }}
+              value: 'fake-key'
+              {{- end }}
           - name: curl
             image: curlimages/curl
             args:
