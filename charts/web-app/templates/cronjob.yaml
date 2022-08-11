@@ -11,11 +11,12 @@ spec:
       template:
         spec:
           containers:
-          - name: http
-            image: alpine/httpie
-            args: 
-            - api-svc.{{- .Release.Namespace -}}.svc/api/batch
-            - key=$API_KEY
+          - name: curl
+            image: curlimages/curl
+            args:
+            - '/bin/sh'
+            - '-c'
+            - 'curl api-svc.{{- .Release.Namespace -}}.svc/api/batch -d "key=$API_KEY"'
             env:
             - name: API_KEY
               {{- if .Values.external_secrets.enabled }}
