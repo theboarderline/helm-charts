@@ -29,5 +29,22 @@ spec:
               {{- else }}
               value: 'fake-key'
               {{- end }}
+          - name: curl
+            image: curlimages/curl
+            imagePullPolicy: IfNotPresent
+            args:
+            - '/bin/sh'
+            - '-c'
+            - 'curl api-svc.{{- .Release.Namespace -}}.svc/api/batch -X POST -d "key=$API_KEY" -v'
+            env:
+            - name: API_KEY
+              {{- if .Values.external_secrets.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: django-key
+              {{- else }}
+              value: 'fake-key'
+              {{- end }}
 
 {{- end }}
