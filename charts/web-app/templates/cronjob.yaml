@@ -16,7 +16,7 @@ spec:
             args:
             - '/bin/sh'
             - '-c'
-            - 'curl api-svc.{{- .Release.Namespace -}}.svc/api/batch -d "key=$API_KEY"'
+            - 'curl api-svc.{{- .Release.Namespace -}}.svc/api/batch -d "key=$API_KEY" -v'
             env:
             - name: API_KEY
               {{- if .Values.external_secrets.enabled }}
