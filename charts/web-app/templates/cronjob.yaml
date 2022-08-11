@@ -13,7 +13,9 @@ spec:
           containers:
           - name: http
             image: alpine/httpie
-            args: ['/bin/sh', '-c', 'http api-svc.{{- .Release.Namespace -}}.svc/api/batch key=$API_KEY']
+            args: 
+            - api-svc.{{- .Release.Namespace -}}.svc/api/batch
+            - key=$API_KEY
             env:
             - name: API_KEY
               {{- if .Values.external_secrets.enabled }}
