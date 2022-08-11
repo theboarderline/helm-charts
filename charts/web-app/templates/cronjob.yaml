@@ -10,13 +10,15 @@ spec:
     spec:
       template:
         spec:
+          restartPolicy: OnFailure
           containers:
           - name: http
             image: alpine/httpie
+            imagePullPolicy: IfNotPresent
             args:
-            - '/bin/sh'
-            - '-c'
-            - 'http api-svc.{{- .Release.Namespace -}}.svc/api/batch key="$API_KEY"'
+            - api-svc.ops-coleman.svc/api/batch
+            - key=$API_KEY
+            - --ignore-stdin
             env:
             - name: API_KEY
               {{- if .Values.external_secrets.enabled }}
@@ -27,22 +29,5 @@ spec:
               {{- else }}
               value: 'fake-key'
               {{- end }}
-          - name: curl
-            image: curlimages/curl
-            args:
-            - '/bin/sh'
-            - '-c'
-            - 'curl api-svc.{{- .Release.Namespace -}}.svc/api/batch -d "key=$API_KEY" -v'
-            env:
-            - name: API_KEY
-              {{- if .Values.external_secrets.enabled }}
-              valueFrom:
-                secretKeyRef:
-                  name: app-secrets
-                  key: django-key
-              {{- else }}
-              value: 'fake-key'
-              {{- end }}
-          restartPolicy: OnFailure
 
 {{- end }}
