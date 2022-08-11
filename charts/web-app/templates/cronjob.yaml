@@ -16,7 +16,14 @@ spec:
             args: ['/bin/sh', '-c', 'curl https://{{- include "subdomain" $ -}}/api/batch -d "key=$API_KEY"']
             env:
             - name: API_KEY
+              {{- if .Values.external_secrets.enabled }}
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: django-key
+              {{- else }}
               value: 'fake-key'
+              {{- end }}
           restartPolicy: OnFailure
 
 {{- end }}
