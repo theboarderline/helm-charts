@@ -11,9 +11,9 @@ spec:
       template:
         spec:
           containers:
-          - name: curl
-            image: curlimages/curl
-            args: ['/bin/sh', '-c', 'curl https://{{- include "subdomain" $ -}}/api/batch -d "key=$API_KEY"']
+          - name: http
+            image: apline/httpie
+            args: ['/bin/sh', '-c', 'http api-svc.{{- .Release.Namespace -}}.svc/api/batch/  key=$API_KEY']
             env:
             - name: API_KEY
               {{- if .Values.external_secrets.enabled }}
