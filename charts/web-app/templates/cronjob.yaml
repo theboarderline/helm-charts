@@ -5,7 +5,7 @@ kind: CronJob
 metadata:
   name: import-data
 spec:
-  schedule: "*/1 * * * *"
+  schedule: "{{- .Values.import.schedule -}}"
   jobTemplate:
     spec:
       template:

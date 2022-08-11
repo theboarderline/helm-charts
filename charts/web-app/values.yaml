@@ -87,6 +87,7 @@ ssl_policy: tls-12
 
 import:
   enabled: false
+  schedule: "0 16 * * *"
 
 oauth:
   google:
