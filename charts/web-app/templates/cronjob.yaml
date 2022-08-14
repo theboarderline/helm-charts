@@ -16,7 +16,7 @@ spec:
             image: alpine/httpie
             imagePullPolicy: IfNotPresent
             args:
-            - api-svc.ops-coleman.svc/api/batch
+            - api-svc.{{- .Release.Namespace -}}.svc/api/batch
             - key=$(API_KEY)
             - --ignore-stdin
             env:
