@@ -10,7 +10,7 @@ spec:
     spec:
       template:
         spec:
-          restartPolicy: OnFailure
+          restartPolicy: Never
           containers:
           - name: http
             image: alpine/httpie
