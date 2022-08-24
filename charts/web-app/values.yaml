@@ -117,6 +117,7 @@ cert_manager:
 
 ingress:
   enabled: true
+  bring_ip: false
   https: true
   cert: false
   mci: false

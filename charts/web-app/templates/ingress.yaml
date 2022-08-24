@@ -11,8 +11,13 @@ metadata:
     namespace: {{ .Release.Namespace }}
     backstage.io/kubernetes-id: {{ .Values.app_code }}
   annotations:
+    {{- if .Values.acm.enabled }}
     configsync.gke.io/cluster-name-selector: {{ include "primary_cluster" $ }}
+    {{- end }}
+
+    {{- if .Values.ingress.bring_ip }}
     kubernetes.io/ingress.global-static-ip-name: {{ include "ip_name" . }}
+    {{- end }}
 
     {{- if .Values.ingress.https }}
     networking.gke.io/v1beta1.FrontendConfig: gke-frontendconfig
