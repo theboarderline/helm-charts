@@ -33,7 +33,7 @@ api:
 nginx:
   enabled: true
   tag: latest
-  containerPort: 80
+  containerPort: 3000
   healthCheckPath: /health/
   memory:
     request: 8Mi
