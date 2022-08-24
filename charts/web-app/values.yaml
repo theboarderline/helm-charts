@@ -52,16 +52,16 @@ google:
   cdn:
     enabled: false
   config_connector_context: false
-  create_ip: true
-  create_cloudbuild: true
+  create_ip: false
+  create_cloudbuild: false
   create_registry: false
-  create_monitoring_suite: true
+  create_monitoring_suite: false
   notification_channel: "4610371196665423148"
   registry: gcr.io
   sql:
     enabled: false
   storage:
-    enabled: true
+    enabled: false
     bucket_list:
       - name: public-content
         key: PUBLIC_BUCKET
