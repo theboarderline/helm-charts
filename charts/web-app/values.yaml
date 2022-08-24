@@ -126,6 +126,9 @@ ingress:
 network_policy:
   enabled: false
 
+acm:
+  enabled: false
+
 autoscaler:
   enabled: false
 
