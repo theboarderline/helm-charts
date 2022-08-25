@@ -1,4 +1,3 @@
-{{- if .Values.google.config_connector.enabled }}
 {{- if .Values.google.create_registry }}
 
 apiVersion: artifactregistry.cnrm.cloud.google.com/v1beta1
@@ -11,5 +10,4 @@ spec:
   format: DOCKER
   location: {{ required "REQUIRED: google.region" .Values.google.region }}
 
-{{- end }}
 {{- end }}

@@ -51,8 +51,6 @@ google:
   zone: us-central1-a
   cdn:
     enabled: false
-  config_connector:
-    enabled: false
   config_connector_context: false
   create_ip: false
   create_cloudbuild: false
@@ -64,13 +62,14 @@ google:
     enabled: false
   storage:
     enabled: true
+    create: false
     bucket_list:
       - name: v3-public-content
         key: PUBLIC_BUCKET
         public: true
 
-      - name: data-ingest
-        key: v3-DATA_INGEST_BUCKET
+      - name: v3-data-ingest
+        key: DATA_INGEST_BUCKET
         public: false
 
       - name: v3-clean-data

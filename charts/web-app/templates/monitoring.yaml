@@ -1,4 +1,3 @@
-{{- if .Values.google.config_connector.enabled }}
 {{- if .Values.google.create_monitoring_suite }}
 
 apiVersion: monitoring.cnrm.cloud.google.com/v1beta1
@@ -51,5 +50,4 @@ spec:
     validateSsl: true
     maskHeaders: true
 
-{{- end }}
 {{- end }}
