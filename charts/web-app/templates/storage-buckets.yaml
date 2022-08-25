@@ -1,4 +1,6 @@
+{{- if .Values.google.config_connector.enabled }}
 {{- if .Values.google.storage.enabled }}
+
 {{- range .Values.google.storage.bucket_list }}
 
 apiVersion: storage.cnrm.cloud.google.com/v1beta1
@@ -36,6 +38,8 @@ spec:
   role: READER
 
 ---
+{{- end }}
+
 {{- end }}
 
 {{- end }}

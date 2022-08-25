@@ -1,3 +1,4 @@
+{{- if .Values.google.config_connector.enabled }}
 {{- if .Values.google.create_cloudbuild }}
 
 apiVersion: cloudbuild.cnrm.cloud.google.com/v1beta1
@@ -83,5 +84,6 @@ spec:
           - "CLOUDSDK_COMPUTE_ZONE=${_ZONE}"
           - "CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER}"
 
+{{- end }}
 {{- end }}
 

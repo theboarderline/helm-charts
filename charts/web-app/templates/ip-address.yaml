@@ -1,3 +1,4 @@
+{{- if .Values.google.config_connector.enabled }}
 {{- if .Values.google.create_ip }}
 
 apiVersion: compute.cnrm.cloud.google.com/v1beta1
@@ -14,4 +15,5 @@ spec:
   location: global
   ipVersion: IPV4
 
+{{- end }}
 {{- end }}
