@@ -19,8 +19,8 @@ api:
   disk_size: 5Gi
 
   memory:
-    request: 32Mi
-    limit: 64Mi
+    request: 64Mi
+    limit: 256Mi
   cpu:
     request: .005
     limit: .5
@@ -37,7 +37,7 @@ nginx:
   healthCheckPath: /health/
   memory:
     request: 8Mi
-    limit: 16Mi
+    limit: 32Mi
   cpu:
     request: .001
     limit: .025
