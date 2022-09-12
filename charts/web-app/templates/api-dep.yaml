@@ -351,9 +351,12 @@ spec:
 
         {{- end }}
 
-        {{- if eq .Values.app_code "boatload" }}
+        {{- if .Values.airtable.enabled }}
         - name: BASE_ID
-          value: '{{ required "REQUIRED: airtable.base_id" .Values.airtable.base_id }}'
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: base-id
         - name: API_KEY
           valueFrom:
             secretKeyRef:
