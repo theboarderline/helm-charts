@@ -308,14 +308,6 @@ spec:
           value: {{ include "app_sa" . }}
         {{- end }}
 
-        {{- if .Values.agile.enabled }}
-        - name: AGILE_CRM_REST_KEY
-          valueFrom:
-            secretKeyRef:
-              name: app-secrets
-              key: agile-crm-rest-key
-        {{- end }}
-
         {{- if .Values.twilio.enabled }}
         - name: TWILIO_NUMBER
           value: '{{ required "REQUIRED: twilio.number" .Values.twilio.number }}'
