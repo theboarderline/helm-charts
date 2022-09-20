@@ -10,15 +10,35 @@ spec:
     spec:
       template:
         spec:
+          hostIPC: false
+          hostNetwork: false
+          hostPID: false
+          securityContext:
+            runAsUser: 115
+            runAsGroup: 125
+            fsGroup: 190
+            supplementalGroups:
+              - 150
           restartPolicy: Never
           containers:
           - name: http
             image: alpine/httpie
             imagePullPolicy: IfNotPresent
+
+            securityContext:
+              allowPrivilegeEscalation: false
+              privileged: false
+              procMount: default
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              seccompProfile:
+                type: RuntimeDefault
+
             args:
             - api-svc.{{- .Release.Namespace -}}.svc/api/batch
             - key=$(API_KEY)
             - --ignore-stdin
+
             env:
             - name: API_KEY
               {{- if .Values.external_secrets.enabled }}
