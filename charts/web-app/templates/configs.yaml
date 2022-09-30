@@ -36,11 +36,11 @@ data:
         proxy_set_header Host {{ include "subdomain" . -}};
         proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
     }
-    location /admin/ {
+    location /admin {
         proxy_set_header Host {{ include "subdomain" . -}};
         proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
     }
-    location /redirect/ {
+    location /redirect {
         proxy_set_header Host {{ include "subdomain" . -}};
         proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
     }
