@@ -37,7 +37,7 @@ nginx:
   healthCheckPath: /health/
   memory:
     request: 8Mi
-    limit: 32Mi
+    limit: 16Mi
   cpu:
     request: .001
     limit: .025
