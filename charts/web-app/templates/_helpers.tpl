@@ -153,7 +153,11 @@
 
 
 {{- define "ip_name" -}}
-  {{- include "app_label" $ -}}-v2-ip
+  {{- if .Values.ip_name }}
+    {{- .Values.ip_name }}
+  {{- else }}
+    {{- include "app_label" $ -}}-ip
+  {{- end }}
 {{- end -}}
 
 
