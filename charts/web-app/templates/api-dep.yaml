@@ -58,6 +58,10 @@ spec:
         - name: var-tmp-dir
           emptyDir: {}
 
+        - name: app-secrets
+          secret:
+            secretName: app-secrets
+
         - name: db-volume
         {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
           persistentVolumeClaim:
@@ -197,10 +201,14 @@ spec:
         {{- end }}
 
         - name: DJANGO_KEY
+          {{- if .Values.external_secrets.enabled }}
           valueFrom:
             secretKeyRef:
               name: app-secrets
               key: django-key
+          {{- else }}
+          value: fake-key
+          {{- end }}
 
         {{- if .Values.django.oauth_id }}
         - name: OAUTH_ID
