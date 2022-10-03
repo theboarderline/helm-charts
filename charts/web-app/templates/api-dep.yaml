@@ -58,12 +58,6 @@ spec:
         - name: var-tmp-dir
           emptyDir: {}
 
-        {{- if .Values.external_secrets.enabled }}
-        - name: app-secrets
-          secret:
-            secretName: app-secrets
-        {{- end }}
-
         - name: db-volume
         {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
           persistentVolumeClaim:
@@ -97,10 +91,8 @@ spec:
             cpu: {{ required "REQUIRED: api.cpu.limit" .Values.api.cpu.limit }}
 
         volumeMounts:
-        {{- if .Values.external_secrets.enabled }}
           - mountPath: /backend/secrets
             name: app-secrets
-        {{- end }}
           - mountPath: /backend/var
             name: db-volume
           - mountPath: /tmp
@@ -205,14 +197,10 @@ spec:
         {{- end }}
 
         - name: DJANGO_KEY
-          {{- if .Values.external_secrets.enabled }}
           valueFrom:
             secretKeyRef:
               name: app-secrets
               key: django-key
-          {{- else }}
-          value: fake-key
-          {{- end }}
 
         {{- if .Values.django.oauth_id }}
         - name: OAUTH_ID
