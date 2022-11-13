@@ -68,12 +68,8 @@ google:
         key: PUBLIC_BUCKET
         public: true
 
-      - name: v3-data-ingest
-        key: DATA_INGEST_BUCKET
-        public: false
-
-      - name: v3-clean-data
-        key: CLEAN_DATA_BUCKET
+      - name: v3-backend-bucket
+        key: BACKEND_BUCKET
         public: false
   iap:
     enabled: false
