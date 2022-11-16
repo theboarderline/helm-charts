@@ -10,7 +10,7 @@ metadata:
     tier: frontend
     backstage.io/kubernetes-id: {{ .Values.app_code }}
 spec:
-  replicas: {{ .Values.nginx.replicas }}
+  replicas: {{ .Values.crm.replicas }}
   strategy:
     type: RollingUpdate
   selector:
@@ -51,7 +51,7 @@ spec:
       serviceAccountName: default
       containers:
       - name: crm
-        image: {{ include "crm_image" . }}
+        image: '{{ include "crm_image" . }}'
         imagePullPolicy: Always
 
         securityContext:
@@ -85,11 +85,11 @@ spec:
 
         resources:
           requests:
-            memory: {{ required "REQUIRED: nginx.memory.request" .Values.nginx.memory.request }}
-            cpu: {{ required "REQUIRED: nginx.cpu.request" .Values.nginx.cpu.request }}
+            memory: {{ required "REQUIRED: crm.memory.request" .Values.crm.memory.request }}
+            cpu: {{ required "REQUIRED: crm.cpu.request" .Values.crm.cpu.request }}
           limits:
-            memory: {{ required "REQUIRED: nginx.memory.limit" .Values.nginx.memory.limit }}
-            cpu: {{ required "REQUIRED: nginx.cpu.limit" .Values.nginx.cpu.limit }}
+            memory: {{ required "REQUIRED: crm.memory.limit" .Values.crm.memory.limit }}
+            cpu: {{ required "REQUIRED: crm.cpu.limit" .Values.crm.cpu.limit }}
 
         startupProbe:
           httpGet:
