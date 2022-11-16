@@ -17,14 +17,12 @@ api:
   use_pd: false
   mount_pd: false
   disk_size: 5Gi
-
   memory:
     request: 64Mi
     limit: 256Mi
   cpu:
     request: .005
     limit: .5
-
   replicas: 1
   max_replicas: 5
   target_cpu: 80
@@ -47,7 +45,7 @@ nginx:
   target_mem: 12Mi
 
 crm:
-  enabled: false
+  enabled: true
   tag: latest
   containerPort: 3000
   healthCheckPath: /health/
