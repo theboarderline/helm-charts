@@ -46,6 +46,22 @@ nginx:
   target_cpu: 80
   target_mem: 12Mi
 
+crm:
+  enabled: false
+  tag: latest
+  containerPort: 3000
+  healthCheckPath: /health/
+  memory:
+    request: 8Mi
+    limit: 16Mi
+  cpu:
+    request: .001
+    limit: .025
+  replicas: 1
+  max_replicas: 3
+  target_cpu: 80
+  target_mem: 12Mi
+
 google:
   region: us-central1
   zone: us-central1-a

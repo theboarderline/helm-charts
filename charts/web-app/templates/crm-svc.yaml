@@ -1,0 +1,36 @@
+{{- if and (.Values.enabled) (.Values.crm.enabled) }}
+{{- if not .Values.ingress.mci }}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: crm-svc
+  namespace: {{ .Release.Namespace }}
+  labels:
+    namespace: {{ .Release.Namespace }}
+    tier: frontend
+    backstage.io/kubernetes-id: {{ .Values.app_code }}
+  {{- if not .Values.local }}
+  annotations:
+    cloud.google.com/backend-config: '{"default": "gke-backendconfig"}'
+    {{- if .Values.ingress.nginx }}
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    {{- else }}
+    cloud.google.com/neg: '{"ingress": true}'
+    {{- end }}
+
+  {{- end }}
+spec:
+  type: ClusterIP
+  selector:
+    app: crm-dep
+    
+  ports:
+  - name: http
+    port: 443
+    protocol: TCP
+    targetPort: {{ .Values.crm.containerPort }}
+
+{{- end }}
+{{- end }}

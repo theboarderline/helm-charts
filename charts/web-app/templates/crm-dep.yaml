@@ -1,0 +1,183 @@
+{{- if and (.Values.enabled) (.Values.crm.enabled) }}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crm-dep
+  namespace: {{ .Release.Namespace }}
+  labels:
+    namespace: {{ .Release.Namespace }}
+    tier: frontend
+    backstage.io/kubernetes-id: {{ .Values.app_code }}
+spec:
+  replicas: {{ required "REQUIRED: crm.replicas" .Values.crm.replicas }}
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: crm-dep
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        container.apparmor.security.beta.kubernetes.io/crm: runtime/default
+        container.seccomp.security.alpha.kubernetes.io/crm: runtime/default
+      labels:
+        app: crm-dep
+        namespace: {{ .Release.Namespace }}
+        tier: frontend
+        backstage.io/kubernetes-id: {{ .Values.app_code }}
+    spec:
+      tolerations:
+      {{- if .Values.non_preemptible }}
+      - key: general
+      {{- else }}
+      - key: preemptible
+      {{- end }}
+        operator: Equal
+        value: "true"
+        effect: PreferNoSchedule
+
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      securityContext:
+        runAsUser: 115
+        runAsGroup: 125
+        fsGroup: 190
+        supplementalGroups:
+          - 150
+
+      serviceAccountName: default
+      containers:
+      - name: crm
+        image: {{ include "crm_image" . }}
+        imagePullPolicy: Always
+
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          procMount: default
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          seccompProfile:
+            type: RuntimeDefault
+
+        volumeMounts:
+        - name: log-dir
+          mountPath: /var/log/nginx
+        - name: body-dir
+          mountPath: /var/lib/nginx/body
+        - name: proxy-dir
+          mountPath: /var/lib/nginx/proxy
+        - name: cache-proxy-dir
+          mountPath: /var/cache/nginx/proxy_temp
+        - name: cache-client-dir
+          mountPath: /var/cache/nginx/client_temp
+        - name: fast-cgi-dir
+          mountPath: /var/cache/nginx/fastcgi_temp
+        - name: uwsgi-dir
+          mountPath: /var/cache/nginx/uwsgi_temp
+        - name: scgi-dir
+          mountPath: /var/cache/nginx/scgi_temp
+        - name: pid-dir
+          mountPath: /var/run
+
+        resources:
+          requests:
+            memory: {{ required "REQUIRED: crm.memory.request" .Values.crm.memory.request }}
+            cpu: {{ required "REQUIRED: crm.cpu.request" .Values.crm.cpu.request }}
+          limits:
+            memory: {{ required "REQUIRED: crm.memory.limit" .Values.crm.memory.limit }}
+            cpu: {{ required "REQUIRED: crm.cpu.limit" .Values.crm.cpu.limit }}
+
+        startupProbe:
+          httpGet:
+            path: {{ .Values.crm.healthCheckPath }}
+            port: {{ .Values.crm.containerPort }}
+          failureThreshold: 5
+          periodSeconds: 5
+
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.crm.healthCheckPath }}
+            port: {{ .Values.crm.containerPort }}
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.crm.healthCheckPath }}
+            port: {{ .Values.crm.containerPort }}
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+        env:
+        - name: LIFECYCLE
+          value: {{ include "lifecycle" $ }}
+
+        {{- if .Values.crm.env }}
+{{- toYaml .Values.crm.env | nindent 8 }}
+        {{- end }}
+
+        {{- if .Values.firebase.enabled }}
+        - name: FIREBASE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: firebase-key
+        {{- end }}
+
+        {{- if .Values.epsagon.enabled }}
+        env:
+        - name: EPSAGON_APP_NAME
+          value: {{ include "app_label" -}}-crm
+        - name: EPSAGON_METADATA
+          value: "FALSE"
+        - name: AUTOWRAPT_BOOTSTRAP
+          value: epsagon
+        - name: EPSAGON_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: epsagon-token
+        {{- end }}
+
+        ports:
+        - containerPort: {{ .Values.crm.containerPort }}
+          name: https
+          protocol: TCP
+      volumes:
+        - name: react-env
+          configMap:
+            name: react-config
+            items:
+            - key: env.js
+              path: env.js
+        {{- if .Values.api.enabled }}
+        - name: api-redirects
+          configMap:
+            name: api-config
+            items:
+            - key: api.conf
+              path: api.conf
+        {{- end }}
+        - name: log-dir
+          emptyDir: {}
+        - name: body-dir
+          emptyDir: {}
+        - name: proxy-dir
+          emptyDir: {}
+        - name: cache-proxy-dir
+          emptyDir: {}
+        - name: cache-client-dir
+          emptyDir: {}
+        - name: fast-cgi-dir
+          emptyDir: {}
+        - name: uwsgi-dir
+          emptyDir: {}
+        - name: scgi-dir
+          emptyDir: {}
+        - name: pid-dir
+          emptyDir: {}
+{{- end }}
