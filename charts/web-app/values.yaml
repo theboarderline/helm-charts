@@ -45,7 +45,7 @@ nginx:
   target_mem: 12Mi
 
 crm:
-  enabled: true
+  enabled: false
   tag: latest
   containerPort: 3000
   healthCheckPath: /health/
