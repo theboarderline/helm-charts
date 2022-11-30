@@ -166,6 +166,9 @@ twilio:
   flex:
     enabled: false
 
+wiseagent:
+  enabled: false
+
 firebase:
   enabled: false
 

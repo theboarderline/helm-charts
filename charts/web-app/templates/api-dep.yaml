@@ -335,6 +335,20 @@ spec:
 
         {{- end }}
 
+        {{- if .Values.wiseagent.enabled }}
+        - name: WISE_AGENT_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: wise-agent-key
+
+        - name: WISE_AGENT_AUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: wise-agent-auth-token
+        {{- end }}
+
         {{- if .Values.airtable.enabled }}
         - name: BASE_ID
           valueFrom:
