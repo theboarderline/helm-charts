@@ -11,7 +11,7 @@ metadata:
     backstage.io/kubernetes-id: {{ .Values.app_code }}
   {{- if not .Values.local }}
   annotations:
-    cloud.google.com/backend-config: '{"default": "gke-backendconfig"}'
+    cloud.google.com/backend-config: '{"default": "api-backendconfig"}'
   {{- end }}
 spec:
   type: ClusterIP

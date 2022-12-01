@@ -1,11 +1,18 @@
 {{- if and (.Values.enabled) (not .Values.local) }}
+{{- if .Values.nginx.enabled }}
 
 apiVersion: cloud.google.com/v1
 kind: BackendConfig
 metadata:
-  name: gke-backendconfig
+  name: nginx-backendconfig
   namespace: {{ .Release.Namespace }}
 spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: {{ .Values.nginx.containerPort }}
+    type: HTTP
+    requestPath: {{ .Values.nginx.healthCheckPath }}
+
   securityPolicy:
     name: {{ .Values.security_policy }}
 
@@ -21,5 +28,26 @@ spec:
     cachePolicy:
       includeHost: true
       includeProtocol: true
+
+{{- end }}
+
+---
+
+{{- if .Values.api.enabled }}
+
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: api-backendconfig
+  namespace: {{ .Release.Namespace }}
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: {{ .Values.api.containerPort }}
+    type: HTTP
+    requestPath: {{ .Values.api.healthCheckPath }}
+
+  securityPolicy:
+    name: {{ .Values.security_policy }}
 
 {{- end }}
