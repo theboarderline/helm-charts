@@ -51,3 +51,5 @@ spec:
     name: {{ .Values.security_policy }}
 
 {{- end }}
+
+{{- end }}
