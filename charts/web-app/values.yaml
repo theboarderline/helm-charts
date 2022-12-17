@@ -96,6 +96,9 @@ google:
 security_policy: us-only
 ssl_policy: tls-12
 
+jwt:
+  enabled: false
+
 import:
   enabled: false
   schedule: "0 16 * * 1-6"

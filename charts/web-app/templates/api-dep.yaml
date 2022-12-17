@@ -156,18 +156,12 @@ spec:
 {{- toYaml .Values.api.env | nindent 8 }}
         {{- end }}
 
-        {{- if .Values.epsagon.enabled }}
-        - name: EPSAGON_APP_NAME
-          value: {{ include "app_label" $ -}}-api
-        - name: EPSAGON_METADATA
-          value: "FALSE"
-        - name: AUTOWRAPT_BOOTSTRAP
-          value: epsagon
-        - name: EPSAGON_TOKEN
+        {{- if .Values.jwt.enabled }}
+        - name: SECRET_KEY
           valueFrom:
             secretKeyRef:
               name: app-secrets
-              key: epsagon-token
+              key: secret-key
         {{- end }}
 
         {{- if .Values.gin.enabled }}
@@ -178,7 +172,6 @@ spec:
           value: {{ .Values.gin.input_path }}
         {{- end }}
         {{- end }}
-
 
         {{- if .Values.use_oauth }}
         - name: OAUTH_ID
