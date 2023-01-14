@@ -29,7 +29,7 @@ spec:
               requests:
                 storage: {{ .Values.postgres.disk_size }}
 
-      {{- else if .Values.postgres.backup.type "gcs" }}
+      {{- else if eq .Values.postgres.backup.type "gcs" }}
       configuration:
       - secret:
           name: pgo-gcs-creds
