@@ -188,3 +188,6 @@ airtable:
 postgres:
   enabled: false
   disk_size: 10Gi
+  backup:
+    type: "volume"
+
