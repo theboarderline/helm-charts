@@ -293,6 +293,36 @@ spec:
           value: {{ include "app_sa" . }}
         {{- end }}
 
+        {{- if .Values.postgres.enabled }}
+        - name: DB_VENDOR
+          value: "postgres"
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: crunchydb-pguser-crunchydb
+              key: host
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: crunchydb-pguser-crunchydb
+              key: port
+        - name: DB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: crunchydb-pguser-crunchydb
+              key: dbname
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: crunchydb-pguser-crunchydb
+              key: user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: crunchydb-pguser-crunchydb
+              key: password
+        {{{- end }}
+
         {{- if .Values.twilio.enabled }}
         - name: TWILIO_NUMBER
           value: '{{ required "REQUIRED: twilio.number" .Values.twilio.number }}'
