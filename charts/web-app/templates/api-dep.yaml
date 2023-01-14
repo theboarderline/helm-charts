@@ -321,7 +321,7 @@ spec:
             secretKeyRef:
               name: crunchydb-pguser-crunchydb
               key: password
-        {{{- end }}
+        {{- end }}
 
         {{- if .Values.twilio.enabled }}
         - name: TWILIO_NUMBER
