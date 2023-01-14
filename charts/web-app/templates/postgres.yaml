@@ -18,7 +18,6 @@ spec:
   backups:
     pgbackrest:
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.41-2
-      {{- if .Values.postgres.backup.type "volume" }}
       repos:
       - name: repo1
         volume:
@@ -28,17 +27,5 @@ spec:
             resources:
               requests:
                 storage: {{ .Values.postgres.disk_size }}
-
-      {{- else if eq .Values.postgres.backup.type "gcs" }}
-      configuration:
-      - secret:
-          name: pgo-gcs-creds
-      global:
-        repo1-path: /pgbackrest/postgres-operator/crunchydb-gcs/repo1
-      repos:
-      - name: repo1
-        gcs:
-          bucket: {{ .Values.postgres.backup.bucket }}
-      {{- end }}
 
 {{- end }}
