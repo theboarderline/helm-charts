@@ -15,7 +15,6 @@ api:
   healthCheckPath: /api/
   label: server
   use_pd: false
-  mount_pd: false
   disk_size: 5Gi
   memory:
     request: 64Mi

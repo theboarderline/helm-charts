@@ -11,10 +11,6 @@ metadata:
     backstage.io/kubernetes-id: {{ .Values.app_code }}
 spec:
   replicas: {{ required "REQUIRED: api.replicas" .Values.api.replicas }}
-  {{- if or (not .Values.use_pd) (not .Values.mount_pd) }}
-  strategy:
-    type: RollingUpdate
-  {{- end }}
   selector:
     matchLabels:
       app: api-dep
@@ -62,12 +58,10 @@ spec:
           secret:
             secretName: app-secrets
 
+        {{- if .Values.api.use_pd }}
         - name: db-volume
-        {{- if and (.Values.api.use_pd) (.Values.api.mount_pd) }}
           persistentVolumeClaim:
             claimName: gce-pvc
-        {{- else }}
-          emptyDir: {}
         {{- end }}
 
       serviceAccountName: {{ include "ksa_name" . }}
@@ -95,10 +89,10 @@ spec:
             cpu: {{ required "REQUIRED: api.cpu.limit" .Values.api.cpu.limit }}
 
         volumeMounts:
-          - mountPath: /backend/secrets
-            name: app-secrets
+          {{- if .Values.api.use_pd }}
           - mountPath: /backend/var
             name: db-volume
+          {{- end }}
           - mountPath: /tmp
             name: tmp-dir
           - mountPath: /usr/tmp
@@ -112,7 +106,7 @@ spec:
             path: {{ .Values.api.healthCheckPath }}
             port: {{ .Values.api.containerPort }}
           initialDelaySeconds: 30
-          periodSeconds: 10
+          periodSeconds: 30
 
         readinessProbe:
           httpGet:
@@ -120,13 +114,6 @@ spec:
             port: {{ .Values.api.containerPort }}
           initialDelaySeconds: 30
           periodSeconds: 10
-        {{- end }}
-
-        {{- if .Values.django.enabled }}
-        {{- if and (not .Values.db.proxy) (or (not .Values.api.use_pd) (not .Values.api.mount_pd)) }}
-        command: ["/bin/sh"]
-        args: ["-c", "./bin/init_db.sh && gunicorn -b 0.0.0.0:8000 {{ .Values.api.label -}}.wsgi"]
-        {{- end }}
         {{- end }}
 
         env:
@@ -285,12 +272,14 @@ spec:
         {{- end }}
 
         {{- if .Values.db.proxy }}
-        - name: USE_PROXY
-          value: "true"
+        - name: DB_VENDOR
+          value: "postgres"
         - name: DB_NAME
           value: {{ include "db_name" . }}
         - name: DB_USER
           value: {{ include "app_sa" . }}
+        - name: DB_PASSWORD
+          value: fake-password
         {{- end }}
 
         {{- if .Values.postgres.enabled }}

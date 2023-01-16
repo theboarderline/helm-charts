@@ -105,21 +105,21 @@ spec:
             path: {{ .Values.nginx.healthCheckPath }}
             port: {{ .Values.nginx.containerPort }}
           failureThreshold: 5
-          periodSeconds: 5
+          periodSeconds: 15
 
         livenessProbe:
           httpGet:
             path: {{ .Values.nginx.healthCheckPath }}
             port: {{ .Values.nginx.containerPort }}
           initialDelaySeconds: 5
-          periodSeconds: 5
+          periodSeconds: 30
 
         readinessProbe:
           httpGet:
             path: {{ .Values.nginx.healthCheckPath }}
             port: {{ .Values.nginx.containerPort }}
           initialDelaySeconds: 5
-          periodSeconds: 5
+          periodSeconds: 10
 
         env:
         - name: LIFECYCLE
