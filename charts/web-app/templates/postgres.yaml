@@ -35,7 +35,7 @@ kind: Service
 metadata:
   name: db-proxy
 spec:
-  type: CLusterIP
+  type: ClusterIP
   selector:
     postgres-operator.crunchydata.com/instance-set: instance1
   ports:
