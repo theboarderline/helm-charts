@@ -28,4 +28,20 @@ spec:
               requests:
                 storage: {{ .Values.postgres.disk_size }}
 
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-proxy
+spec:
+  type: CLusterIP
+  selector:
+    postgres-operator.crunchydata.com/instance-set: instance1
+  ports:
+  - name: postgres
+    port: 5432
+    protocol: TCP
+    targetPort: postgres
+
 {{- end }}
