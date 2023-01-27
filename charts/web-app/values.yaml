@@ -184,6 +184,9 @@ selenium:
 airtable:
   enabled: false
 
+openai:
+  enabled: false
+
 postgres:
   enabled: false
   disk_size: 10Gi
