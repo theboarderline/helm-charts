@@ -22,7 +22,7 @@ spec:
           restartPolicy: Never
           containers:
           - name: http
-            image: gcr.io/walker-cpl/httpie:0.0.1
+            image: gcr.io/walker-cpl/httpie:0.0.2
             imagePullPolicy: IfNotPresent
 
             securityContext:
