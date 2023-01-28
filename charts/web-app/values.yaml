@@ -185,7 +185,7 @@ airtable:
   enabled: false
 
 openai:
-  enabled: false
+  enabled: true
 
 postgres:
   enabled: false
