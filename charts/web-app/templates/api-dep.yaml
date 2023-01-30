@@ -138,6 +138,8 @@ spec:
         {{- end }}
         {{- end }}
 
+        - name: GOOGLE_SERVICE_ACCOUNT
+          value: '{{- include "app_sa" $ -}}.gserviceaccount.com'
 
         {{- if .Values.api.env }}
 {{- toYaml .Values.api.env | nindent 8 }}
