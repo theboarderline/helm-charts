@@ -48,6 +48,9 @@ spec:
 
       volumes:
         - name: tmp-dir
+          secret:
+            secretName: app-secrets
+        - name: tmp-dir
           emptyDir: {}
         - name: usr-tmp-dir
           emptyDir: {}
@@ -93,6 +96,8 @@ spec:
           - mountPath: /backend/var
             name: db-volume
           {{- end }}
+          - mountPath: /backend/secrets
+            name: app-secrets
           - mountPath: /tmp
             name: tmp-dir
           - mountPath: /usr/tmp
