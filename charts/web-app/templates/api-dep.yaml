@@ -47,7 +47,7 @@ spec:
           - 150
 
       volumes:
-        - name: tmp-dir
+        - name: app-secrets
           secret:
             secretName: app-secrets
         - name: tmp-dir
