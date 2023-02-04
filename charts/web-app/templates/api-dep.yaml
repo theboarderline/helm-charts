@@ -57,10 +57,6 @@ spec:
         - name: var-tmp-dir
           emptyDir: {}
 
-        - name: app-secrets
-          secret:
-            secretName: app-secrets
-
         {{- if .Values.api.use_pd }}
         - name: db-volume
           persistentVolumeClaim:
