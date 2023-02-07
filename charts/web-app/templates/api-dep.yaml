@@ -47,9 +47,6 @@ spec:
           - 150
 
       volumes:
-        - name: app-secrets
-          secret:
-            secretName: app-secrets
         - name: tmp-dir
           emptyDir: {}
         - name: usr-tmp-dir
@@ -92,8 +89,6 @@ spec:
           - mountPath: /backend/var
             name: db-volume
           {{- end }}
-          - mountPath: /backend/secrets
-            name: app-secrets
           - mountPath: /tmp
             name: tmp-dir
           - mountPath: /usr/tmp
@@ -107,14 +102,14 @@ spec:
             path: {{ .Values.api.healthCheckPath }}
             port: {{ .Values.api.containerPort }}
           initialDelaySeconds: 30
-          periodSeconds: 60
+          periodSeconds: 15
 
         readinessProbe:
           httpGet:
             path: {{ .Values.api.healthCheckPath }}
             port: {{ .Values.api.containerPort }}
           initialDelaySeconds: 30
-          periodSeconds: 30
+          periodSeconds: 15
         {{- end }}
 
         env:

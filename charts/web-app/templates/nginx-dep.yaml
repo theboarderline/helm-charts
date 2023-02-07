@@ -111,15 +111,15 @@ spec:
           httpGet:
             path: {{ .Values.nginx.healthCheckPath }}
             port: {{ .Values.nginx.containerPort }}
-          initialDelaySeconds: 5
-          periodSeconds: 30
+          initialDelaySeconds: 15
+          periodSeconds: 15
 
         readinessProbe:
           httpGet:
             path: {{ .Values.nginx.healthCheckPath }}
             port: {{ .Values.nginx.containerPort }}
-          initialDelaySeconds: 5
-          periodSeconds: 10
+          initialDelaySeconds: 15
+          periodSeconds: 15
 
         env:
         - name: LIFECYCLE
