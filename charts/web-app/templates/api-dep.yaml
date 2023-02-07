@@ -47,6 +47,11 @@ spec:
           - 150
 
       volumes:
+        {{- if .Values.google.key }}
+        - name: json-credentials
+          secret:
+            secretName: json-credentials
+        {{- end }}
         - name: tmp-dir
           emptyDir: {}
         - name: usr-tmp-dir
@@ -85,6 +90,10 @@ spec:
             cpu: {{ required "REQUIRED: api.cpu.limit" .Values.api.cpu.limit }}
 
         volumeMounts:
+          {{- if .Values.google.key }}
+          - mountPath: /backend/secrets
+            name: json-credentials
+          {{- end }}
           {{- if .Values.api.use_pd }}
           - mountPath: /backend/var
             name: db-volume

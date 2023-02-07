@@ -60,6 +60,7 @@ crm:
   target_mem: 12Mi
 
 google:
+  key: false
   region: us-central1
   zone: us-central1-a
   cdn:
