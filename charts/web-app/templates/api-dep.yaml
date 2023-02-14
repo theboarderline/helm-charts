@@ -150,6 +150,14 @@ spec:
 {{- toYaml .Values.api.env | nindent 8 }}
         {{- end }}
 
+        {{- if .Values.google.maps.enabled }}
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: maps-key
+        {{- end }}
+
         {{- if .Values.jwt.enabled }}
         - name: SECRET_KEY
           valueFrom:

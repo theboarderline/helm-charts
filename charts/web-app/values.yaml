@@ -61,6 +61,8 @@ crm:
 
 google:
   key: false
+  maps:
+    enabled: false
   region: us-central1
   zone: us-central1-a
   cdn:
