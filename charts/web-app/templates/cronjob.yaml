@@ -35,7 +35,7 @@ spec:
                 type: RuntimeDefault
 
             args:
-            - api-svc.{{- .Release.Namespace -}}.svc/api/batch
+            - api-svc.{{- .Release.Namespace -}}.svc/api/{{- .Values.cronjob.api.endpoint }}
             - key=$(API_KEY)
             - --ignore-stdin
 
