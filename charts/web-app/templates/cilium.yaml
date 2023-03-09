@@ -1,26 +1,33 @@
 {{- if and (.Values.enabled) (not .Values.local) }}
 {{- if .Values.cilium.enabled }}
 
-apiVersion: "cilium.io/v2"
-kind: CiliumNetworkPolicy
+apiVersion: networking.gke.io/v1alpha3
+kind: FQDNNetworkPolicy
 metadata:
-  name: network-policy
+  name: api-network-policy
   namespace: {{ .Release.Namespace }}
 spec:
-  endpointSelector: {}
+  podSelector:
+    matchLabels:
+      app: api-dep
+  egress:
+    - to:
+      - fqdns:
+        - "googleapis.com"
+        - "*.googleapis.com"
+        - "accounts.google.com"
+      ports:
+      - port: 443
+        protocol: TCP
 
   ingress:
-    - fromCIDR:
+    - from:
+      - cidrs:
         - "130.211.0.0/22"
         - "35.191.0.0/16"
-  egress:
-    - toFQDNs:
-        - matchName: "gcr.io"
-        - matchName: "googleapis.com"
-        - matchName: "accounts.google.com"
-        - matchPattern: "*.pkg.dev"
-        - matchPattern: "*.gcr.io"
-        - matchPattern: "*.googleapis.com"
+      ports:
+      - port: 443
+        protocol: TCP
       toPorts:
         - ports:
           - port: "443"

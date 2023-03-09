@@ -139,6 +139,9 @@ ingress:
   mci: false
   nginx: false
 
+fqdn_network_policy:
+  enabled: false
+
 network_policy:
   enabled: false
 
