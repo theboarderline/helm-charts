@@ -1,3 +1,4 @@
+
 enabled: true
 local: false
 non_preemptible: false
@@ -43,21 +44,22 @@ nginx:
   target_cpu: 80
   target_mem: 12Mi
 
-crm:
-  enabled: false
+importer:
+  enabled: true
   tag: latest
-  containerPort: 3000
-  healthCheckPath: /health/
+  containerPort: 8000
+  healthCheckPath: /importer/health/
+  disk_size: 10Gi
   memory:
-    request: 8Mi
-    limit: 16Mi
+    request: 64Mi
+    limit: 256Mi
   cpu:
-    request: .001
-    limit: .025
+    request: .1
+    limit: 1
   replicas: 1
-  max_replicas: 3
+  max_replicas: 5
   target_cpu: 80
-  target_mem: 12Mi
+  target_mem: 128Mi
 
 google:
   key: false
@@ -189,11 +191,10 @@ firebase:
 sendgrid:
   enabled: false
 
-selenium:
-  enabled: false
-  tag: latest
-
 airtable:
+  enabled: false
+
+importer:
   enabled: false
 
 openai:

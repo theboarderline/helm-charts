@@ -1,0 +1,10 @@
+
+lifecycle: dev
+gke_project_id: gke-project
+db_project_id: db-project
+app_code: test
+domain: example.com
+
+importer:
+  enabled: true
+

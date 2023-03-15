@@ -22,9 +22,9 @@ spec:
         - "twilio.com"
         - "*.twilio.com"
         - "sync.thewiseagent.com"
-      ports:
-      - port: 443
-        protocol: TCP
+        ports:
+        - port: 443
+          protocol: TCP
     - to:
         - ipBlock:
             cidr: 35.191.0.0/16
