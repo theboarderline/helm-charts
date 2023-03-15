@@ -76,17 +76,19 @@
   {{- required "REQUIRED: google.registry" .Values.google.registry -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/react
 {{- end -}}
 
-{{- define "crm_registry" -}}
-  {{- required "REQUIRED: google.registry" .Values.google.registry -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/crm
-{{- end -}}
 
-{{- define "selenium_registry" -}}
-  {{- required "REQUIRED: google.registry" .Values.google.registry -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/selenium
+{{- define "importer_registry" -}}
+  {{- required "REQUIRED: google.registry" .Values.google.registry -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/importer
 {{- end -}}
 
 
 {{- define "api_image" -}}
   {{- include "api_registry" . -}}:{{- .Values.api.tag }}
+{{- end -}}
+
+
+{{- define "importer_image" -}}
+  {{- include "importer_registry" . -}}:{{- .Values.importer.tag }}
 {{- end -}}
 
 

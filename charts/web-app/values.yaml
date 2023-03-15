@@ -45,11 +45,10 @@ nginx:
   target_mem: 12Mi
 
 importer:
-  enabled: true
+  enabled: false
   tag: latest
   containerPort: 8000
   healthCheckPath: /importer/health/
-  disk_size: 10Gi
   memory:
     request: 64Mi
     limit: 256Mi
@@ -192,9 +191,6 @@ sendgrid:
   enabled: false
 
 airtable:
-  enabled: false
-
-importer:
   enabled: false
 
 openai:
