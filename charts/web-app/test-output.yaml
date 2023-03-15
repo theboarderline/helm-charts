@@ -1,0 +1,656 @@
+helm template test . -f ./test-values.yaml
+---
+# Source: web-app/templates/service-account.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: test-sa
+  namespace: card-dead
+  labels:
+    namespace: card-dead
+    backstage.io/kubernetes-id: test
+  annotations:
+    iam.gke.io/gcp-service-account: test-workload@test-app-project.iam.gserviceaccount.com
+---
+# Source: web-app/templates/configs.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: react-config
+  namespace: card-dead
+data:
+  env.js: |
+    window.LIFECYCLE = 'dev';
+    window.PUBLIC_BUCKET = 'dev-test-v3-public-content';
+    window.BACKEND_BUCKET = 'dev-test-v3-backend-bucket';
+    window.API_URL = 'https://dev.example.com/';
+---
+# Source: web-app/templates/configs.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-config
+  namespace: card-dead
+data:
+  api.conf: |
+    location /api/ {
+        proxy_set_header Host dev.example.com;
+        proxy_pass http://api-svc.card-dead.svc;
+    }
+    location /admin/ {
+        proxy_set_header Host dev.example.com;
+        proxy_pass http://api-svc.card-dead.svc;
+    }
+    location /accounts/ {
+        proxy_set_header Host dev.example.com;
+        proxy_pass http://api-svc.card-dead.svc;
+    }
+    location /importer/ {
+        proxy_set_header Host dev.example.com;
+        proxy_pass http://importer-svc.card-dead.svc;
+    }
+---
+# Source: web-app/templates/api-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-svc
+  namespace: card-dead
+  labels:
+    namespace: card-dead
+    tier: backend
+    backstage.io/kubernetes-id: test
+  annotations:
+    cloud.google.com/backend-config: '{"default": "api-backendconfig"}'
+spec:
+  type: ClusterIP
+  selector:
+    app: api-dep
+    
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8000
+---
+# Source: web-app/templates/importer-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: importer-svc
+  namespace: card-dead
+  labels:
+    namespace: card-dead
+    tier: backend
+    backstage.io/kubernetes-id: test
+  annotations:
+    cloud.google.com/backend-config: '{"default": "importer-backendconfig"}'
+spec:
+  type: ClusterIP
+  selector:
+    app: importer-dep
+    
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8000
+---
+# Source: web-app/templates/nginx-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-svc
+  namespace: card-dead
+  labels:
+    namespace: card-dead
+    tier: frontend
+    backstage.io/kubernetes-id: test
+  annotations:
+    cloud.google.com/backend-config: '{"default": "nginx-backendconfig"}'
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  type: ClusterIP
+  selector:
+    app: nginx-dep
+    
+  ports:
+  - name: http
+    port: 443
+    protocol: TCP
+    targetPort: 3000
+---
+# Source: web-app/templates/api-dep.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-dep
+  namespace: card-dead
+  labels:
+    namespace: card-dead
+    tier: backend
+    backstage.io/kubernetes-id: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-dep
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        container.apparmor.security.beta.kubernetes.io/api: runtime/default
+        container.seccomp.security.alpha.kubernetes.io/api: runtime/default
+      labels:
+        app: api-dep
+        namespace: card-dead
+        tier: backend
+        backstage.io/kubernetes-id: test
+    spec:
+      tolerations:
+      - key: preemptible
+        operator: Equal
+        value: "true"
+        effect: PreferNoSchedule
+
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      securityContext:
+        runAsUser: 115
+        runAsGroup: 125
+        fsGroup: 190
+        supplementalGroups:
+          - 150
+
+      volumes:
+        - name: tmp-dir
+          emptyDir: {}
+        - name: usr-tmp-dir
+          emptyDir: {}
+        - name: var-tmp-dir
+          emptyDir: {}
+
+      serviceAccountName: test-sa
+      restartPolicy: Always
+      containers:
+      - name: api
+        image: gcr.io/test-app-project/dev/api:latest
+        imagePullPolicy: Always
+
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          procMount: default
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          seccompProfile:
+            type: RuntimeDefault
+
+        resources:
+          requests:
+            memory: 64Mi
+            cpu: 0.1
+          limits:
+            memory: 256Mi
+            cpu: 1
+
+        volumeMounts:
+          - mountPath: /tmp
+            name: tmp-dir
+          - mountPath: /usr/tmp
+            name: usr-tmp-dir
+          - mountPath: /var/tmp
+            name: var-tmp-dir
+        livenessProbe:
+          httpGet:
+            path: /api/
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 15
+
+        readinessProbe:
+          httpGet:
+            path: /api/
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 15
+
+        env:
+        - name: LIFECYCLE
+          value: dev
+        - name: IS_LOCAL
+          value: "false"
+        - name: USE_GCS
+          value: "true"
+        - name: DOMAIN
+          value: dev.example.com
+        - name: PUBLIC_BUCKET
+          value: dev-test-v3-public-content
+        - name: BACKEND_BUCKET
+          value: dev-test-v3-backend-bucket
+
+        - name: GOOGLE_SERVICE_ACCOUNT
+          value: 'test-workload@test-app-project.iam.gserviceaccount.com'
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: openai-key
+
+        - name: DJANGO_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: django-key
+
+        
+
+        ports:
+        - containerPort: 8000
+          name: api-port
+---
+# Source: web-app/templates/importer-dep.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: importer-dep
+  namespace: card-dead
+  labels:
+    namespace: card-dead
+    tier: backend
+    backstage.io/kubernetes-id: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: importer-dep
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        container.apparmor.security.beta.kubernetes.io/importer: runtime/default
+        container.seccomp.security.alpha.kubernetes.io/importer: runtime/default
+      labels:
+        app: importer-dep
+        namespace: card-dead
+        tier: backend
+        backstage.io/kubernetes-id: test
+    spec:
+      tolerations:
+      - key: preemptible
+        operator: Equal
+        value: "true"
+        effect: PreferNoSchedule
+
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      securityContext:
+        runAsUser: 115
+        runAsGroup: 125
+        fsGroup: 190
+        supplementalGroups:
+          - 150
+
+      volumes:
+        - name: tmp-dir
+          emptyDir: {}
+        - name: usr-tmp-dir
+          emptyDir: {}
+        - name: var-tmp-dir
+          emptyDir: {}
+
+      serviceAccountName: test-sa
+      restartPolicy: Always
+      containers:
+      - name: importer
+        image: gcr.io/test-app-project/dev/importer:latest
+        imagePullPolicy: Always
+
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          procMount: default
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          seccompProfile:
+            type: RuntimeDefault
+
+        resources:
+          requests:
+            memory: 64Mi
+            cpu: 0.1
+          limits:
+            memory: 256Mi
+            cpu: 1
+
+        volumeMounts:
+          - mountPath: /tmp
+            name: tmp-dir
+          - mountPath: /usr/tmp
+            name: usr-tmp-dir
+          - mountPath: /var/tmp
+            name: var-tmp-dir
+        livenessProbe:
+          httpGet:
+            path: /importer/health/
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 15
+
+        readinessProbe:
+          httpGet:
+            path: /importer/health/
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 15
+
+        env:
+        - name: LIFECYCLE
+          value: dev
+        - name: IS_LOCAL
+          value: "false"
+        - name: USE_GCS
+          value: "true"
+        - name: DOMAIN
+          value: dev.example.com
+
+        ports:
+        - containerPort: 8000
+          name: importer-port
+---
+# Source: web-app/templates/nginx-dep.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-dep
+  namespace: card-dead
+  labels:
+    namespace: card-dead
+    tier: frontend
+    backstage.io/kubernetes-id: test
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: nginx-dep
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        container.apparmor.security.beta.kubernetes.io/nginx: runtime/default
+        container.seccomp.security.alpha.kubernetes.io/nginx: runtime/default
+      labels:
+        app: nginx-dep
+        namespace: card-dead
+        tier: frontend
+        backstage.io/kubernetes-id: test
+    spec:
+      tolerations:
+      - key: preemptible
+        operator: Equal
+        value: "true"
+        effect: PreferNoSchedule
+
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      securityContext:
+        runAsUser: 115
+        runAsGroup: 125
+        fsGroup: 190
+        supplementalGroups:
+          - 150
+
+      serviceAccountName: default
+      containers:
+      - name: nginx
+        image: gcr.io/test-app-project/dev/react:latest
+        imagePullPolicy: Always
+
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          procMount: default
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          seccompProfile:
+            type: RuntimeDefault
+
+        volumeMounts:
+        - name: react-env
+          mountPath: /var/www/env
+          readOnly: true
+        - name: api-redirects
+          mountPath: /etc/nginx/conf.d
+          readOnly: true
+
+        - name: log-dir
+          mountPath: /var/log/nginx
+        - name: body-dir
+          mountPath: /var/lib/nginx/body
+        - name: proxy-dir
+          mountPath: /var/lib/nginx/proxy
+        - name: cache-proxy-dir
+          mountPath: /var/cache/nginx/proxy_temp
+        - name: cache-client-dir
+          mountPath: /var/cache/nginx/client_temp
+        - name: fast-cgi-dir
+          mountPath: /var/cache/nginx/fastcgi_temp
+        - name: uwsgi-dir
+          mountPath: /var/cache/nginx/uwsgi_temp
+        - name: scgi-dir
+          mountPath: /var/cache/nginx/scgi_temp
+        - name: pid-dir
+          mountPath: /var/run
+
+        resources:
+          requests:
+            memory: 8Mi
+            cpu: 0.01
+          limits:
+            memory: 16Mi
+            cpu: 0.25
+
+        startupProbe:
+          httpGet:
+            path: /health/
+            port: 3000
+          failureThreshold: 5
+          periodSeconds: 15
+
+        livenessProbe:
+          httpGet:
+            path: /health/
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 15
+
+        readinessProbe:
+          httpGet:
+            path: /health/
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 15
+
+        env:
+        - name: LIFECYCLE
+          value: dev
+
+        ports:
+        - containerPort: 3000
+          name: https
+          protocol: TCP
+      volumes:
+        - name: react-env
+          configMap:
+            name: react-config
+            items:
+            - key: env.js
+              path: env.js
+        - name: api-redirects
+          configMap:
+            name: api-config
+            items:
+            - key: api.conf
+              path: api.conf
+        - name: log-dir
+          emptyDir: {}
+        - name: body-dir
+          emptyDir: {}
+        - name: proxy-dir
+          emptyDir: {}
+        - name: cache-proxy-dir
+          emptyDir: {}
+        - name: cache-client-dir
+          emptyDir: {}
+        - name: fast-cgi-dir
+          emptyDir: {}
+        - name: uwsgi-dir
+          emptyDir: {}
+        - name: scgi-dir
+          emptyDir: {}
+        - name: pid-dir
+          emptyDir: {}
+---
+# Source: web-app/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  namespace: card-dead
+  labels:
+    namespace: card-dead
+    backstage.io/kubernetes-id: test
+  annotations:
+    networking.gke.io/v1beta1.FrontendConfig: gke-frontendconfig
+    networking.gke.io/managed-certificates: google-cert
+    external-dns.alpha.kubernetes.io/hostname: dev.example.com.
+
+spec:
+
+  defaultBackend:
+    service:
+      name: nginx-svc
+      port:
+        number: 443
+---
+# Source: web-app/templates/backend-config.yaml
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: nginx-backendconfig
+  namespace: card-dead
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 3000
+    type: HTTP
+    requestPath: /health/
+
+  securityPolicy:
+    name: us-only
+
+  cdn:
+    enabled: false
+    cachePolicy:
+      includeHost: true
+      includeProtocol: true
+---
+# Source: web-app/templates/backend-config.yaml
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: api-backendconfig
+  namespace: card-dead
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 8000
+    type: HTTP
+    requestPath: /api/
+
+  securityPolicy:
+    name: us-only
+---
+# Source: web-app/templates/backend-config.yaml
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: importer-backendconfig
+  namespace: card-dead
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 8000
+    type: HTTP
+    requestPath: /importer/health/
+
+  securityPolicy:
+    name: us-only
+---
+# Source: web-app/templates/external-secrets.yaml
+apiVersion: external-secrets.io/v1beta1 
+kind: ExternalSecret
+metadata:
+  name: app-secrets
+  namespace: card-dead
+spec:
+  secretStoreRef:
+    kind: SecretStore
+    name: secret-store
+  target:
+    name: app-secrets
+    creationPolicy: Owner
+  data:
+    - secretKey: django-key
+      remoteRef:
+        key: django-key
+    - secretKey: openai-key
+      remoteRef:
+        key: openai-key
+---
+# Source: web-app/templates/frontend-config.yaml
+apiVersion: networking.gke.io/v1beta1
+kind: FrontendConfig
+metadata:
+  name: gke-frontendconfig
+  namespace: card-dead
+  annotations:
+    configsync.gke.io/cluster-name-selector: central-cluster-membership
+spec:
+  sslPolicy: tls-12
+  redirectToHttps:
+    enabled: true
+    responseCodeName: MOVED_PERMANENTLY_DEFAULT
+---
+# Source: web-app/templates/managed-cert.yaml
+apiVersion: networking.gke.io/v1 
+kind: ManagedCertificate
+metadata:
+  name: google-cert
+  namespace: card-dead
+  labels:
+    namespace: card-dead
+    backstage.io/kubernetes-id: test
+  annotations:
+    configsync.gke.io/cluster-name-selector: central-cluster-membership
+spec:
+  domains:
+    - dev.example.com
+---
+# Source: web-app/templates/external-secrets.yaml
+apiVersion: external-secrets.io/v1beta1 
+kind: SecretStore
+metadata:
+  name: secret-store
+  namespace: card-dead
+  labels:
+    backstage.io/kubernetes-id: test
+spec:
+  provider:
+    gcpsm:
+      projectID: test-app-project
