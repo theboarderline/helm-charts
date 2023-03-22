@@ -151,7 +151,7 @@ spec:
         {{- end }}
 
         {{- if .Values.google.maps.enabled }}
-        - name: SECRET_KEY
+        - name: GOOGLE_MAPS_KEY
           valueFrom:
             secretKeyRef:
               name: app-secrets
@@ -174,13 +174,9 @@ spec:
               key: openai-key
         {{- end }}
 
-        {{- if .Values.gin.enabled }}
-        - name: GIN_MODE
-          value: release
         {{- if .Values.gin.input_path }}
         - name: INPUT_PATH
           value: {{ .Values.gin.input_path }}
-        {{- end }}
         {{- end }}
 
         {{- if .Values.use_oauth }}

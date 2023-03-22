@@ -129,9 +129,12 @@ spec:
               key: secret-key
         {{- end }}
 
-        {{- if .Values.gin.enabled }}
-        - name: GIN_MODE
-          value: release
+        {{- if .Values.google.maps.enabled }}
+        - name: GOOGLE_MAPS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: maps-key
         {{- end }}
 
         {{- if .Values.sendgrid.enabled }}
