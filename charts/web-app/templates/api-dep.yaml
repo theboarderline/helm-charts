@@ -166,6 +166,16 @@ spec:
               key: secret-key
         {{- end }}
 
+        {{- if .Values.realty_mole.enabled }}
+        - name: USE_REALTY_MOLE
+          value: "true"
+        - name: REALTY_MOLE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: realty-mole-api-key
+        {{- end }}
+
         {{- if .Values.attom.enabled }}
         - name: USE_ATTOM
           value: "true"

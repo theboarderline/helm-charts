@@ -1,4 +1,3 @@
-
 lifecycle: dev
 gke_project_id: gke-project
 db_project_id: db-project
@@ -8,3 +7,8 @@ domain: example.com
 importer:
   enabled: true
 
+realty_mole:
+  enabled: true
+
+attom:
+  enabled: true

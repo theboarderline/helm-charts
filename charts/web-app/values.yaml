@@ -195,6 +195,9 @@ airtable:
 openai:
   enabled: false
 
+realty_mole:
+  enabled: false
+
 attom:
   enabled: false
 
