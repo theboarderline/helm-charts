@@ -1,4 +1,3 @@
-
 enabled: true
 local: false
 non_preemptible: false
@@ -194,11 +193,13 @@ airtable:
   enabled: false
 
 openai:
-  enabled: true
+  enabled: false
+
+attom:
+  enabled: false
 
 postgres:
   enabled: false
   disk_size: 10Gi
   backup:
     type: "volume"
-
