@@ -77,6 +77,11 @@
 {{- end -}}
 
 
+{{- define "graphql_registry" -}}
+  {{- required "REQUIRED: google.registry" .Values.google.registry -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/graphql
+{{- end -}}
+
+
 {{- define "importer_registry" -}}
   {{- required "REQUIRED: google.registry" .Values.google.registry -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/importer
 {{- end -}}
@@ -84,6 +89,11 @@
 
 {{- define "api_image" -}}
   {{- include "api_registry" . -}}:{{- .Values.api.tag }}
+{{- end -}}
+
+
+{{- define "graphql_image" -}}
+  {{- include "graphql_registry" . -}}:{{- .Values.graphql.tag }}
 {{- end -}}
 
 

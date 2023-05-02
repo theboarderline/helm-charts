@@ -7,6 +7,22 @@ domain: example.com
 importer:
   enabled: true
 
+graphql:
+  enabled: true
+  tag: latest
+  containerPort: 8000
+  healthCheckPath: /graphql/health
+  memory:
+    request: 64Mi
+    limit: 256Mi
+  cpu:
+    request: .1
+    limit: 1
+  replicas: 1
+  max_replicas: 5
+  target_cpu: 80
+  target_mem: 128Mi
+
 realty_mole:
   enabled: true
 

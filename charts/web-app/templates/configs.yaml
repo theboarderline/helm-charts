@@ -36,6 +36,7 @@ data:
         proxy_set_header Host {{ include "subdomain" . -}};
         proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
     }
+
     {{- if .Values.django.enabled }}
     location /admin/ {
         proxy_set_header Host {{ include "subdomain" . -}};
@@ -46,6 +47,14 @@ data:
         proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
     }
     {{- end }}
+
+    {{- if .Values.graphql.enabled }}
+    location /graphql/ {
+        proxy_set_header Host {{ include "subdomain" . -}};
+        proxy_pass http://graphql-svc.{{- .Release.Namespace -}}.svc;
+    }
+    {{- end }}
+
     {{- if .Values.importer.enabled }}
     location /importer/ {
         proxy_set_header Host {{ include "subdomain" . -}};
