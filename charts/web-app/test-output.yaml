@@ -45,6 +45,10 @@ data:
         proxy_set_header Host dev.example.com;
         proxy_pass http://api-svc.card-dead.svc;
     }
+    location /graphql/ {
+        proxy_set_header Host dev.example.com;
+        proxy_pass http://graphql-svc.card-dead.svc;
+    }
     location /importer/ {
         proxy_set_header Host dev.example.com;
         proxy_pass http://importer-svc.card-dead.svc;
@@ -66,6 +70,29 @@ spec:
   type: ClusterIP
   selector:
     app: api-dep
+    
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8000
+---
+# Source: web-app/templates/graphql-svc.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: graphql-svc
+  namespace: card-dead
+  labels:
+    namespace: card-dead
+    tier: backend
+    backstage.io/kubernetes-id: test
+  annotations:
+    cloud.google.com/backend-config: '{"default": "graphql-backendconfig"}'
+spec:
+  type: ClusterIP
+  selector:
+    app: graphql-dep
     
   ports:
   - name: http
@@ -232,11 +259,22 @@ spec:
 
         - name: GOOGLE_SERVICE_ACCOUNT
           value: 'test-workload@test-app-project.iam.gserviceaccount.com'
-        - name: OPENAI_API_KEY
+        - name: USE_REALTY_MOLE
+          value: "true"
+        - name: REALTY_MOLE_API_KEY
           valueFrom:
             secretKeyRef:
               name: app-secrets
-              key: openai-key
+              key: realty-mole-api-key
+        - name: USE_ATTOM
+          value: "true"
+        - name: ATTOM_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: attom-data-api-key
+        - name: INPUT_PATH
+          value: /tmp/input
 
         - name: DJANGO_KEY
           valueFrom:
@@ -249,6 +287,116 @@ spec:
         ports:
         - containerPort: 8000
           name: api-port
+---
+# Source: web-app/templates/graphql-dep.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graphql-dep
+  namespace: card-dead
+  labels:
+    namespace: card-dead
+    tier: backend
+    backstage.io/kubernetes-id: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: graphql-dep
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        container.apparmor.security.beta.kubernetes.io/graphql: runtime/default
+        container.seccomp.security.alpha.kubernetes.io/graphql: runtime/default
+      labels:
+        app: graphql-dep
+        namespace: card-dead
+        tier: backend
+        backstage.io/kubernetes-id: test
+    spec:
+      tolerations:
+      - key: preemptible
+        operator: Equal
+        value: "true"
+        effect: PreferNoSchedule
+
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      securityContext:
+        runAsUser: 115
+        runAsGroup: 125
+        fsGroup: 190
+        supplementalGroups:
+          - 150
+
+      volumes:
+        - name: tmp-dir
+          emptyDir: {}
+        - name: usr-tmp-dir
+          emptyDir: {}
+        - name: var-tmp-dir
+          emptyDir: {}
+
+      serviceAccountName: test-sa
+      restartPolicy: Always
+      containers:
+      - name: graphql
+        image: gcr.io/test-app-project/dev/graphql:latest
+        imagePullPolicy: Always
+
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          procMount: default
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          seccompProfile:
+            type: RuntimeDefault
+
+        resources:
+          requests:
+            memory: 64Mi
+            cpu: 0.1
+          limits:
+            memory: 256Mi
+            cpu: 1
+
+        volumeMounts:
+          - mountPath: /tmp
+            name: tmp-dir
+          - mountPath: /usr/tmp
+            name: usr-tmp-dir
+          - mountPath: /var/tmp
+            name: var-tmp-dir
+        livenessProbe:
+          httpGet:
+            path: /graphql/health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 15
+
+        readinessProbe:
+          httpGet:
+            path: /graphql/health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 15
+
+        env:
+        - name: LIFECYCLE
+          value: dev
+        - name: IS_LOCAL
+          value: "false"
+        - name: USE_GCS
+          value: "true"
+        - name: DOMAIN
+          value: dev.example.com
+
+        ports:
+        - containerPort: 8000
+          name: graphql-port
 ---
 # Source: web-app/templates/importer-dep.yaml
 apiVersion: apps/v1
@@ -609,9 +757,12 @@ spec:
     - secretKey: django-key
       remoteRef:
         key: django-key
-    - secretKey: openai-key
+    - secretKey: realty-mole-api-key
       remoteRef:
-        key: openai-key
+        key: realty-mole-api-key
+    - secretKey: attom-data-api-key
+      remoteRef:
+        key: attom-data-api-key
 ---
 # Source: web-app/templates/frontend-config.yaml
 apiVersion: networking.gke.io/v1beta1
