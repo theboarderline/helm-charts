@@ -1,13 +1,12 @@
-helm template test . -f ./test-values.yaml
 ---
 # Source: web-app/templates/service-account.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: test-sa
-  namespace: card-dead
+  namespace: test-ns
   labels:
-    namespace: card-dead
+    namespace: test-ns
     backstage.io/kubernetes-id: test
   annotations:
     iam.gke.io/gcp-service-account: test-workload@test-app-project.iam.gserviceaccount.com
@@ -17,7 +16,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: react-config
-  namespace: card-dead
+  namespace: test-ns
 data:
   env.js: |
     window.LIFECYCLE = 'dev';
@@ -30,28 +29,28 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: api-config
-  namespace: card-dead
+  namespace: test-ns
 data:
   api.conf: |
     location /api/ {
         proxy_set_header Host dev.example.com;
-        proxy_pass http://api-svc.card-dead.svc;
+        proxy_pass http://api-svc.test-ns.svc;
     }
     location /admin/ {
         proxy_set_header Host dev.example.com;
-        proxy_pass http://api-svc.card-dead.svc;
+        proxy_pass http://api-svc.test-ns.svc;
     }
     location /accounts/ {
         proxy_set_header Host dev.example.com;
-        proxy_pass http://api-svc.card-dead.svc;
+        proxy_pass http://api-svc.test-ns.svc;
     }
     location /graphql/ {
         proxy_set_header Host dev.example.com;
-        proxy_pass http://graphql-svc.card-dead.svc;
+        proxy_pass http://graphql-svc.test-ns.svc;
     }
     location /importer/ {
         proxy_set_header Host dev.example.com;
-        proxy_pass http://importer-svc.card-dead.svc;
+        proxy_pass http://importer-svc.test-ns.svc;
     }
 ---
 # Source: web-app/templates/api-svc.yaml
@@ -59,9 +58,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: api-svc
-  namespace: card-dead
+  namespace: test-ns
   labels:
-    namespace: card-dead
+    namespace: test-ns
     tier: backend
     backstage.io/kubernetes-id: test
   annotations:
@@ -82,9 +81,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: graphql-svc
-  namespace: card-dead
+  namespace: test-ns
   labels:
-    namespace: card-dead
+    namespace: test-ns
     tier: backend
     backstage.io/kubernetes-id: test
   annotations:
@@ -105,9 +104,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: importer-svc
-  namespace: card-dead
+  namespace: test-ns
   labels:
-    namespace: card-dead
+    namespace: test-ns
     tier: backend
     backstage.io/kubernetes-id: test
   annotations:
@@ -128,9 +127,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nginx-svc
-  namespace: card-dead
+  namespace: test-ns
   labels:
-    namespace: card-dead
+    namespace: test-ns
     tier: frontend
     backstage.io/kubernetes-id: test
   annotations:
@@ -152,9 +151,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-dep
-  namespace: card-dead
+  namespace: test-ns
   labels:
-    namespace: card-dead
+    namespace: test-ns
     tier: backend
     backstage.io/kubernetes-id: test
 spec:
@@ -170,7 +169,7 @@ spec:
         container.seccomp.security.alpha.kubernetes.io/api: runtime/default
       labels:
         app: api-dep
-        namespace: card-dead
+        namespace: test-ns
         tier: backend
         backstage.io/kubernetes-id: test
     spec:
@@ -293,9 +292,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: graphql-dep
-  namespace: card-dead
+  namespace: test-ns
   labels:
-    namespace: card-dead
+    namespace: test-ns
     tier: backend
     backstage.io/kubernetes-id: test
 spec:
@@ -311,7 +310,7 @@ spec:
         container.seccomp.security.alpha.kubernetes.io/graphql: runtime/default
       labels:
         app: graphql-dep
-        namespace: card-dead
+        namespace: test-ns
         tier: backend
         backstage.io/kubernetes-id: test
     spec:
@@ -403,9 +402,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: importer-dep
-  namespace: card-dead
+  namespace: test-ns
   labels:
-    namespace: card-dead
+    namespace: test-ns
     tier: backend
     backstage.io/kubernetes-id: test
 spec:
@@ -421,7 +420,7 @@ spec:
         container.seccomp.security.alpha.kubernetes.io/importer: runtime/default
       labels:
         app: importer-dep
-        namespace: card-dead
+        namespace: test-ns
         tier: backend
         backstage.io/kubernetes-id: test
     spec:
@@ -513,9 +512,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-dep
-  namespace: card-dead
+  namespace: test-ns
   labels:
-    namespace: card-dead
+    namespace: test-ns
     tier: frontend
     backstage.io/kubernetes-id: test
 spec:
@@ -533,7 +532,7 @@ spec:
         container.seccomp.security.alpha.kubernetes.io/nginx: runtime/default
       labels:
         app: nginx-dep
-        namespace: card-dead
+        namespace: test-ns
         tier: frontend
         backstage.io/kubernetes-id: test
     spec:
@@ -669,9 +668,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: app-ingress
-  namespace: card-dead
+  namespace: test-ns
   labels:
-    namespace: card-dead
+    namespace: test-ns
     backstage.io/kubernetes-id: test
   annotations:
     networking.gke.io/v1beta1.FrontendConfig: gke-frontendconfig
@@ -691,7 +690,7 @@ apiVersion: cloud.google.com/v1
 kind: BackendConfig
 metadata:
   name: nginx-backendconfig
-  namespace: card-dead
+  namespace: test-ns
 spec:
   healthCheck:
     checkIntervalSec: 30
@@ -713,7 +712,7 @@ apiVersion: cloud.google.com/v1
 kind: BackendConfig
 metadata:
   name: api-backendconfig
-  namespace: card-dead
+  namespace: test-ns
 spec:
   healthCheck:
     checkIntervalSec: 30
@@ -729,7 +728,7 @@ apiVersion: cloud.google.com/v1
 kind: BackendConfig
 metadata:
   name: importer-backendconfig
-  namespace: card-dead
+  namespace: test-ns
 spec:
   healthCheck:
     checkIntervalSec: 30
@@ -745,7 +744,7 @@ apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: app-secrets
-  namespace: card-dead
+  namespace: test-ns
 spec:
   secretStoreRef:
     kind: SecretStore
@@ -769,7 +768,7 @@ apiVersion: networking.gke.io/v1beta1
 kind: FrontendConfig
 metadata:
   name: gke-frontendconfig
-  namespace: card-dead
+  namespace: test-ns
   annotations:
     configsync.gke.io/cluster-name-selector: central-cluster-membership
 spec:
@@ -783,9 +782,9 @@ apiVersion: networking.gke.io/v1
 kind: ManagedCertificate
 metadata:
   name: google-cert
-  namespace: card-dead
+  namespace: test-ns
   labels:
-    namespace: card-dead
+    namespace: test-ns
     backstage.io/kubernetes-id: test
   annotations:
     configsync.gke.io/cluster-name-selector: central-cluster-membership
@@ -798,7 +797,7 @@ apiVersion: external-secrets.io/v1beta1
 kind: SecretStore
 metadata:
   name: secret-store
-  namespace: card-dead
+  namespace: test-ns
   labels:
     backstage.io/kubernetes-id: test
 spec:

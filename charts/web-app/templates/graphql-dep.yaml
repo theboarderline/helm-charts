@@ -130,6 +130,8 @@ spec:
         {{- end }}
 
         {{- if .Values.google.maps.enabled }}
+        - name: USE_GOOGLE_MAPS
+          value: 'true'
         - name: GOOGLE_MAPS_KEY
           valueFrom:
             secretKeyRef:
@@ -138,6 +140,8 @@ spec:
         {{- end }}
 
         {{- if .Values.sendgrid.enabled }}
+        - name: SEND_EMAILS
+          value: 'true'
         - name: SENDGRID_EMAIL
           value: {{ .Values.sendgrid.email }}
 
@@ -190,6 +194,8 @@ spec:
         {{- end }}
 
         {{- if .Values.twilio.enabled }}
+        - name: SEND_TEXTS
+          value: 'true'
         - name: TWILIO_NUMBER
           value: '{{ required "REQUIRED: twilio.number" .Values.twilio.number }}'
 
