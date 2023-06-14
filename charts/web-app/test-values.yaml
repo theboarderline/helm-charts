@@ -1,30 +1,16 @@
+
 lifecycle: dev
 gke_project_id: gke-project
 db_project_id: db-project
 app_code: test
 domain: example.com
 
-importer:
+import:
   enabled: true
 
-graphql:
+twilio:
   enabled: true
-  tag: latest
-  containerPort: 8000
-  healthCheckPath: /graphql/health
-  memory:
-    request: 64Mi
-    limit: 256Mi
-  cpu:
-    request: .1
-    limit: 1
-  replicas: 1
-  max_replicas: 5
-  target_cpu: 80
-  target_mem: 128Mi
+  mock: true
+  number: "123456789"
+  reply_number: "987654321"
 
-realty_mole:
-  enabled: true
-
-attom:
-  enabled: true

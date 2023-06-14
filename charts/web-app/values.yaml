@@ -43,38 +43,6 @@ nginx:
   target_cpu: 80
   target_mem: 12Mi
 
-graphql:
-  enabled: false
-  tag: latest
-  containerPort: 8000
-  healthCheckPath: /graphql/health
-  memory:
-    request: 64Mi
-    limit: 256Mi
-  cpu:
-    request: .1
-    limit: 1
-  replicas: 1
-  max_replicas: 5
-  target_cpu: 80
-  target_mem: 128Mi
-
-importer:
-  enabled: false
-  tag: latest
-  containerPort: 8000
-  healthCheckPath: /importer/health/
-  memory:
-    request: 64Mi
-    limit: 256Mi
-  cpu:
-    request: .1
-    limit: 1
-  replicas: 1
-  max_replicas: 5
-  target_cpu: 80
-  target_mem: 128Mi
-
 google:
   key: false
   maps:
@@ -193,6 +161,7 @@ cronjob:
 
 twilio:
   enabled: false
+  mock: false
   flex:
     enabled: false
 

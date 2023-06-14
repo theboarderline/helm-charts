@@ -53,25 +53,4 @@ spec:
 ---
 {{- end }}
 
-
-{{- if .Values.importer.enabled }}
-
-apiVersion: cloud.google.com/v1
-kind: BackendConfig
-metadata:
-  name: importer-backendconfig
-  namespace: {{ .Release.Namespace }}
-spec:
-  healthCheck:
-    checkIntervalSec: 30
-    port: {{ .Values.importer.containerPort }}
-    type: HTTP
-    requestPath: {{ .Values.importer.healthCheckPath }}
-
-  securityPolicy:
-    name: {{ .Values.security_policy }}
-
----
-{{- end }}
-
 {{- end }}

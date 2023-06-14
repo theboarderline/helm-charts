@@ -44,14 +44,6 @@ data:
         proxy_set_header Host dev.example.com;
         proxy_pass http://api-svc.test-ns.svc;
     }
-    location /graphql/ {
-        proxy_set_header Host dev.example.com;
-        proxy_pass http://graphql-svc.test-ns.svc;
-    }
-    location /importer/ {
-        proxy_set_header Host dev.example.com;
-        proxy_pass http://importer-svc.test-ns.svc;
-    }
 ---
 # Source: web-app/templates/api-svc.yaml
 apiVersion: v1
@@ -69,52 +61,6 @@ spec:
   type: ClusterIP
   selector:
     app: api-dep
-    
-  ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 8000
----
-# Source: web-app/templates/graphql-svc.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: graphql-svc
-  namespace: test-ns
-  labels:
-    namespace: test-ns
-    tier: backend
-    backstage.io/kubernetes-id: test
-  annotations:
-    cloud.google.com/backend-config: '{"default": "graphql-backendconfig"}'
-spec:
-  type: ClusterIP
-  selector:
-    app: graphql-dep
-    
-  ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 8000
----
-# Source: web-app/templates/importer-svc.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: importer-svc
-  namespace: test-ns
-  labels:
-    namespace: test-ns
-    tier: backend
-    backstage.io/kubernetes-id: test
-  annotations:
-    cloud.google.com/backend-config: '{"default": "importer-backendconfig"}'
-spec:
-  type: ClusterIP
-  selector:
-    app: importer-dep
     
   ports:
   - name: http
@@ -258,20 +204,6 @@ spec:
 
         - name: GOOGLE_SERVICE_ACCOUNT
           value: 'test-workload@test-app-project.iam.gserviceaccount.com'
-        - name: USE_REALTY_MOLE
-          value: "true"
-        - name: REALTY_MOLE_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: app-secrets
-              key: realty-mole-api-key
-        - name: USE_ATTOM
-          value: "true"
-        - name: ATTOM_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: app-secrets
-              key: attom-data-api-key
         - name: INPUT_PATH
           value: /tmp/input
 
@@ -282,230 +214,32 @@ spec:
               key: django-key
 
         
+        - name: SEND_TEXTS
+          value: 'true'
+        - name: MOCK_TEXTS
+          value: 'true'
+
+        - name: TWILIO_NUMBER
+          value: '123456789'
+
+        - name: TWILIO_REPLY_NUMBER
+          value: '987654321'
+
+        - name: TWILIO_ACCOUNT_SID
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: twilio-account-sid
+
+        - name: TWILIO_AUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: twilio-auth-token
 
         ports:
         - containerPort: 8000
           name: api-port
----
-# Source: web-app/templates/graphql-dep.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: graphql-dep
-  namespace: test-ns
-  labels:
-    namespace: test-ns
-    tier: backend
-    backstage.io/kubernetes-id: test
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: graphql-dep
-  template:
-    metadata:
-      annotations:
-        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
-        container.apparmor.security.beta.kubernetes.io/graphql: runtime/default
-        container.seccomp.security.alpha.kubernetes.io/graphql: runtime/default
-      labels:
-        app: graphql-dep
-        namespace: test-ns
-        tier: backend
-        backstage.io/kubernetes-id: test
-    spec:
-      tolerations:
-      - key: preemptible
-        operator: Equal
-        value: "true"
-        effect: PreferNoSchedule
-
-      hostIPC: false
-      hostNetwork: false
-      hostPID: false
-      securityContext:
-        runAsUser: 115
-        runAsGroup: 125
-        fsGroup: 190
-        supplementalGroups:
-          - 150
-
-      volumes:
-        - name: tmp-dir
-          emptyDir: {}
-        - name: usr-tmp-dir
-          emptyDir: {}
-        - name: var-tmp-dir
-          emptyDir: {}
-
-      serviceAccountName: test-sa
-      restartPolicy: Always
-      containers:
-      - name: graphql
-        image: gcr.io/test-app-project/dev/graphql:latest
-        imagePullPolicy: Always
-
-        securityContext:
-          allowPrivilegeEscalation: false
-          privileged: false
-          procMount: default
-          readOnlyRootFilesystem: true
-          runAsNonRoot: true
-          seccompProfile:
-            type: RuntimeDefault
-
-        resources:
-          requests:
-            memory: 64Mi
-            cpu: 0.1
-          limits:
-            memory: 256Mi
-            cpu: 1
-
-        volumeMounts:
-          - mountPath: /tmp
-            name: tmp-dir
-          - mountPath: /usr/tmp
-            name: usr-tmp-dir
-          - mountPath: /var/tmp
-            name: var-tmp-dir
-        livenessProbe:
-          httpGet:
-            path: /graphql/health
-            port: 8000
-          initialDelaySeconds: 30
-          periodSeconds: 15
-
-        readinessProbe:
-          httpGet:
-            path: /graphql/health
-            port: 8000
-          initialDelaySeconds: 30
-          periodSeconds: 15
-
-        env:
-        - name: LIFECYCLE
-          value: dev
-        - name: IS_LOCAL
-          value: "false"
-        - name: USE_GCS
-          value: "true"
-        - name: DOMAIN
-          value: dev.example.com
-
-        ports:
-        - containerPort: 8000
-          name: graphql-port
----
-# Source: web-app/templates/importer-dep.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: importer-dep
-  namespace: test-ns
-  labels:
-    namespace: test-ns
-    tier: backend
-    backstage.io/kubernetes-id: test
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: importer-dep
-  template:
-    metadata:
-      annotations:
-        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
-        container.apparmor.security.beta.kubernetes.io/importer: runtime/default
-        container.seccomp.security.alpha.kubernetes.io/importer: runtime/default
-      labels:
-        app: importer-dep
-        namespace: test-ns
-        tier: backend
-        backstage.io/kubernetes-id: test
-    spec:
-      tolerations:
-      - key: preemptible
-        operator: Equal
-        value: "true"
-        effect: PreferNoSchedule
-
-      hostIPC: false
-      hostNetwork: false
-      hostPID: false
-      securityContext:
-        runAsUser: 115
-        runAsGroup: 125
-        fsGroup: 190
-        supplementalGroups:
-          - 150
-
-      volumes:
-        - name: tmp-dir
-          emptyDir: {}
-        - name: usr-tmp-dir
-          emptyDir: {}
-        - name: var-tmp-dir
-          emptyDir: {}
-
-      serviceAccountName: test-sa
-      restartPolicy: Always
-      containers:
-      - name: importer
-        image: gcr.io/test-app-project/dev/importer:latest
-        imagePullPolicy: Always
-
-        securityContext:
-          allowPrivilegeEscalation: false
-          privileged: false
-          procMount: default
-          readOnlyRootFilesystem: true
-          runAsNonRoot: true
-          seccompProfile:
-            type: RuntimeDefault
-
-        resources:
-          requests:
-            memory: 64Mi
-            cpu: 0.1
-          limits:
-            memory: 256Mi
-            cpu: 1
-
-        volumeMounts:
-          - mountPath: /tmp
-            name: tmp-dir
-          - mountPath: /usr/tmp
-            name: usr-tmp-dir
-          - mountPath: /var/tmp
-            name: var-tmp-dir
-        livenessProbe:
-          httpGet:
-            path: /importer/health/
-            port: 8000
-          initialDelaySeconds: 30
-          periodSeconds: 15
-
-        readinessProbe:
-          httpGet:
-            path: /importer/health/
-            port: 8000
-          initialDelaySeconds: 30
-          periodSeconds: 15
-
-        env:
-        - name: LIFECYCLE
-          value: dev
-        - name: IS_LOCAL
-          value: "false"
-        - name: USE_GCS
-          value: "true"
-        - name: DOMAIN
-          value: dev.example.com
-
-        ports:
-        - containerPort: 8000
-          name: importer-port
 ---
 # Source: web-app/templates/nginx-dep.yaml
 apiVersion: apps/v1
@@ -663,6 +397,53 @@ spec:
         - name: pid-dir
           emptyDir: {}
 ---
+# Source: web-app/templates/cronjob.yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: import-data
+spec:
+  schedule: "0 16 * * 1-6"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          hostIPC: false
+          hostNetwork: false
+          hostPID: false
+          securityContext:
+            runAsUser: 115
+            runAsGroup: 125
+            fsGroup: 190
+            supplementalGroups:
+              - 150
+          restartPolicy: Never
+          containers:
+          - name: http
+            image: gcr.io/walker-cpl/httpie:0.0.3
+            imagePullPolicy: IfNotPresent
+
+            securityContext:
+              allowPrivilegeEscalation: false
+              privileged: false
+              procMount: default
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              seccompProfile:
+                type: RuntimeDefault
+
+            args:
+            - api-svc.test-ns.svc/api/batch
+            - key=$(API_KEY)
+            - --ignore-stdin
+
+            env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: django-key
+---
 # Source: web-app/templates/ingress.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -723,22 +504,6 @@ spec:
   securityPolicy:
     name: us-only
 ---
-# Source: web-app/templates/backend-config.yaml
-apiVersion: cloud.google.com/v1
-kind: BackendConfig
-metadata:
-  name: importer-backendconfig
-  namespace: test-ns
-spec:
-  healthCheck:
-    checkIntervalSec: 30
-    port: 8000
-    type: HTTP
-    requestPath: /importer/health/
-
-  securityPolicy:
-    name: us-only
----
 # Source: web-app/templates/external-secrets.yaml
 apiVersion: external-secrets.io/v1beta1 
 kind: ExternalSecret
@@ -756,12 +521,13 @@ spec:
     - secretKey: django-key
       remoteRef:
         key: django-key
-    - secretKey: realty-mole-api-key
+    - secretKey: twilio-auth-token
       remoteRef:
-        key: realty-mole-api-key
-    - secretKey: attom-data-api-key
+        key: twilio-auth-token
+
+    - secretKey: twilio-account-sid
       remoteRef:
-        key: attom-data-api-key
+        key: twilio-account-sid
 ---
 # Source: web-app/templates/frontend-config.yaml
 apiVersion: networking.gke.io/v1beta1

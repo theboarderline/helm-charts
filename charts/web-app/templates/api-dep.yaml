@@ -360,6 +360,12 @@ spec:
         {{- if .Values.twilio.enabled }}
         - name: SEND_TEXTS
           value: 'true'
+
+        {{- if .Values.twilio.mock }}
+        - name: MOCK_TEXTS
+          value: 'true'
+        {{- end }}
+
         - name: TWILIO_NUMBER
           value: '{{ required "REQUIRED: twilio.number" .Values.twilio.number }}'
 
