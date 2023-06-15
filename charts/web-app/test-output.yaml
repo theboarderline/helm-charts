@@ -438,7 +438,7 @@ spec:
                 type: RuntimeDefault
 
             args:
-            - api-svc.test-ns.svc/api/batch
+            - api-svc.test-ns.svc/api/repeat
             - key=$(API_KEY)
             - --ignore-stdin
 
@@ -526,6 +526,9 @@ spec:
     - secretKey: django-key
       remoteRef:
         key: django-key
+    - secretKey: groupme-access-token
+      remoteRef:
+        key: groupme-access-token
     - secretKey: twilio-auth-token
       remoteRef:
         key: twilio-auth-token

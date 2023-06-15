@@ -44,6 +44,11 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: app-secrets
+            {{- if .Values.django.enabled }}
                   key: django-key
+            {{- else }}
+                  key: secret-key
+            {{- end }}
+
 
 {{- end }}

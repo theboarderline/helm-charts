@@ -16,3 +16,7 @@ twilio:
 
 groupme:
   enabled: true
+
+cronjob:
+  api:
+    endpoint: repeat
