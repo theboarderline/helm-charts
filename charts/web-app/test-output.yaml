@@ -204,6 +204,11 @@ spec:
 
         - name: GOOGLE_SERVICE_ACCOUNT
           value: 'test-workload@test-app-project.iam.gserviceaccount.com'
+        - name: GROUPME_ACCESS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: groupme-access-token
         - name: INPUT_PATH
           value: /tmp/input
 

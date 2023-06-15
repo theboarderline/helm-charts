@@ -188,6 +188,14 @@ spec:
               key: attom-data-api-key
         {{- end }}
 
+        {{- if .Values.groupme.enabled }}
+        - name: GROUPME_ACCESS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: groupme-access-token
+        {{- end }}
+
         {{- if .Values.openai.enabled }}
         - name: USE_OPENAI
           value: "true"
