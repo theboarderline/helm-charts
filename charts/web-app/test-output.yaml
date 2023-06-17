@@ -202,6 +202,9 @@ spec:
         - name: BACKEND_BUCKET
           value: dev-test-v3-backend-bucket
 
+        - name: GCP_PROJECT_ID
+          value: 'test-app-project'
+
         - name: GOOGLE_SERVICE_ACCOUNT
           value: 'test-workload@test-app-project.iam.gserviceaccount.com'
         - name: GROUPME_ACCESS_TOKEN
