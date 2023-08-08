@@ -272,6 +272,11 @@ spec:
           value: /backend/secrets/google-oauth-creds
         {{- end }}
 
+        {{- if .Values.google.key }}
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /backend/secrets/json-credentials
+        {{- end }}
+
         {{- if .Values.oauth.github.enabled }}
         - name: GITHUB_OAUTH_ID
           valueFrom:
