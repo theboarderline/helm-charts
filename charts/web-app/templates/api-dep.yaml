@@ -274,7 +274,7 @@ spec:
 
         {{- if .Values.google.key }}
         - name: GOOGLE_APPLICATION_CREDENTIALS
-          value: /backend/secrets/json-credentials
+          value: /backend/secrets/credentials.json
         {{- end }}
 
         {{- if .Values.oauth.github.enabled }}
