@@ -212,6 +212,13 @@ spec:
             secretKeyRef:
               name: app-secrets
               key: groupme-access-token
+        - name: USE_DEEPAI
+          value: "true"
+        - name: DEEPAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: deepai-key
         - name: INPUT_PATH
           value: /tmp/input
 
@@ -529,6 +536,9 @@ spec:
     - secretKey: django-key
       remoteRef:
         key: django-key
+    - secretKey: deepai-key
+      remoteRef:
+        key: deepai-key
     - secretKey: groupme-access-token
       remoteRef:
         key: groupme-access-token

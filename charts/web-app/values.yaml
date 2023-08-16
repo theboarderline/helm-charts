@@ -180,6 +180,9 @@ airtable:
 openai:
   enabled: false
 
+deepai:
+  enabled: false
+
 realty_mole:
   enabled: false
 
@@ -194,4 +197,3 @@ postgres:
 
 groupme:
   enabled: false
-

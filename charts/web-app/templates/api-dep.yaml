@@ -199,6 +199,16 @@ spec:
               key: groupme-access-token
         {{- end }}
 
+        {{- if .Values.deepai.enabled }}
+        - name: USE_DEEPAI
+          value: "true"
+        - name: DEEPAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: deepai-key
+        {{- end }}
+
         {{- if .Values.openai.enabled }}
         - name: USE_OPENAI
           value: "true"
