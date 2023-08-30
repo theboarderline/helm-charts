@@ -22,3 +22,6 @@ deepai:
 cronjob:
   api:
     endpoint: repeat
+
+db:
+  proxy: true

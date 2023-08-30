@@ -229,6 +229,16 @@ spec:
               key: django-key
 
         
+        - name: DB_VENDOR
+          value: "postgres"
+        - name: DB_DATABASE
+          value: dev-db
+        - name: DB_NAME
+          value: dev-db
+        - name: DB_USER
+          value: test-workload@test-app-project.iam
+        - name: DB_PASSWORD
+          value: fake-password
         - name: SEND_TEXTS
           value: 'true'
         - name: MOCK_TEXTS
@@ -255,6 +265,22 @@ spec:
         ports:
         - containerPort: 8000
           name: api-port
+      - name: proxy
+        image: "gcr.io/cloudsql-docker/gce-proxy:1.33.3"
+        imagePullPolicy: Always
+        command:
+        - /cloud_sql_proxy
+        - -instances=db-project:us-central1:test-instance=tcp:127.0.0.1:5432
+        - -enable_iam_login
+
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          procMount: default
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          seccompProfile:
+            type: RuntimeDefault
 ---
 # Source: web-app/templates/nginx-dep.yaml
 apiVersion: apps/v1
