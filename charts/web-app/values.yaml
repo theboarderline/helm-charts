@@ -183,9 +183,6 @@ openai:
 deepai:
   enabled: false
 
-realty_mole:
-  enabled: false
-
 attom:
   enabled: false
 
@@ -195,5 +192,9 @@ postgres:
   backup:
     type: "volume"
 
+rapid_api:
+  enabled: false
+
 groupme:
   enabled: false
+

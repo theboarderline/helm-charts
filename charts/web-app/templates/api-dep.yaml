@@ -171,14 +171,14 @@ spec:
               key: secret-key
         {{- end }}
 
-        {{- if .Values.realty_mole.enabled }}
-        - name: USE_REALTY_MOLE
+        {{- if .Values.rapid_api.enabled }}
+        - name: USE_RAPID_API
           value: "true"
-        - name: REALTY_MOLE_API_KEY
+        - name: RAPID_API_KEY
           valueFrom:
             secretKeyRef:
               name: app-secrets
-              key: realty-mole-api-key
+              key: rapid-api-key
         {{- end }}
 
         {{- if .Values.attom.enabled }}

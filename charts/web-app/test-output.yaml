@@ -207,6 +207,13 @@ spec:
 
         - name: GOOGLE_SERVICE_ACCOUNT
           value: 'test-workload@test-app-project.iam.gserviceaccount.com'
+        - name: USE_RAPID_API
+          value: "true"
+        - name: RAPID_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: rapid-api-key
         - name: GROUPME_ACCESS_TOKEN
           valueFrom:
             secretKeyRef:
@@ -562,6 +569,9 @@ spec:
     - secretKey: django-key
       remoteRef:
         key: django-key
+    - secretKey: rapid-api-key
+      remoteRef:
+        key: rapid-api-key
     - secretKey: deepai-key
       remoteRef:
         key: deepai-key
