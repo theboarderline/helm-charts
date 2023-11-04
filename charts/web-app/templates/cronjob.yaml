@@ -27,7 +27,7 @@ spec:
           restartPolicy: Never
           containers:
           - name: http
-            image: gcr.io/walker-cpl/httpie:{{- $.Values.cronjobs.image.tag }}
+            image: gcr.io/walker-cpl/httpie:{{- $.Values.httpie.image.tag }}
             imagePullPolicy: IfNotPresent
 
             securityContext:
