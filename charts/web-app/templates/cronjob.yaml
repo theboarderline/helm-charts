@@ -1,11 +1,16 @@
-{{- if .Values.import.enabled }}
+{{- if .Values.cronjobs.enabled }}
 
+{{- range .Values.cronjobs.jobs }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: import-data
+  name: cronjob-{{ .name }}
 spec:
-  schedule: "{{- .Values.import.schedule -}}"
+  {{- if .schedule }}
+  schedule: "{{- .schedule -}}"
+  {{- else }}
+  schedule: "{{- $.Values.cronjobs.default_schedule -}}"
+  {{- end }}
   jobTemplate:
     spec:
       template:
@@ -22,7 +27,7 @@ spec:
           restartPolicy: Never
           containers:
           - name: http
-            image: gcr.io/walker-cpl/httpie:{{- .Values.cronjob.image.tag }}
+            image: gcr.io/walker-cpl/httpie:{{- $.Values.cronjobs.image.tag }}
             imagePullPolicy: IfNotPresent
 
             securityContext:
@@ -35,7 +40,7 @@ spec:
                 type: RuntimeDefault
 
             args:
-            - api-svc.{{- .Release.Namespace -}}.svc/api/{{- .Values.cronjob.api.endpoint }}
+            - api-svc.{{- $.Release.Namespace -}}.svc/api/{{- .endpoint }}
             - key=$(API_KEY)
             - --ignore-stdin
 
@@ -44,11 +49,15 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: app-secrets
-            {{- if .Values.django.enabled }}
+            {{- if $.Values.django.enabled }}
                   key: django-key
             {{- else }}
                   key: secret-key
             {{- end }}
 
+---
 
 {{- end }}
+
+{{- end }}
+

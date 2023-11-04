@@ -22,9 +22,16 @@ groupme:
 deepai:
   enabled: true
 
-cronjob:
-  api:
-    endpoint: repeat
+cronjobs:
+  enabled: true
+  default_schedule: "0 14 * * *"
+  jobs:
+    - name: job
+      enabled: true
+      endpoint: endpoint
+    - name: disabled-job
+      enabled: false
+      endpoint: disabled-endpoint
 
 db:
   proxy: true

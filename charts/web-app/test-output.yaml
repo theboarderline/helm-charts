@@ -449,9 +449,9 @@ spec:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: import-data
+  name: cronjob-job
 spec:
-  schedule: "0 16 * * 1-6"
+  schedule: "0 14 * * *"
   jobTemplate:
     spec:
       template:
@@ -481,7 +481,54 @@ spec:
                 type: RuntimeDefault
 
             args:
-            - api-svc.test-ns.svc/api/repeat
+            - api-svc.test-ns.svc/api/endpoint
+            - key=$(API_KEY)
+            - --ignore-stdin
+
+            env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: django-key
+---
+# Source: web-app/templates/cronjob.yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob-disabled-job
+spec:
+  schedule: "0 14 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          hostIPC: false
+          hostNetwork: false
+          hostPID: false
+          securityContext:
+            runAsUser: 115
+            runAsGroup: 125
+            fsGroup: 190
+            supplementalGroups:
+              - 150
+          restartPolicy: Never
+          containers:
+          - name: http
+            image: gcr.io/walker-cpl/httpie:0.0.3
+            imagePullPolicy: IfNotPresent
+
+            securityContext:
+              allowPrivilegeEscalation: false
+              privileged: false
+              procMount: default
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              seccompProfile:
+                type: RuntimeDefault
+
+            args:
+            - api-svc.test-ns.svc/api/disabled-endpoint
             - key=$(API_KEY)
             - --ignore-stdin
 
