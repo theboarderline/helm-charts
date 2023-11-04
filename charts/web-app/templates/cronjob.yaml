@@ -27,7 +27,7 @@ spec:
           restartPolicy: Never
           containers:
           - name: http
-            image: gcr.io/walker-cpl/httpie:{{- $.Values.httpie.image.tag }}
+            image: gcr.io/walker-cpl/httpie:0.0.3
             imagePullPolicy: IfNotPresent
 
             securityContext:

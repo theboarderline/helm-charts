@@ -153,10 +153,6 @@ db:
   proxy: false
   proxy_version: gcr.io/cloudsql-docker/gce-proxy:1.33.3
 
-httpie:
-  image:
-    tag: 0.0.3
-
 cronjobs:
   enabled: false
 
