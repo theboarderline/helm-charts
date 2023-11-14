@@ -247,6 +247,38 @@ spec:
           value: test-workload@test-app-project.iam
         - name: DB_PASSWORD
           value: fake-password
+        - name: DB_VENDOR
+          value: "postgres"
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: crunchydb-pguser-crunchydb
+              key: host
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: crunchydb-pguser-crunchydb
+              key: port
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: crunchydb-pguser-crunchydb
+              key: dbname
+        - name: DB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: crunchydb-pguser-crunchydb
+              key: dbname
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: crunchydb-pguser-crunchydb
+              key: user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: crunchydb-pguser-crunchydb
+              key: password
         - name: SEND_TEXTS
           value: 'true'
         - name: MOCK_TEXTS
@@ -667,6 +699,43 @@ metadata:
 spec:
   domains:
     - dev.example.com
+---
+# Source: web-app/templates/postgres.yaml
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: crunchydb
+spec:
+  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-14.6-2
+  postgresVersion: 14
+  instances:
+    - name: instance1
+      metadata:
+        annotations:
+          linkerd.io/inject: enabled
+      dataVolumeClaimSpec:
+        accessModes:
+        - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 10Gi
+  patroni:
+    dynamicConfiguration:
+      postgresql:
+        pg_hba:
+          - host crunchydb crunchydb 0.0.0.0/0 password
+  backups:
+    pgbackrest:
+      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.41-2
+      repos:
+      - name: repo1
+        volume:
+          volumeClaimSpec:
+            accessModes:
+            - "ReadWriteOnce"
+            resources:
+              requests:
+                storage: 10Gi
 ---
 # Source: web-app/templates/external-secrets.yaml
 apiVersion: external-secrets.io/v1beta1 

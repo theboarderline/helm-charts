@@ -7,6 +7,9 @@ domain: example.com
 linkerd:
   enabled: true
 
+postgres:
+  enabled: true
+
 import:
   enabled: true
 

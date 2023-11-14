@@ -9,6 +9,11 @@ spec:
   postgresVersion: 14
   instances:
     - name: instance1
+      {{- if .Values.linkerd.enabled }}
+      metadata:
+        annotations:
+          linkerd.io/inject: enabled
+      {{- end }}
       dataVolumeClaimSpec:
         accessModes:
         - "ReadWriteOnce"
