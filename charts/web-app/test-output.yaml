@@ -99,6 +99,7 @@ metadata:
   name: api-dep
   namespace: test-ns
   labels:
+    linkerd.io/inject: enabled
     namespace: test-ns
     tier: backend
     backstage.io/kubernetes-id: test
@@ -296,6 +297,7 @@ metadata:
   name: nginx-dep
   namespace: test-ns
   labels:
+    linkerd.io/inject: enabled
     namespace: test-ns
     tier: frontend
     backstage.io/kubernetes-id: test
@@ -450,6 +452,8 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: cronjob-job
+  labels:
+    linkerd.io/inject: enabled
 spec:
   schedule: "0 14 * * *"
   jobTemplate:
@@ -497,6 +501,8 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: cronjob-disabled-job
+  labels:
+    linkerd.io/inject: enabled
 spec:
   schedule: "0 14 * * *"
   jobTemplate:

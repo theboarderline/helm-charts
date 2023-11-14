@@ -6,6 +6,9 @@ metadata:
   name: api-dep
   namespace: {{ .Release.Namespace }}
   labels:
+    {{- if .Values.linkerd.enabled }}
+    linkerd.io/inject: enabled
+    {{- end }}
     namespace: {{ .Release.Namespace }}
     tier: backend
     backstage.io/kubernetes-id: {{ .Values.app_code }}

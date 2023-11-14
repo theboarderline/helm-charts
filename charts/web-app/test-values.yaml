@@ -4,6 +4,9 @@ db_project_id: db-project
 app_code: test
 domain: example.com
 
+linkerd:
+  enabled: true
+
 import:
   enabled: true
 

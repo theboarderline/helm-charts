@@ -5,6 +5,10 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: cronjob-{{ .name }}
+  labels:
+    {{- if $.Values.linkerd.enabled }}
+    linkerd.io/inject: enabled
+    {{- end }}
 spec:
   {{- if .schedule }}
   schedule: "{{- .schedule -}}"
