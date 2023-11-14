@@ -99,7 +99,6 @@ metadata:
   name: api-dep
   namespace: test-ns
   labels:
-    linkerd.io/inject: enabled
     namespace: test-ns
     tier: backend
     backstage.io/kubernetes-id: test
@@ -111,6 +110,7 @@ spec:
   template:
     metadata:
       annotations:
+        linkerd.io/inject: enabled
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
         container.apparmor.security.beta.kubernetes.io/api: runtime/default
         container.seccomp.security.alpha.kubernetes.io/api: runtime/default
@@ -297,7 +297,6 @@ metadata:
   name: nginx-dep
   namespace: test-ns
   labels:
-    linkerd.io/inject: enabled
     namespace: test-ns
     tier: frontend
     backstage.io/kubernetes-id: test
@@ -311,6 +310,7 @@ spec:
   template:
     metadata:
       annotations:
+        linkerd.io/inject: enabled
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
         container.apparmor.security.beta.kubernetes.io/nginx: runtime/default
         container.seccomp.security.alpha.kubernetes.io/nginx: runtime/default
@@ -452,13 +452,13 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: cronjob-job
-  labels:
-    linkerd.io/inject: enabled
 spec:
   schedule: "0 14 * * *"
   jobTemplate:
     spec:
       template:
+        annotations:
+          linkerd.io/inject: enabled
         spec:
           hostIPC: false
           hostNetwork: false
@@ -501,13 +501,13 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: cronjob-disabled-job
-  labels:
-    linkerd.io/inject: enabled
 spec:
   schedule: "0 14 * * *"
   jobTemplate:
     spec:
       template:
+        annotations:
+          linkerd.io/inject: enabled
         spec:
           hostIPC: false
           hostNetwork: false

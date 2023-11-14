@@ -6,9 +6,6 @@ metadata:
   name: nginx-dep
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- if .Values.linkerd.enabled }}
-    linkerd.io/inject: enabled
-    {{- end }}
     namespace: {{ .Release.Namespace }}
     tier: frontend
     backstage.io/kubernetes-id: {{ .Values.app_code }}
@@ -22,6 +19,9 @@ spec:
   template:
     metadata:
       annotations:
+        {{- if .Values.linkerd.enabled }}
+        linkerd.io/inject: enabled
+        {{- end }}
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
         container.apparmor.security.beta.kubernetes.io/nginx: runtime/default
         container.seccomp.security.alpha.kubernetes.io/nginx: runtime/default
