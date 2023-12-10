@@ -41,3 +41,7 @@ cronjobs:
 
 db:
   proxy: true
+
+infobip:
+  enabled: true
+

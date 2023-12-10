@@ -215,6 +215,13 @@ spec:
             secretKeyRef:
               name: app-secrets
               key: rapid-api-key
+        - name: USE_INFOBIP
+          value: "true"
+        - name: INFOBIP_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: infobip-api-key
         - name: GROUPME_ACCESS_TOKEN
           valueFrom:
             secretKeyRef:

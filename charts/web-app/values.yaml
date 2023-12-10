@@ -195,6 +195,9 @@ postgres:
 rapid_api:
   enabled: false
 
+infobip:
+  enabled: false
+
 groupme:
   enabled: false
 

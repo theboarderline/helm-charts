@@ -184,6 +184,16 @@ spec:
               key: rapid-api-key
         {{- end }}
 
+        {{- if .Values.infobip.enabled }}
+        - name: USE_INFOBIP
+          value: "true"
+        - name: INFOBIP_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: infobip-api-key
+        {{- end }}
+
         {{- if .Values.attom.enabled }}
         - name: USE_ATTOM
           value: "true"
