@@ -9,6 +9,7 @@ linkerd:
 
 postgres:
   enabled: true
+  replicas: 3
 
 import:
   enabled: true

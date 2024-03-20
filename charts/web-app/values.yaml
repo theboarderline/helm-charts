@@ -188,6 +188,7 @@ attom:
 
 postgres:
   enabled: false
+  replicas: 1
   disk_size: 10Gi
   backup:
     type: "volume"

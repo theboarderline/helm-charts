@@ -9,6 +9,7 @@ spec:
   postgresVersion: 14
   instances:
     - name: instance1
+      replicas: {{ .Values.postgres.replicas }}
       {{- if .Values.linkerd.enabled }}
       metadata:
         annotations:
