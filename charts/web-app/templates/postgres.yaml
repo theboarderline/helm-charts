@@ -26,6 +26,8 @@ spec:
       postgresql:
         pg_hba:
           - host crunchydb crunchydb 0.0.0.0/0 password
+        postgresql:
+          - 'max_connections = 500'
   backups:
     pgbackrest:
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.41-2
