@@ -21,9 +21,6 @@ spec:
         resources:
           requests:
             storage: {{ .Values.postgres.disk_size }}
-  proxy:
-    pgBouncer:
-      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbouncer:ubi8-1.21-3
   patroni:
     dynamicConfiguration:
       postgresql:

@@ -375,12 +375,12 @@ spec:
           valueFrom:
             secretKeyRef:
               name: crunchydb-pguser-crunchydb
-              key: pgbouncer-host
+              key: host
         - name: DB_PORT
           valueFrom:
             secretKeyRef:
               name: crunchydb-pguser-crunchydb
-              key: pgbouncer-port
+              key: port
         - name: DB_NAME
           valueFrom:
             secretKeyRef:
