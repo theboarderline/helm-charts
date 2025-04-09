@@ -57,7 +57,6 @@ google:
   create_registry: false
   create_monitoring_suite: false
   notification_channel: "4610371196665423148"
-  registry: gcr.io
   sql:
     enabled: false
   storage:

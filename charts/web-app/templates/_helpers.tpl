@@ -67,23 +67,18 @@
 {{- end -}}
 
 
+{{- define "registry_prefix" -}}
+  {{- required "REQUIRED: google.region" .Values.google.region -}}-docker.pkg.dev
+{{- end }}
+
+
 {{- define "api_registry" -}}
-  {{- required "REQUIRED: google.registry" .Values.google.registry -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/api
+  {{- include "registry_prefix" $ -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/api
 {{- end -}}
 
 
 {{- define "nginx_registry" -}}
-  {{- required "REQUIRED: google.registry" .Values.google.registry -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/react
-{{- end -}}
-
-
-{{- define "graphql_registry" -}}
-  {{- required "REQUIRED: google.registry" .Values.google.registry -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/graphql
-{{- end -}}
-
-
-{{- define "importer_registry" -}}
-  {{- required "REQUIRED: google.registry" .Values.google.registry -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/importer
+  {{- include "registry_prefix" $ -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/react
 {{- end -}}
 
 
@@ -92,26 +87,8 @@
 {{- end -}}
 
 
-{{- define "graphql_image" -}}
-  {{- include "graphql_registry" . -}}:{{- .Values.graphql.tag }}
-{{- end -}}
-
-
-{{- define "importer_image" -}}
-  {{- include "importer_registry" . -}}:{{- .Values.importer.tag }}
-{{- end -}}
-
-
 {{- define "nginx_image" -}}
   {{- include "nginx_registry" . -}}:{{- .Values.nginx.tag }}
-{{- end -}}
-
-{{- define "crm_image" -}}
-  {{- include "crm_registry" . -}}:{{- .Values.crm.tag }}
-{{- end -}}
-
-{{- define "selenium_image" -}}
-  {{- include "selenium_registry" . -}}:{{- .Values.selenium.tag }}
 {{- end -}}
 
 

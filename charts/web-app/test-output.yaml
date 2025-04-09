@@ -148,7 +148,7 @@ spec:
       restartPolicy: Always
       containers:
       - name: api
-        image: gcr.io/test-app-project/dev/api:latest
+        image: us-central1-docker.pkg.dev/test-app-project/dev-test-v3-images/api:latest
         imagePullPolicy: Always
 
         securityContext:
@@ -175,6 +175,7 @@ spec:
             name: usr-tmp-dir
           - mountPath: /var/tmp
             name: var-tmp-dir
+
         livenessProbe:
           httpGet:
             path: /api/
@@ -260,12 +261,12 @@ spec:
           valueFrom:
             secretKeyRef:
               name: crunchydb-pguser-crunchydb
-              key: pgbouncer-host
+              key: host
         - name: DB_PORT
           valueFrom:
             secretKeyRef:
               name: crunchydb-pguser-crunchydb
-              key: pgbouncer-port
+              key: port
         - name: DB_NAME
           valueFrom:
             secretKeyRef:
@@ -378,7 +379,7 @@ spec:
       serviceAccountName: default
       containers:
       - name: nginx
-        image: gcr.io/test-app-project/dev/react:latest
+        image: us-central1-docker.pkg.dev/test-app-project/dev-test-v3-images/react:latest
         imagePullPolicy: Always
 
         securityContext:
@@ -727,14 +728,13 @@ spec:
         resources:
           requests:
             storage: 10Gi
-  proxy:
-    pgBouncer:
-      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbouncer:ubi8-1.21-3
   patroni:
     dynamicConfiguration:
       postgresql:
         pg_hba:
           - host crunchydb crunchydb 0.0.0.0/0 password
+        postgresql:
+          - 'max_connections = 500'
   backups:
     pgbackrest:
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.41-2
