@@ -33,7 +33,7 @@
 
 
 {{- define "registry_name" -}}
-  {{- include "lifecycle" $ -}}
+  {{- include "app_label" $ -}}-v3-images
 {{- end -}}
 
 
