@@ -78,7 +78,7 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           privileged: false
-          procMount: default
+          procMount: Default
           readOnlyRootFilesystem: true
           runAsNonRoot: true
           seccompProfile:
@@ -340,6 +340,28 @@ spec:
               key: twitter-api-key-secret
         {{- end }}
 
+        {{- if .Values.stripe.enabled }}
+
+        - name: STRIPE_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: stripe-secret-key
+
+        - name: STRIPE_PUBLIC_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: stripe-public-key
+
+        - name: STRIPE_SIGNING_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: stripe-signing-secret
+
+        {{- end }}
+
         {{- if .Values.sendgrid.enabled }}
         - name: SEND_EMAILS
           value: 'true'
@@ -487,7 +509,7 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           privileged: false
-          procMount: default
+          procMount: Default
           readOnlyRootFilesystem: true
           runAsNonRoot: true
           seccompProfile:

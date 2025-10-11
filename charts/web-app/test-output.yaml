@@ -154,7 +154,7 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           privileged: false
-          procMount: default
+          procMount: Default
           readOnlyRootFilesystem: true
           runAsNonRoot: true
           seccompProfile:
@@ -245,6 +245,24 @@ spec:
               key: django-key
 
         
+
+        - name: STRIPE_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: stripe-secret-key
+
+        - name: STRIPE_PUBLIC_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: stripe-public-key
+
+        - name: STRIPE_SIGNING_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: stripe-signing-secret
         - name: DB_VENDOR
           value: "postgres"
         - name: DB_DATABASE
@@ -324,7 +342,7 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           privileged: false
-          procMount: default
+          procMount: Default
           readOnlyRootFilesystem: true
           runAsNonRoot: true
           seccompProfile:
@@ -385,7 +403,7 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           privileged: false
-          procMount: default
+          procMount: Default
           readOnlyRootFilesystem: true
           runAsNonRoot: true
           seccompProfile:
@@ -665,6 +683,15 @@ spec:
     - secretKey: rapid-api-key
       remoteRef:
         key: rapid-api-key
+    - secretKey: stripe-secret-key
+      remoteRef:
+        key: stripe-secret-key
+    - secretKey: stripe-public-key
+      remoteRef:
+        key: stripe-public-key
+    - secretKey: stripe-signing-secret
+      remoteRef:
+        key: stripe-signing-secret
     - secretKey: deepai-key
       remoteRef:
         key: deepai-key

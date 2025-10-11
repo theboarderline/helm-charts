@@ -143,6 +143,10 @@ cilium:
 epsagon:
   enabled: false
 
+
+stripe:
+  enabled: false
+
 django:
   enabled: true
   use_email: false
