@@ -146,6 +146,7 @@ epsagon:
 
 stripe:
   enabled: false
+  public_key: 'stripe-pubkey'
 
 django:
   enabled: true

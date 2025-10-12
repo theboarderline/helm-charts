@@ -22,6 +22,7 @@ data:
     window.LIFECYCLE = 'dev';
     window.PUBLIC_BUCKET = 'dev-test-v3-public-content';
     window.BACKEND_BUCKET = 'dev-test-v3-backend-bucket';
+    window.STRIPE_PUBLIC_KEY = 'stripe-pubkey';
     window.API_URL = 'https://dev.example.com/';
 ---
 # Source: web-app/templates/configs.yaml
@@ -664,7 +665,7 @@ spec:
     name: us-only
 ---
 # Source: web-app/templates/external-secrets.yaml
-apiVersion: external-secrets.io/v1beta1 
+apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: app-secrets
@@ -776,7 +777,7 @@ spec:
                 storage: 10Gi
 ---
 # Source: web-app/templates/external-secrets.yaml
-apiVersion: external-secrets.io/v1beta1 
+apiVersion: external-secrets.io/v1beta1
 kind: SecretStore
 metadata:
   name: secret-store
