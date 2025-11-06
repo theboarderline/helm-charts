@@ -340,7 +340,7 @@ spec:
               key: twitter-api-key-secret
         {{- end }}
 
-        {{- if .Values.stripe.enabled }}
+        {{- if and .Values.stripe .Values.stripe.enabled }}
 
         - name: STRIPE_SECRET_KEY
           valueFrom:
