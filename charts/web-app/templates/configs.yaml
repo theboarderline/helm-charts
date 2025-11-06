@@ -11,7 +11,7 @@ data:
     {{- range .Values.google.storage.bucket_list }}
     window.{{ .key }} = '{{ include "app_label" $ -}}-{{- .name }}';
     {{- end }}
-    {{- if .Values.stripe.enabled }}
+    {{- if and .Values.stripe .Values.stripe.enabled }}
     window.STRIPE_PUBLIC_KEY = '{{- .Values.stripe.public_key -}}';
     {{- end }}
     {{- if .Values.api.enabled }}
