@@ -8,6 +8,8 @@ primary_cluster_name: central-cluster
 primary_cluster: central-cluster-membership
 sa_project_id: tbl-svc-acct-project
 
+drainingTimeoutSec: 120
+
 api:
   enabled: true
   tag: latest
@@ -15,7 +17,6 @@ api:
   healthCheckPath: /api/
   timeoutSec: 86400
   terminationGracePeriodSeconds: 90
-  drainingTimeoutSec: 120
   label: server
   use_pd: false
   disk_size: 10Gi
@@ -37,7 +38,6 @@ nginx:
   healthCheckPath: /health/
   timeoutSec: 86400
   terminationGracePeriodSeconds: 120
-  drainingTimeoutSec: 120
   memory:
     request: 8Mi
     limit: 16Mi

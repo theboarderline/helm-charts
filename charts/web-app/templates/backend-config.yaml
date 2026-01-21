@@ -10,7 +10,7 @@ spec:
   terminationGracePeriodSeconds: {{ .Values.nginx.terminationGracePeriodSeconds }}
   timeoutSec: {{ .Values.nginx.timeoutSec }}
   connectionDraining:
-    drainingTimeoutSec: {{ .Values.nginx.drainingTimeoutSec }}
+    drainingTimeoutSec: {{ .Values.drainingTimeoutSec }}
   healthCheck:
     checkIntervalSec: 30
     port: {{ .Values.nginx.containerPort }}
@@ -48,7 +48,7 @@ spec:
   timeoutSec: {{ .Values.api.timeoutSec }}
   terminationGracePeriodSeconds: {{ .Values.api.terminationGracePeriodSeconds }}
   connectionDraining:
-    drainingTimeoutSec: {{ .Values.api.drainingTimeoutSec }}
+    drainingTimeoutSec: {{ .Values.drainingTimeoutSec }}
   healthCheck:
     checkIntervalSec: 30
     port: {{ .Values.api.containerPort }}
