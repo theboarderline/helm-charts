@@ -33,33 +33,29 @@ metadata:
   namespace: test-ns
 data:
   api.conf: |
-    # — WebSocket + HTTP API proxy —
-    # Detect and handle WebSocket upgrades
-    location /api/ {
-        # If this is a WebSocket handshake, proxy with upgrade headers
-        if ($http_upgrade = "websocket") {
-            proxy_pass http://api-svc.test-ns.svc;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "Upgrade";
+    # Map to detect upgrade requests
+    map $http_upgrade $connection_upgrade {
+        default upgrade;
+        ''      close;
+    }
 
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
+    # WebSocket proxy location
+    location ~* ^/api/.*$ {
+        # If this is a WebSocket upgrade
+        proxy_pass http://api-svc.test-ns.svc;
 
-            proxy_read_timeout 86400s;
-            proxy_send_timeout 86400s;
-            proxy_buffering off;
-            break;
-        }
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
 
-        # Otherwise normal HTTP API proxy
-        proxy_set_header Host dev.example.com;
+        proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_pass http://api-svc.test-ns.svc;
+
+        proxy_read_timeout 86400s;
+        proxy_send_timeout 86400s;
+        proxy_buffering off;
     }
     location /admin/ {
         proxy_set_header Host dev.example.com;
