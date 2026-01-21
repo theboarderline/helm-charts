@@ -12,8 +12,9 @@ api:
   enabled: true
   tag: latest
   containerPort: 8000
-  timeoutSec: 86400
   healthCheckPath: /api/
+  timeoutSec: 86400
+  terminationGracePeriodSeconds: 90
   label: server
   use_pd: false
   disk_size: 10Gi
@@ -32,8 +33,9 @@ nginx:
   enabled: true
   tag: latest
   containerPort: 3000
-  timeoutSec: 86400
   healthCheckPath: /health/
+  timeoutSec: 86400
+  terminationGracePeriodSeconds: 120
   memory:
     request: 8Mi
     limit: 16Mi
