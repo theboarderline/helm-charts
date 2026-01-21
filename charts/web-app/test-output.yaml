@@ -33,14 +33,10 @@ metadata:
   namespace: test-ns
 data:
   api.conf: |
-    # WebSocket proxy location
-    location ~* ^/api/.*$ {
-        # If this is a WebSocket upgrade
-        proxy_pass http://api-svc.test-ns.svc;
-
+    location /api/ {
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Connection "Upgrade";
 
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -50,6 +46,8 @@ data:
         proxy_read_timeout 86400s;
         proxy_send_timeout 86400s;
         proxy_buffering off;
+
+        proxy_pass http://api-svc.test-ns.svc;
     }
     location /admin/ {
         proxy_set_header Host dev.example.com;
