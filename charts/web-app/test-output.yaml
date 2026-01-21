@@ -633,6 +633,7 @@ metadata:
   name: nginx-backendconfig
   namespace: test-ns
 spec:
+  timeoutSec: 86400
   healthCheck:
     checkIntervalSec: 30
     port: 3000
@@ -655,6 +656,7 @@ metadata:
   name: api-backendconfig
   namespace: test-ns
 spec:
+  timeoutSec: 86400
   healthCheck:
     checkIntervalSec: 30
     port: 8000

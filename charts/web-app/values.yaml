@@ -12,6 +12,7 @@ api:
   enabled: true
   tag: latest
   containerPort: 8000
+  timeoutSec: 86400
   healthCheckPath: /api/
   label: server
   use_pd: false
@@ -31,6 +32,7 @@ nginx:
   enabled: true
   tag: latest
   containerPort: 3000
+  timeoutSec: 86400
   healthCheckPath: /health/
   memory:
     request: 8Mi
