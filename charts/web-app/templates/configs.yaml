@@ -28,6 +28,7 @@ data:
 
 {{- if .Values.api.enabled }}
 
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -35,19 +36,49 @@ metadata:
   namespace: {{ .Release.Namespace }}
 data:
   api.conf: |
+    # — WebSocket + HTTP API proxy —
+    # Detect and handle WebSocket upgrades
     location /api/ {
-        proxy_set_header Host {{ include "subdomain" . -}};
-        proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
+        # If this is a WebSocket handshake, proxy with upgrade headers
+        if ($http_upgrade = "websocket") {
+            proxy_pass http://api-svc.{{ .Release.Namespace }}.svc;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "Upgrade";
+
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+
+            proxy_read_timeout 86400s;
+            proxy_send_timeout 86400s;
+            proxy_buffering off;
+            break;
+        }
+
+        # Otherwise normal HTTP API proxy
+        proxy_set_header Host {{ include "subdomain" . }};
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://api-svc.{{ .Release.Namespace }}.svc;
     }
 
     {{- if .Values.django.enabled }}
     location /admin/ {
-        proxy_set_header Host {{ include "subdomain" . -}};
-        proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
+        proxy_set_header Host {{ include "subdomain" . }};
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://api-svc.{{ .Release.Namespace }}.svc;
     }
     location /accounts/ {
-        proxy_set_header Host {{ include "subdomain" . -}};
-        proxy_pass http://api-svc.{{- .Release.Namespace -}}.svc;
+        proxy_set_header Host {{ include "subdomain" . }};
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://api-svc.{{ .Release.Namespace }}.svc;
     }
     {{- end }}
 
