@@ -35,12 +35,6 @@ metadata:
   namespace: {{ .Release.Namespace }}
 data:
   api.conf: |
-    # Map to detect upgrade requests
-    map $http_upgrade $connection_upgrade {
-        default upgrade;
-        ''      close;
-    }
-
     # WebSocket proxy location
     location ~* ^/api/.*$ {
         # If this is a WebSocket upgrade
