@@ -119,6 +119,8 @@ external_dns:
 external_secrets:
   enabled: true
   refresh_interval: 0
+  secret_prefix: ""   # prepended to every remoteRef.key; e.g. "lswingz-42-" for ephemeral envs
+  extra_keys: []      # arbitrary GCP SM key names; no chart change needed for new integrations
 
 cert_manager:
   enabled: false
