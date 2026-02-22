@@ -55,6 +55,7 @@ google:
     enabled: false
   region: us-central1
   zone: us-central1-a
+  gke_project: ""  # GKE project ID (required for ESO Workload Identity auth)
   cdn:
     enabled: false
   config_connector_context: false
