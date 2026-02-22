@@ -7,7 +7,6 @@ metadata:
   name: nginx-backendconfig
   namespace: {{ .Release.Namespace }}
 spec:
-  terminationGracePeriodSeconds: {{ .Values.nginx.terminationGracePeriodSeconds }}
   timeoutSec: {{ .Values.nginx.timeoutSec }}
   connectionDraining:
     drainingTimeoutSec: {{ .Values.drainingTimeoutSec }}
@@ -46,7 +45,6 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   timeoutSec: {{ .Values.api.timeoutSec }}
-  terminationGracePeriodSeconds: {{ .Values.api.terminationGracePeriodSeconds }}
   connectionDraining:
     drainingTimeoutSec: {{ .Values.drainingTimeoutSec }}
   healthCheck:
