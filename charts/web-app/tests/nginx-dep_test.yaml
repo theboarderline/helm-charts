@@ -1,0 +1,101 @@
+suite: nginx deployment core behavior
+templates:
+  - nginx-dep.yaml
+
+tests:
+
+  - it: renders nothing when nginx disabled
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      google:
+        region: us-central1
+      nginx:
+        enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: renders nothing when chart disabled
+    set:
+      enabled: false
+      lifecycle: dev
+      app_code: test
+      google:
+        region: us-central1
+      nginx:
+        enabled: true
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: image derived from lifecycle and app_code
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      google:
+        region: us-central1
+      nginx:
+        enabled: true
+        tag: v1.0.0
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: us-central1-docker.pkg.dev/test-app-project/dev-test-v3-images/react:v1.0.0
+
+  - it: LIFECYCLE env var reflects lifecycle value
+    set:
+      enabled: true
+      lifecycle: lswingz-42
+      app_code: test
+      google:
+        region: us-central1
+      nginx:
+        enabled: true
+        tag: latest
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LIFECYCLE
+            value: lswingz-42
+
+  - it: api-redirects volume mounted when api enabled
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      google:
+        region: us-central1
+      nginx:
+        enabled: true
+        tag: latest
+      api:
+        enabled: true
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: api-redirects
+            mountPath: /etc/nginx/conf.d
+            readOnly: true
+
+  - it: api-redirects volume absent when api disabled
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      google:
+        region: us-central1
+      nginx:
+        enabled: true
+        tag: latest
+      api:
+        enabled: false
+    asserts:
+      - notContains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: api-redirects

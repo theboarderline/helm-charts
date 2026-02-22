@@ -1,0 +1,177 @@
+suite: api deployment core behavior
+templates:
+  - api-dep.yaml
+
+tests:
+
+  - it: renders nothing when api disabled
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      google:
+        region: us-central1
+      api:
+        enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: image derived from lifecycle and app_code
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      google:
+        region: us-central1
+      api:
+        enabled: true
+        tag: v2.0.0
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: us-central1-docker.pkg.dev/test-app-project/dev-test-v3-images/api:v2.0.0
+
+  - it: LIFECYCLE env var reflects lifecycle value
+    set:
+      enabled: true
+      lifecycle: lswingz-42
+      app_code: test
+      domain: example.com
+      google:
+        region: us-central1
+      api:
+        enabled: true
+        tag: latest
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: LIFECYCLE
+            value: lswingz-42
+
+  - it: DOMAIN is subdomain for non-prod lifecycle
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      google:
+        region: us-central1
+      api:
+        enabled: true
+        tag: latest
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: DOMAIN
+            value: dev.example.com
+
+  - it: DOMAIN is bare domain for prod lifecycle
+    set:
+      enabled: true
+      lifecycle: prod
+      app_code: test
+      domain: example.com
+      google:
+        region: us-central1
+      api:
+        enabled: true
+        tag: latest
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: DOMAIN
+            value: example.com
+
+  - it: GCP_PROJECT_ID derived from app_code
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: myapp
+      domain: example.com
+      google:
+        region: us-central1
+      api:
+        enabled: true
+        tag: latest
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: GCP_PROJECT_ID
+            value: myapp-app-project
+
+  - it: postgres DB credentials come from crunchydb secret
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      google:
+        region: us-central1
+      api:
+        enabled: true
+        tag: latest
+      postgres:
+        enabled: true
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: DB_HOST
+            valueFrom:
+              secretKeyRef:
+                name: crunchydb-pguser-crunchydb
+                key: host
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: crunchydb-pguser-crunchydb
+                key: password
+
+  - it: cloud sql proxy sidecar rendered when db.proxy true
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      gke_project_id: gke-project
+      db_project_id: db-project
+      google:
+        region: us-central1
+      api:
+        enabled: true
+        tag: latest
+      db:
+        proxy: true
+        proxy_version: gcr.io/cloudsql-docker/gce-proxy:1.33.3
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[1].name
+          value: proxy
+      - equal:
+          path: spec.template.spec.containers[1].image
+          value: gcr.io/cloudsql-docker/gce-proxy:1.33.3
+
+  - it: service account name derived from app_code
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: myapp
+      domain: example.com
+      google:
+        region: us-central1
+      api:
+        enabled: true
+        tag: latest
+    asserts:
+      - equal:
+          path: spec.template.spec.serviceAccountName
+          value: myapp-sa

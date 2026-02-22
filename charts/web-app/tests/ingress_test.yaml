@@ -1,0 +1,128 @@
+suite: ingress routing
+templates:
+  - ingress.yaml
+
+tests:
+
+  - it: renders nothing when local
+    set:
+      enabled: true
+      local: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      ingress:
+        enabled: true
+        mci: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: renders nothing when mci enabled
+    set:
+      enabled: true
+      local: false
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      ingress:
+        enabled: true
+        mci: true
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: renders nothing when ingress disabled
+    set:
+      enabled: true
+      local: false
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      ingress:
+        enabled: false
+        mci: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: external-dns annotation uses correct subdomain
+    set:
+      enabled: true
+      local: false
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      ingress:
+        enabled: true
+        mci: false
+        https: false
+      external_dns:
+        enabled: true
+    asserts:
+      - equal:
+          path: metadata.annotations["external-dns.alpha.kubernetes.io/hostname"]
+          value: dev.example.com.
+
+  - it: default backend is nginx-svc when nginx enabled
+    set:
+      enabled: true
+      local: false
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      ingress:
+        enabled: true
+        mci: false
+        https: false
+        nginx: false
+      nginx:
+        enabled: true
+    asserts:
+      - equal:
+          path: spec.defaultBackend.service.name
+          value: nginx-svc
+      - equal:
+          path: spec.defaultBackend.service.port.number
+          value: 443
+
+  - it: default backend is api-svc when nginx disabled
+    set:
+      enabled: true
+      local: false
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      ingress:
+        enabled: true
+        mci: false
+        https: false
+        nginx: false
+      nginx:
+        enabled: false
+    asserts:
+      - equal:
+          path: spec.defaultBackend.service.name
+          value: api-svc
+      - equal:
+          path: spec.defaultBackend.service.port.number
+          value: 80
+
+  - it: managed cert annotation present when https and not cert-manager
+    set:
+      enabled: true
+      local: false
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      ingress:
+        enabled: true
+        mci: false
+        https: true
+        nginx: false
+      cert_manager:
+        enabled: false
+    asserts:
+      - equal:
+          path: metadata.annotations["networking.gke.io/managed-certificates"]
+          value: google-cert

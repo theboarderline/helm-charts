@@ -1,0 +1,109 @@
+suite: configmap generation
+templates:
+  - configs.yaml
+
+tests:
+
+  - it: renders nothing when chart disabled
+    set:
+      enabled: false
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: LIFECYCLE set in env.js
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      api:
+        enabled: false
+    asserts:
+      - documentIndex: 0
+        matchRegex:
+          path: data["env.js"]
+          pattern: "window.LIFECYCLE = 'dev'"
+
+  - it: API_URL uses subdomain in env.js
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      api:
+        enabled: true
+    asserts:
+      - documentIndex: 0
+        matchRegex:
+          path: data["env.js"]
+          pattern: "window.API_URL = 'https://dev.example.com/'"
+
+  - it: api ConfigMap absent when api disabled
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      api:
+        enabled: false
+    asserts:
+      - hasDocuments:
+          count: 1
+
+  - it: nginx proxy config routes /api/ to api-svc
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      api:
+        enabled: true
+    asserts:
+      - documentIndex: 1
+        matchRegex:
+          path: data["api.conf"]
+          pattern: "location /api/"
+      - documentIndex: 1
+        matchRegex:
+          path: data["api.conf"]
+          pattern: "proxy_pass http://api-svc"
+
+  - it: django admin and accounts locations present when django enabled
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      api:
+        enabled: true
+      django:
+        enabled: true
+    asserts:
+      - documentIndex: 1
+        matchRegex:
+          path: data["api.conf"]
+          pattern: "location /admin/"
+      - documentIndex: 1
+        matchRegex:
+          path: data["api.conf"]
+          pattern: "location /accounts/"
+
+  - it: django locations absent when django disabled
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      api:
+        enabled: true
+      django:
+        enabled: false
+    asserts:
+      - documentIndex: 1
+        notMatchRegex:
+          path: data["api.conf"]
+          pattern: "location /admin/"
