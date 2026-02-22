@@ -133,6 +133,8 @@ ingress:
   mci: false
   nginx: false
 
+mci_clusters: []  # required when ingress.mci: true; e.g. ["us-central1/central-cluster", "us-east4/east-cluster"]
+
 fqdn_network_policy:
   enabled: false
 

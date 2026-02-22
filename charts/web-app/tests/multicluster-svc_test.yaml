@@ -1,0 +1,82 @@
+suite: multicluster service cluster parameterization
+templates:
+  - multicluster-svc.yaml
+
+tests:
+
+  - it: renders nothing when mci disabled
+    set:
+      enabled: true
+      local: false
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      primary_cluster: central-cluster-membership
+      ingress:
+        mci: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: renders nothing when local is true
+    set:
+      enabled: true
+      local: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      primary_cluster: central-cluster-membership
+      ingress:
+        mci: true
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: cluster links come from mci_clusters value
+    set:
+      enabled: true
+      local: false
+      lifecycle: prod
+      app_code: test
+      domain: example.com
+      primary_cluster: central-cluster-membership
+      ingress:
+        mci: true
+      mci_clusters:
+        - us-central1/central-cluster
+        - us-east4/east-cluster
+    asserts:
+      - hasDocuments:
+          count: 1
+      - contains:
+          path: spec.clusters
+          content:
+            link: us-central1/central-cluster
+      - contains:
+          path: spec.clusters
+          content:
+            link: us-east4/east-cluster
+
+  - it: ephemeral env can override cluster links
+    set:
+      enabled: true
+      local: false
+      lifecycle: lswingz-42
+      app_code: test
+      domain: example.com
+      primary_cluster: central-cluster-membership
+      ingress:
+        mci: true
+      mci_clusters:
+        - us-west1/ephemeral-cluster
+    asserts:
+      - hasDocuments:
+          count: 1
+      - contains:
+          path: spec.clusters
+          content:
+            link: us-west1/ephemeral-cluster
+      - notContains:
+          path: spec.clusters
+          content:
+            link: us-central1/central-cluster

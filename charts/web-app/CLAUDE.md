@@ -9,12 +9,14 @@ Helm chart for deploying theboarderline platform web apps (React frontend + Go A
 ## Dev Workflow
 
 ```bash
-make test               # renders templates with test-values.yaml → test-output.yaml, then git diff to show changes
-helm lint .             # lint check
+make test               # lint + render diff + unit tests (full suite)
+make unit               # helm-unittest only (fast feedback)
+make template           # render to test-output.yaml, git diff to review changes
+make lint               # helm lint only
 helm template test . -f test-values.yaml -n test-ns   # render to stdout for inspection
 ```
 
-`make test` is the primary validation loop — always run it after changes and review the diff in `test-output.yaml`.
+`make test` is the primary validation loop. Unit tests live in `tests/*_test.yaml` and use [helm-unittest](https://github.com/helm-unittest/helm-unittest).
 
 ## Versioning
 
@@ -63,7 +65,9 @@ Nearly every resource is gated by `enabled` boolean flags. Most templates also g
 2. An `app-secrets` ExternalSecret whose entries are conditionally included based on feature flags (e.g. `stripe.enabled`, `twilio.enabled`, etc.)
 3. An `oauth-credentials` ExternalSecret when `google.iap.enabled`
 
-All `remoteRef.key` values match the GCP Secret Manager secret name exactly. Secrets are only rendered when `enabled: true` and `local: false`.
+All `remoteRef.key` values are prefixed with `external_secrets.secret_prefix` (defaults `""`). For ephemeral envs, set `secret_prefix: "lswingz-42-"` so secrets resolve to `lswingz-42-django-key` etc. without touching permanent secrets.
+
+For new integrations that don't need a dedicated feature flag, use `external_secrets.extra_keys: [my-key]` — the chart adds the entry automatically with the prefix applied. No chart change needed. Secrets are only rendered when `enabled: true` and `local: false`.
 
 ### Database Options
 
@@ -75,7 +79,7 @@ Two mutually exclusive patterns:
 
 - Default: GKE native ingress (`ingress.enabled: true`, `ingress.mci: false`) with GKE-managed SSL cert (`managed-cert.yaml`) and FrontendConfig for HTTPS redirect.
 - Nginx ingress controller: `ingress.nginx: true` — uses cert-manager or GKE-managed certs.
-- MultiCluster Ingress: `ingress.mci: true` — uses `multicluster-ingress.yaml` and `multicluster-svc.yaml` instead.
+- MultiCluster Ingress: `ingress.mci: true` — uses `multicluster-ingress.yaml` and `multicluster-svc.yaml` instead. Requires `mci_clusters` list (e.g. `["us-central1/central-cluster", "us-east4/east-cluster"]`).
 - `ingress.bring_ip: true` — attaches a pre-created static IP (`ip-address.yaml`).
 
 ### HPA

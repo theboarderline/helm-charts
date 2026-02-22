@@ -9,12 +9,11 @@ metadata:
   labels:
     namespace: {{ .Release.Namespace }}
     backstage.io/kubernetes-id: {{ .Values.app_code }}
+    app: nginx-mcs
+    tier: frontend
   annotations:
     configsync.gke.io/cluster-name-selector: {{ include "primary_cluster" $ }}
     # cloud.google.com/backend-config: '{"default": "gke-backendconfig"}'
-  labels:
-    app: nginx-mcs
-    tier: frontend
 spec:
   template:
     spec:
@@ -26,8 +25,9 @@ spec:
         port: 443
         targetPort: 80
   clusters:
-  - link: us-central1/central-cluster
-  - link: us-east4/east-cluster
+  {{- range .Values.mci_clusters }}
+  - link: {{ . }}
+  {{- end }}
 
 {{- end }}
 {{- end }}
