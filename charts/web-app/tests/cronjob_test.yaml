@@ -1,0 +1,60 @@
+suite: cronjob template
+templates:
+  - cronjob.yaml
+
+tests:
+
+  - it: renders headers as httpie Header:value args and omits the legacy body-field
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      cronjobs:
+        enabled: true
+        jobs:
+          - name: reschedule
+            schedule: "0 8 * * *"
+            endpoint: "jobs/reschedule?status=incomplete"
+            headers:
+              Authorization: "Bearer $(API_KEY)"
+    asserts:
+      - hasDocuments:
+          count: 1
+      - contains:
+          path: spec.jobTemplate.spec.template.spec.containers[0].args
+          content: "Authorization:Bearer $(API_KEY)"
+      - notContains:
+          path: spec.jobTemplate.spec.template.spec.containers[0].args
+          content: "key=$(API_KEY)"
+
+  - it: falls back to the legacy body-field arg when no headers are configured
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      cronjobs:
+        enabled: true
+        jobs:
+          - name: legacy
+            schedule: "0 14 * * *"
+            endpoint: legacy-endpoint
+    asserts:
+      - hasDocuments:
+          count: 1
+      - contains:
+          path: spec.jobTemplate.spec.template.spec.containers[0].args
+          content: "key=$(API_KEY)"
+
+  - it: renders nothing when cronjobs are disabled
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      cronjobs:
+        enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0

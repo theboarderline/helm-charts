@@ -651,7 +651,6 @@ metadata:
   name: nginx-backendconfig
   namespace: test-ns
 spec:
-  terminationGracePeriodSeconds: 120
   timeoutSec: 86400
   connectionDraining:
     drainingTimeoutSec: 120
@@ -678,7 +677,6 @@ metadata:
   namespace: test-ns
 spec:
   timeoutSec: 86400
-  terminationGracePeriodSeconds: 90
   connectionDraining:
     drainingTimeoutSec: 120
   healthCheck:

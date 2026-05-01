@@ -45,7 +45,13 @@ spec:
 
             args:
             - api-svc.{{- $.Release.Namespace -}}.svc/api/{{- .endpoint }}
+            {{- if .headers }}
+            {{- range $name, $value := .headers }}
+            - {{ printf "%s:%s" $name $value | quote }}
+            {{- end }}
+            {{- else }}
             - key=$(API_KEY)
+            {{- end }}
             - --ignore-stdin
 
             env:
