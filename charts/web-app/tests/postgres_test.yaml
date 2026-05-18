@@ -1,0 +1,122 @@
+suite: postgres cluster backup configuration
+templates:
+  - postgres.yaml
+
+tests:
+
+  - it: renders nothing when postgres disabled
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      google:
+        region: us-central1
+      postgres:
+        enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: gcs disabled renders only repo1 volume, no gcs metadata or global
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      google:
+        region: us-central1
+      postgres:
+        enabled: true
+    asserts:
+      - equal:
+          path: spec.backups.pgbackrest.repos[0].name
+          value: repo1
+      - exists:
+          path: spec.backups.pgbackrest.repos[0].volume
+      - lengthEqual:
+          path: spec.backups.pgbackrest.repos
+          count: 1
+      - notExists:
+          path: spec.backups.pgbackrest.global
+      - notExists:
+          path: spec.backups.pgbackrest.metadata
+
+  - it: gcs enabled renders repo2 pointing at the configured bucket
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      google:
+        region: us-central1
+      postgres:
+        enabled: true
+        backup:
+          gcs:
+            enabled: true
+            bucket: boatload-pgbackrest-dev
+            gcp_service_account: boatload-pgbackrest-dev@boatload-app-project.iam.gserviceaccount.com
+    asserts:
+      - lengthEqual:
+          path: spec.backups.pgbackrest.repos
+          count: 2
+      - equal:
+          path: spec.backups.pgbackrest.repos[1].name
+          value: repo2
+      - equal:
+          path: spec.backups.pgbackrest.repos[1].gcs.bucket
+          value: boatload-pgbackrest-dev
+
+  - it: gcs enabled wires service-account annotation, global config, schedules and retention
+    release:
+      namespace: dev-boatload
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      google:
+        region: us-central1
+      postgres:
+        enabled: true
+        backup:
+          gcs:
+            enabled: true
+            bucket: boatload-pgbackrest-dev
+            gcp_service_account: boatload-pgbackrest-dev@boatload-app-project.iam.gserviceaccount.com
+    asserts:
+      - equal:
+          path: spec.backups.pgbackrest.metadata.annotations["iam.gke.io/gcp-service-account"]
+          value: boatload-pgbackrest-dev@boatload-app-project.iam.gserviceaccount.com
+      - equal:
+          path: spec.backups.pgbackrest.global["repo2-gcs-key-type"]
+          value: auto
+      - equal:
+          path: spec.backups.pgbackrest.global["repo2-path"]
+          value: /pgbackrest/dev-boatload/crunchydb/repo2
+      - equal:
+          path: spec.backups.pgbackrest.global["repo2-retention-full"]
+          value: "14"
+      - equal:
+          path: spec.backups.pgbackrest.global["repo2-retention-full-type"]
+          value: count
+      - equal:
+          path: spec.backups.pgbackrest.repos[1].schedules.full
+          value: "0 2 * * *"
+      - equal:
+          path: spec.backups.pgbackrest.repos[1].schedules.differential
+          value: "0 */6 * * *"
+
+  - it: gcs enabled without bucket fails rendering
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      google:
+        region: us-central1
+      postgres:
+        enabled: true
+        backup:
+          gcs:
+            enabled: true
+            bucket: ""
+    asserts:
+      - failedTemplate:
+          errorMessage: "REQUIRED: postgres.backup.gcs.bucket when postgres.backup.gcs.enabled"

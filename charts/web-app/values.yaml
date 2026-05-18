@@ -207,6 +207,15 @@ postgres:
   disk_size: 10Gi
   backup:
     type: "volume"
+    gcs:
+      enabled: false
+      bucket: ""
+      gcp_service_account: ""
+      schedules:
+        full: "0 2 * * *"
+        differential: "0 */6 * * *"
+      retention:
+        full: 14
 
 rapid_api:
   enabled: false

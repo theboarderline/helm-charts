@@ -31,6 +31,16 @@ spec:
   backups:
     pgbackrest:
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.41-2
+      {{- if .Values.postgres.backup.gcs.enabled }}
+      metadata:
+        annotations:
+          iam.gke.io/gcp-service-account: {{ .Values.postgres.backup.gcs.gcp_service_account | quote }}
+      global:
+        repo2-gcs-key-type: auto
+        repo2-path: /pgbackrest/{{ .Release.Namespace }}/crunchydb/repo2
+        repo2-retention-full: {{ .Values.postgres.backup.gcs.retention.full | quote }}
+        repo2-retention-full-type: count
+      {{- end }}
       repos:
       - name: repo1
         volume:
@@ -40,5 +50,13 @@ spec:
             resources:
               requests:
                 storage: {{ .Values.postgres.disk_size }}
+      {{- if .Values.postgres.backup.gcs.enabled }}
+      - name: repo2
+        gcs:
+          bucket: {{ required "REQUIRED: postgres.backup.gcs.bucket when postgres.backup.gcs.enabled" .Values.postgres.backup.gcs.bucket | quote }}
+        schedules:
+          full: {{ .Values.postgres.backup.gcs.schedules.full | quote }}
+          differential: {{ .Values.postgres.backup.gcs.schedules.differential | quote }}
+      {{- end }}
 
 {{- end }}
