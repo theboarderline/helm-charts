@@ -7,6 +7,11 @@ metadata:
 spec:
   image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-14.6-2
   postgresVersion: 14
+  {{- if .Values.postgres.backup.gcs.enabled }}
+  metadata:
+    annotations:
+      iam.gke.io/gcp-service-account: {{ .Values.postgres.backup.gcs.gcp_service_account | quote }}
+  {{- end }}
   instances:
     - name: instance1
       replicas: {{ .Values.postgres.replicas }}
@@ -42,6 +47,14 @@ spec:
         repo2-retention-full-type: count
       {{- end }}
       repos:
+      {{- if .Values.postgres.backup.gcs.enabled }}
+      - name: repo2
+        gcs:
+          bucket: {{ required "REQUIRED: postgres.backup.gcs.bucket when postgres.backup.gcs.enabled" .Values.postgres.backup.gcs.bucket | quote }}
+        schedules:
+          full: {{ .Values.postgres.backup.gcs.schedules.full | quote }}
+          differential: {{ .Values.postgres.backup.gcs.schedules.differential | quote }}
+      {{- else }}
       - name: repo1
         volume:
           volumeClaimSpec:
@@ -50,13 +63,6 @@ spec:
             resources:
               requests:
                 storage: {{ .Values.postgres.disk_size }}
-      {{- if .Values.postgres.backup.gcs.enabled }}
-      - name: repo2
-        gcs:
-          bucket: {{ required "REQUIRED: postgres.backup.gcs.bucket when postgres.backup.gcs.enabled" .Values.postgres.backup.gcs.bucket | quote }}
-        schedules:
-          full: {{ .Values.postgres.backup.gcs.schedules.full | quote }}
-          differential: {{ .Values.postgres.backup.gcs.schedules.differential | quote }}
       {{- end }}
 
 {{- end }}
