@@ -82,6 +82,22 @@ tests:
             mountPath: /etc/nginx/conf.d
             readOnly: true
 
+  - it: terminationGracePeriodSeconds gives the pod time to drain before SIGKILL
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      google:
+        region: us-central1
+      nginx:
+        enabled: true
+        tag: latest
+        terminationGracePeriodSeconds: 120
+    asserts:
+      - equal:
+          path: spec.template.spec.terminationGracePeriodSeconds
+          value: 120
+
   - it: api-redirects volume absent when api disabled
     set:
       enabled: true

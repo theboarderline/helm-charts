@@ -29,6 +29,8 @@ spec:
         tier: backend
         backstage.io/kubernetes-id: {{ .Values.app_code }}
     spec:
+      terminationGracePeriodSeconds: {{ .Values.api.terminationGracePeriodSeconds }}
+
       tolerations:
       {{- if .Values.non_preemptible }}
       - key: general

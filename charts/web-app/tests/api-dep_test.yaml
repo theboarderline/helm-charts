@@ -175,3 +175,20 @@ tests:
       - equal:
           path: spec.template.spec.serviceAccountName
           value: myapp-sa
+
+  - it: terminationGracePeriodSeconds gives the pod time to drain before SIGKILL
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      google:
+        region: us-central1
+      api:
+        enabled: true
+        tag: latest
+        terminationGracePeriodSeconds: 90
+    asserts:
+      - equal:
+          path: spec.template.spec.terminationGracePeriodSeconds
+          value: 90

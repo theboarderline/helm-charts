@@ -31,6 +31,8 @@ spec:
         tier: frontend
         backstage.io/kubernetes-id: {{ .Values.app_code }}
     spec:
+      terminationGracePeriodSeconds: {{ .Values.nginx.terminationGracePeriodSeconds }}
+
       tolerations:
       {{- if .Values.non_preemptible }}
       - key: general

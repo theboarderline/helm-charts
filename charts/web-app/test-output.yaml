@@ -139,6 +139,8 @@ spec:
         tier: backend
         backstage.io/kubernetes-id: test
     spec:
+      terminationGracePeriodSeconds: 90
+
       tolerations:
       - key: preemptible
         operator: Equal
@@ -397,6 +399,8 @@ spec:
         tier: frontend
         backstage.io/kubernetes-id: test
     spec:
+      terminationGracePeriodSeconds: 120
+
       tolerations:
       - key: preemptible
         operator: Equal
