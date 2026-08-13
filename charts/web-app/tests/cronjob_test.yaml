@@ -27,6 +27,12 @@ tests:
       - notContains:
           path: spec.jobTemplate.spec.template.spec.containers[0].args
           content: "key=$(API_KEY)"
+      - contains:
+          path: spec.jobTemplate.spec.template.spec.containers[0].args
+          content: "POST"
+      - contains:
+          path: spec.jobTemplate.spec.template.spec.containers[0].args
+          content: "--check-status"
 
   - it: falls back to the legacy body-field arg when no headers are configured
     set:

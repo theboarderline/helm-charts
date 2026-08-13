@@ -566,9 +566,14 @@ spec:
                 type: RuntimeDefault
 
             args:
+            # State the method. httpie infers it from the request items, so a job carrying only headers
+            # would otherwise GET an endpoint that only accepts POST, and report success on the 404.
+            - POST
             - api-svc.test-ns.svc/api/endpoint
             - key=$(API_KEY)
             - --ignore-stdin
+            # Exit non-zero on a 4xx/5xx so a broken job shows as a failed pod instead of reporting success.
+            - --check-status
 
             env:
             - name: API_KEY
@@ -615,9 +620,14 @@ spec:
                 type: RuntimeDefault
 
             args:
+            # State the method. httpie infers it from the request items, so a job carrying only headers
+            # would otherwise GET an endpoint that only accepts POST, and report success on the 404.
+            - POST
             - api-svc.test-ns.svc/api/disabled-endpoint
             - key=$(API_KEY)
             - --ignore-stdin
+            # Exit non-zero on a 4xx/5xx so a broken job shows as a failed pod instead of reporting success.
+            - --check-status
 
             env:
             - name: API_KEY
