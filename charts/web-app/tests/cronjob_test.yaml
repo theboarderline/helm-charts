@@ -53,6 +53,27 @@ tests:
           path: spec.jobTemplate.spec.template.spec.containers[0].args
           content: "key=$(API_KEY)"
 
+  - it: skips a job marked enabled false and keeps a job that omits the key
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      cronjobs:
+        enabled: true
+        jobs:
+          - name: turned-off
+            endpoint: turned-off-endpoint
+            enabled: false
+          - name: no-key
+            endpoint: no-key-endpoint
+    asserts:
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: metadata.name
+          value: cronjob-no-key
+
   - it: renders nothing when cronjobs are disabled
     set:
       enabled: true

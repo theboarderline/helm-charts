@@ -1,6 +1,8 @@
 {{- if .Values.cronjobs.enabled }}
 
 {{- range .Values.cronjobs.jobs }}
+{{- $turnedOff := eq (toString .enabled) "false" }}
+{{- if not $turnedOff }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -44,8 +46,6 @@ spec:
                 type: RuntimeDefault
 
             args:
-            # State the method. httpie infers it from the request items, so a job carrying only headers
-            # would otherwise GET an endpoint that only accepts POST, and report success on the 404.
             - {{ .method | default "POST" }}
             - api-svc.{{- $.Release.Namespace -}}.svc/api/{{- .endpoint }}
             {{- if .headers }}
@@ -56,7 +56,6 @@ spec:
             - key=$(API_KEY)
             {{- end }}
             - --ignore-stdin
-            # Exit non-zero on a 4xx/5xx so a broken job shows as a failed pod instead of reporting success.
             - --check-status
 
             env:
@@ -71,6 +70,8 @@ spec:
             {{- end }}
 
 ---
+
+{{- end }}
 
 {{- end }}
 
