@@ -1,9 +1,7 @@
 enabled: true
 local: false
 
-# Registry pull secrets, applied via the ServiceAccount. Empty on GKE, where the
-# node service account authenticates pulls.
-image_pull_secrets: []
+image_pull_secrets: []              # Secret names for private registries; unneeded on GKE
 non_preemptible: false
 
 github_org: theboarderline
@@ -132,6 +130,8 @@ external_secrets:
   refresh_interval: 0
   secret_prefix: ""   # prepended to every remoteRef.key; e.g. "lswingz-42-" for ephemeral envs
   extra_keys: []      # arbitrary GCP SM key names; no chart change needed for new integrations
+  credentials_secret: ""              # Secret holding a GCP SA key; unused when google.gke_project is set
+  credentials_key: credentials.json
 
 cert_manager:
   enabled: false
@@ -215,7 +215,7 @@ postgres:
   enabled: false
   replicas: 1
   disk_size: 10Gi
-  # Defaults are amd64-only; arm64 clusters need a multi-arch tag (ubi8-17.4-0)
+  # amd64-only; arm64 clusters need ubi8-17.4-0 / ubi8-2.54.2-2516
   image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-14.6-2
   version: 14
   backup:
