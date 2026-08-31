@@ -1,5 +1,9 @@
 enabled: true
 local: false
+
+# Registry pull secrets, applied via the ServiceAccount. Empty on GKE, where the
+# node service account authenticates pulls.
+image_pull_secrets: []
 non_preemptible: false
 
 github_org: theboarderline
