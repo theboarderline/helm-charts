@@ -63,6 +63,20 @@
 
 
 {{/*
+External Secrets promoted its CRDs to v1 in ESO 1.0 and stopped serving
+v1beta1 in 2.x, so a hardcoded version fails on one side or the other.
+Detect what the target cluster actually serves.
+*/}}
+{{- define "eso_api_version" -}}
+  {{- if .Capabilities.APIVersions.Has "external-secrets.io/v1" -}}
+    external-secrets.io/v1
+  {{- else -}}
+    external-secrets.io/v1beta1
+  {{- end -}}
+{{- end -}}
+
+
+{{/*
 The GCP project holding this app's Artifact Registry images and Secret Manager
 secrets. Set google.app_project explicitly; the derived form is kept as the
 default so existing releases render unchanged.
