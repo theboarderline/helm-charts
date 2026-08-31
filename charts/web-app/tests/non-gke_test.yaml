@@ -1,0 +1,106 @@
+suite: non-GKE portability
+templates:
+  - managed-cert.yaml
+  - backend-config.yaml
+  - frontend-config.yaml
+  - api-dep.yaml
+  - external-secrets.yaml
+set:
+  app_code: testapp
+  lifecycle: dev
+  domain: example.com
+  sa_project_id: test-sa-project
+  primary_cluster: test-cluster
+  ingress:
+    enabled: true
+    https: true
+    cert: true
+
+tests:
+  - it: renders ManagedCertificate by default so GKE releases are unchanged
+    templates:
+      - managed-cert.yaml
+    asserts:
+      - hasDocuments:
+          count: 1
+
+  - it: renders both BackendConfigs by default
+    templates:
+      - backend-config.yaml
+    asserts:
+      - hasDocuments:
+          count: 2
+
+  - it: renders FrontendConfig by default
+    templates:
+      - frontend-config.yaml
+    asserts:
+      - hasDocuments:
+          count: 1
+
+  - it: omits ManagedCertificate when google.gke is false
+    templates:
+      - managed-cert.yaml
+    set:
+      google.gke: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: omits BackendConfig when google.gke is false
+    templates:
+      - backend-config.yaml
+    set:
+      google.gke: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: omits FrontendConfig when google.gke is false
+    templates:
+      - frontend-config.yaml
+    set:
+      google.gke: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  # google.gke must not become another `local` — these have to survive.
+  - it: still renders ExternalSecret when google.gke is false
+    templates:
+      - external-secrets.yaml
+    set:
+      google.gke: false
+    asserts:
+      - hasDocuments:
+          count: 2
+
+  - it: derives app_project from app_code when unset
+    templates:
+      - external-secrets.yaml
+    documentIndex: 0
+    asserts:
+      - equal:
+          path: spec.provider.gcpsm.projectID
+          value: testapp-app-project
+
+  - it: uses google.app_project for secrets when set
+    templates:
+      - external-secrets.yaml
+    documentIndex: 0
+    set:
+      google.app_project: explicit-project
+    asserts:
+      - equal:
+          path: spec.provider.gcpsm.projectID
+          value: explicit-project
+
+  - it: uses google.app_project for the image registry too
+    templates:
+      - api-dep.yaml
+    set:
+      google.app_project: explicit-project
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[0].image
+          pattern: "^us-central1-docker\\.pkg\\.dev/explicit-project/"

@@ -56,6 +56,12 @@ google:
   region: us-central1
   zone: us-central1-a
   gke_project: ""  # GKE project ID (required for ESO Workload Identity auth)
+  # Set false off-GKE to skip ManagedCertificate / BackendConfig / FrontendConfig,
+  # whose CRDs only exist on GKE.
+  gke: true
+  # GCP project holding this app's images and secrets.
+  # Defaults to "<app_code>-app-project" when empty.
+  app_project: ""
   cdn:
     enabled: false
   config_connector_context: false

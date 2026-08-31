@@ -1,4 +1,4 @@
-{{- if and (.Values.enabled) (not .Values.local) }}
+{{- if and (.Values.enabled) (.Values.google.gke) (not .Values.local) }}
 
 {{- if or (.Values.ingress.enabled) (.Values.ingress.cert) }}
 {{- if .Values.ingress.https }}

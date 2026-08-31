@@ -62,8 +62,17 @@
 {{- end -}}
 
 
+{{/*
+The GCP project holding this app's Artifact Registry images and Secret Manager
+secrets. Set google.app_project explicitly; the derived form is kept as the
+default so existing releases render unchanged.
+*/}}
 {{- define "app_project" -}}
-  {{- required "REQUIRED: app_code" .Values.app_code -}}-app-project
+  {{- if .Values.google.app_project -}}
+    {{- .Values.google.app_project -}}
+  {{- else -}}
+    {{- required "REQUIRED: app_code" .Values.app_code -}}-app-project
+  {{- end -}}
 {{- end -}}
 
 
