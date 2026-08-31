@@ -211,8 +211,12 @@ postgres:
   enabled: false
   replicas: 1
   disk_size: 10Gi
+  # Defaults are amd64-only; arm64 clusters need a multi-arch tag (ubi8-17.4-0)
+  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-14.6-2
+  version: 14
   backup:
     type: "volume"
+    image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.41-2
     gcs:
       enabled: false
       bucket: ""
