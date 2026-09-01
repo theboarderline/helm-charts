@@ -54,6 +54,12 @@ spec:
           - 150
 
       serviceAccountName: default
+      {{- with .Values.image_pull_secrets }}
+      imagePullSecrets:
+      {{- range . }}
+        - name: {{ . }}
+      {{- end }}
+      {{- end }}
       containers:
       - name: nginx
         image: {{ include "nginx_image" . }}
