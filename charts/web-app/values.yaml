@@ -143,6 +143,7 @@ ingress:
   cert: false
   mci: false
   nginx: false
+  class_name: ""
 
 mci_clusters: []  # required when ingress.mci: true; e.g. ["us-central1/central-cluster", "us-east4/east-cluster"]
 

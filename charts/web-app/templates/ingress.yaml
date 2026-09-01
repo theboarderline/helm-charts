@@ -20,7 +20,9 @@ metadata:
     {{- end }}
 
     {{- if .Values.ingress.https }}
+    {{- if .Values.google.gke }}
     networking.gke.io/v1beta1.FrontendConfig: gke-frontendconfig
+    {{- end }}
     {{- if .Values.cert_manager.enabled }}
     cert-manager.io/cluster-issuer: "letsencrypt-nginx"
     kubernetes.io/tls-acme: "true"
@@ -38,16 +40,19 @@ metadata:
     {{- end }}
 
 spec:
+  {{- if .Values.ingress.class_name }}
+  ingressClassName: {{ .Values.ingress.class_name }}
+  {{- end }}
   {{- if and (.Values.ingress.https) (.Values.ingress.nginx) (.Values.cert_manager.enabled) }}
   tls:
   - hosts:
-    - {{ include "domain" $ }}
+    - {{ include "subdomain" $ }}
     secretName: ingress-certs
   {{- end }}
 
   {{- if .Values.ingress.nginx }}
   rules:
-  - host: {{ include "domain" $ }}
+  - host: {{ include "subdomain" $ }}
     http:
       paths:
       - backend:
