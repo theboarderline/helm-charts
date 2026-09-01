@@ -218,6 +218,7 @@ postgres:
   # amd64-only; arm64 clusters need ubi8-17.4-0 / ubi8-2.54.2-2516
   image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-14.6-2
   version: 14
+  init_sql: ""
   backup:
     type: "volume"
     image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.41-2

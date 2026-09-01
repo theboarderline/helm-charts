@@ -7,6 +7,11 @@ metadata:
 spec:
   image: {{ .Values.postgres.image }}
   postgresVersion: {{ .Values.postgres.version }}
+  {{- if .Values.postgres.init_sql }}
+  databaseInitSQL:
+    name: crunchydb-init-sql
+    key: init.sql
+  {{- end }}
   {{- if .Values.postgres.backup.gcs.enabled }}
   metadata:
     annotations:
@@ -64,5 +69,17 @@ spec:
               requests:
                 storage: {{ .Values.postgres.disk_size }}
       {{- end }}
+
+{{- if .Values.postgres.init_sql }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: crunchydb-init-sql
+  namespace: {{ .Release.Namespace }}
+data:
+  init.sql: |
+{{ .Values.postgres.init_sql | indent 4 }}
+{{- end }}
 
 {{- end }}
