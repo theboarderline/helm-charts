@@ -1,0 +1,141 @@
+suite: image resolution and autoscaling
+templates:
+  - api-dep.yaml
+  - nginx-dep.yaml
+  - hpa.yaml
+  - postgres.yaml
+  - ingress.yaml
+set:
+  app_code: testapp
+  lifecycle: dev
+  domain: example.com
+  sa_project_id: test-sa-project
+  primary_cluster: test-cluster
+
+tests:
+  - it: derives the api image from the app project
+    templates:
+      - api-dep.yaml
+    asserts:
+      - matchRegex:
+          path: spec.template.spec.containers[0].image
+          pattern: "^us-central1-docker\\.pkg\\.dev/testapp-app-project/dev-testapp-v3-images/api:"
+
+  - it: uses api.image verbatim when set
+    templates:
+      - api-dep.yaml
+    set:
+      api.image: registry.example.com/team/api
+      api.tag: abc123
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: registry.example.com/team/api:abc123
+
+  - it: uses nginx.image verbatim when set
+    templates:
+      - nginx-dep.yaml
+    set:
+      nginx.image: registry.example.com/team/react
+      nginx.tag: abc123
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: registry.example.com/team/react:abc123
+
+  # Utilization pairs with averageUtilization; averageValue needs AverageValue,
+  # and the mismatch made the autoscaler sit at maxReplicas.
+  - it: declares the memory metric as AverageValue
+    templates:
+      - hpa.yaml
+    documentIndex: 0
+    set:
+      autoscaler.enabled: true
+    asserts:
+      - equal:
+          path: spec.metrics[0].resource.target.type
+          value: AverageValue
+      - exists:
+          path: spec.metrics[0].resource.target.averageValue
+
+  - it: declares the cpu metric as Utilization
+    templates:
+      - hpa.yaml
+    documentIndex: 0
+    set:
+      autoscaler.enabled: true
+    asserts:
+      - equal:
+          path: spec.metrics[1].resource.target.type
+          value: Utilization
+
+  - it: takes the postgres images from values
+    templates:
+      - postgres.yaml
+    set:
+      postgres.enabled: true
+      postgres.image: registry.example.com/pg:17
+      postgres.version: 17
+      postgres.backup.image: registry.example.com/pgbackrest:2.54
+    asserts:
+      - equal:
+          path: spec.image
+          value: registry.example.com/pg:17
+      - equal:
+          path: spec.postgresVersion
+          value: 17
+
+  - it: renders no init SQL config map by default
+    templates:
+      - postgres.yaml
+    set:
+      postgres.enabled: true
+    asserts:
+      - notExists:
+          path: spec.databaseInitSQL
+
+  - it: serves the nginx ingress on the lifecycle subdomain
+    templates:
+      - ingress.yaml
+    set:
+      ingress.nginx: true
+      google.gke: false
+    asserts:
+      - equal:
+          path: spec.rules[0].host
+          value: dev.example.com
+
+  - it: serves prod on the bare domain
+    templates:
+      - ingress.yaml
+    set:
+      lifecycle: prod
+      ingress.nginx: true
+      google.gke: false
+    asserts:
+      - equal:
+          path: spec.rules[0].host
+          value: example.com
+
+  # Terminating TLS at the ingress and passing it through are mutually exclusive
+  - it: does not set ssl-passthrough by default
+    templates:
+      - ingress.yaml
+    set:
+      ingress.nginx: true
+      google.gke: false
+    asserts:
+      - notExists:
+          path: metadata.annotations["nginx.ingress.kubernetes.io/ssl-passthrough"]
+
+  - it: sets the ingress class when given one
+    templates:
+      - ingress.yaml
+    set:
+      ingress.nginx: true
+      google.gke: false
+      ingress.class_name: nginx
+    asserts:
+      - equal:
+          path: spec.ingressClassName
+          value: nginx

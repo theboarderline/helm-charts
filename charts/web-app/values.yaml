@@ -14,6 +14,7 @@ drainingTimeoutSec: 120
 
 api:
   enabled: true
+  image: ""                           # full repository path; derived from google.app_project when empty
   tag: latest
   containerPort: 8000
   healthCheckPath: /api/
@@ -35,6 +36,7 @@ api:
 
 nginx:
   enabled: true
+  image: ""                           # full repository path; derived from google.app_project when empty
   tag: latest
   containerPort: 3000
   healthCheckPath: /health/

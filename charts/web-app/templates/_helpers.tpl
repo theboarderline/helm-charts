@@ -82,12 +82,20 @@ default so existing releases render unchanged.
 
 
 {{- define "api_registry" -}}
-  {{- include "registry_prefix" $ -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/api
+  {{- if .Values.api.image -}}
+    {{- .Values.api.image -}}
+  {{- else -}}
+    {{- include "registry_prefix" $ -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/api
+  {{- end -}}
 {{- end -}}
 
 
 {{- define "nginx_registry" -}}
-  {{- include "registry_prefix" $ -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/react
+  {{- if .Values.nginx.image -}}
+    {{- .Values.nginx.image -}}
+  {{- else -}}
+    {{- include "registry_prefix" $ -}}/{{- include "app_project" . -}}/{{- include "registry_name" . -}}/react
+  {{- end -}}
 {{- end -}}
 
 
