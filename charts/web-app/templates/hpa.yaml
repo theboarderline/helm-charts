@@ -20,7 +20,7 @@ spec:
     resource:
       name: memory
       target:
-        type: Utilization
+        type: AverageValue
         averageValue: {{ .Values.api.target_mem }}
   - type: Resource
     resource:
@@ -50,7 +50,7 @@ spec:
     resource:
       name: memory
       target:
-        type: Utilization
+        type: AverageValue
         averageValue: {{ .Values.nginx.target_mem }}
   - type: Resource
     resource:
