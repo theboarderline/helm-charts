@@ -144,8 +144,7 @@ ingress:
   mci: false
   nginx: false
   class_name: ""
-  # only for a backend that terminates its own TLS; the chart's does not
-  ssl_passthrough: false
+  ssl_passthrough: false              # true only if nginx-svc terminates TLS itself
 
 mci_clusters: []  # required when ingress.mci: true; e.g. ["us-central1/central-cluster", "us-east4/east-cluster"]
 
@@ -218,10 +217,10 @@ postgres:
   enabled: false
   replicas: 1
   disk_size: 10Gi
-  # amd64-only; arm64 clusters need ubi8-17.4-0 / ubi8-2.54.2-2516
+  # these tags are amd64-only; arm64 needs ubi8-17.4-0 with pgbackrest ubi8-2.54.2-2516
   image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-14.6-2
   version: 14
-  init_sql: ""
+  init_sql: ""                        # SQL run once as superuser at cluster init
   backup:
     type: "volume"
     image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.41-2
