@@ -1,5 +1,5 @@
 {{- if .Values.enabled }}
-{{- if .Values.fqdn_network_policy.enabled }}
+{{- if and (.Values.fqdn_network_policy.enabled) (.Values.google.gke) }}
 
 apiVersion: networking.gke.io/v1alpha3
 kind: FQDNNetworkPolicy
@@ -14,14 +14,9 @@ spec:
   egress:
     - to:
       - fqdns:
-        - "googleapis.com"
-        - "*.googleapis.com"
-        - "accounts.google.com"
-        - "sendgrid.net"
-        - "*.sendgrid.net"
-        - "twilio.com"
-        - "*.twilio.com"
-        - "sync.thewiseagent.com"
+        {{- range .Values.fqdn_network_policy.fqdns }}
+        - {{ . | quote }}
+        {{- end }}
         ports:
         - port: 443
           protocol: TCP

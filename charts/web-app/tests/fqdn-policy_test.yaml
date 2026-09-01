@@ -1,0 +1,69 @@
+suite: fqdn network policy
+templates:
+  - fqdn-network-policy.yaml
+set:
+  app_code: testapp
+  lifecycle: dev
+  domain: example.com
+  sa_project_id: test-sa-project
+  primary_cluster: test-cluster
+
+tests:
+  - it: does not render unless enabled
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: does not render off GKE, where the CRD does not exist
+    set:
+      fqdn_network_policy.enabled: true
+      google.gke: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  # The SendGrid SDK calls api.sendgrid.com; allowing only sendgrid.net
+  # silently broke outbound email.
+  - it: allows the host the SendGrid SDK actually calls
+    set:
+      fqdn_network_policy.enabled: true
+    asserts:
+      - contains:
+          path: spec.egress[0].to[0].fqdns
+          content: api.sendgrid.com
+
+  - it: allows the host the Twilio SDK actually calls
+    set:
+      fqdn_network_policy.enabled: true
+    asserts:
+      - contains:
+          path: spec.egress[0].to[0].fqdns
+          content: api.twilio.com
+
+  - it: allows the integrations the chart ships support for
+    set:
+      fqdn_network_policy.enabled: true
+    asserts:
+      - contains:
+          path: spec.egress[0].to[0].fqdns
+          content: api.stripe.com
+      - contains:
+          path: spec.egress[0].to[0].fqdns
+          content: api.anthropic.com
+      - contains:
+          path: spec.egress[0].to[0].fqdns
+          content: "*.cloudwalksolutions.ai"
+      - contains:
+          path: spec.egress[0].to[0].fqdns
+          content: "*.googleapis.com"
+
+  - it: takes the host list from values
+    set:
+      fqdn_network_policy.enabled: true
+      fqdn_network_policy.fqdns:
+        - only.example.com
+    asserts:
+      - equal:
+          path: spec.egress[0].to[0].fqdns
+          value:
+            - only.example.com

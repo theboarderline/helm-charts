@@ -152,6 +152,18 @@ mci_clusters: []  # required when ingress.mci: true; e.g. ["us-central1/central-
 
 fqdn_network_policy:
   enabled: false
+  fqdns:                              # hosts the app may reach; GKE only
+    - "googleapis.com"                # maps, routes, storage, sheets, oauth2, gemini
+    - "*.googleapis.com"
+    - "accounts.google.com"
+    - "*.cloudwalksolutions.ai"
+    - "*.cloudwalksolutions.net"
+    - "api.anthropic.com"
+    - "api.stripe.com"
+    - "api.sendgrid.com"
+    - "api.twilio.com"
+    - "twilio.com"
+    - "*.twilio.com"
 
 network_policy:
   enabled: false
