@@ -31,7 +31,9 @@ metadata:
     {{- end }}
     {{- if .Values.ingress.nginx }}
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    {{- if .Values.ingress.ssl_passthrough }}
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    {{- end }}
     {{- end }}
     {{- end }}
 

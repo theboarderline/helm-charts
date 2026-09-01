@@ -144,6 +144,8 @@ ingress:
   mci: false
   nginx: false
   class_name: ""
+  # only for a backend that terminates its own TLS; the chart's does not
+  ssl_passthrough: false
 
 mci_clusters: []  # required when ingress.mci: true; e.g. ["us-central1/central-cluster", "us-east4/east-cluster"]
 
