@@ -33,7 +33,7 @@ spec:
           restartPolicy: Never
           containers:
           - name: http
-            image: gcr.io/walker-cpl/httpie:0.0.3
+            image: curlimages/curl:8.11.1
             imagePullPolicy: IfNotPresent
 
             securityContext:
@@ -46,17 +46,21 @@ spec:
                 type: RuntimeDefault
 
             args:
+            - --silent
+            - --show-error
+            - --fail-with-body
+            - --request
             - {{ .method | default "POST" }}
-            - api-svc.{{- $.Release.Namespace -}}.svc/api/{{- .endpoint }}
             {{- if .headers }}
             {{- range $name, $value := .headers }}
-            - {{ printf "%s:%s" $name $value | quote }}
+            - --header
+            - {{ printf "%s: %s" $name $value | quote }}
             {{- end }}
             {{- else }}
-            - key=$(API_KEY)
+            - --json
+            - {{ printf "{\"key\": \"$(API_KEY)\"}" | quote }}
             {{- end }}
-            - --ignore-stdin
-            - --check-status
+            - http://api-svc.{{- $.Release.Namespace -}}.svc/api/{{- .endpoint }}
 
             env:
             - name: API_KEY

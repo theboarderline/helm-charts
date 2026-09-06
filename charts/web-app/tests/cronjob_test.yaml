@@ -4,7 +4,23 @@ templates:
 
 tests:
 
-  - it: renders headers as httpie Header:value args and omits the legacy body-field
+  - it: runs a multi-arch curl image, because httpie publishes no arm64 build
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      cronjobs:
+        enabled: true
+        jobs:
+          - name: reschedule
+            endpoint: jobs/reschedule
+    asserts:
+      - matchRegex:
+          path: spec.jobTemplate.spec.template.spec.containers[0].image
+          pattern: "^curlimages/curl:"
+
+  - it: renders headers as curl --header args and omits the legacy body-field
     set:
       enabled: true
       lifecycle: dev
@@ -23,18 +39,18 @@ tests:
           count: 1
       - contains:
           path: spec.jobTemplate.spec.template.spec.containers[0].args
-          content: "Authorization:Bearer $(API_KEY)"
+          content: "--header"
+      - contains:
+          path: spec.jobTemplate.spec.template.spec.containers[0].args
+          content: "Authorization: Bearer $(API_KEY)"
       - notContains:
           path: spec.jobTemplate.spec.template.spec.containers[0].args
-          content: "key=$(API_KEY)"
+          content: '{"key": "$(API_KEY)"}'
       - contains:
           path: spec.jobTemplate.spec.template.spec.containers[0].args
           content: "POST"
-      - contains:
-          path: spec.jobTemplate.spec.template.spec.containers[0].args
-          content: "--check-status"
 
-  - it: falls back to the legacy body-field arg when no headers are configured
+  - it: sends the legacy body-field as JSON when no headers are configured
     set:
       enabled: true
       lifecycle: dev
@@ -51,7 +67,42 @@ tests:
           count: 1
       - contains:
           path: spec.jobTemplate.spec.template.spec.containers[0].args
-          content: "key=$(API_KEY)"
+          content: "--json"
+      - contains:
+          path: spec.jobTemplate.spec.template.spec.containers[0].args
+          content: '{"key": "$(API_KEY)"}'
+
+  - it: fails the job on an HTTP error status instead of exiting zero
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      cronjobs:
+        enabled: true
+        jobs:
+          - name: reschedule
+            endpoint: jobs/reschedule
+    asserts:
+      - contains:
+          path: spec.jobTemplate.spec.template.spec.containers[0].args
+          content: "--fail-with-body"
+
+  - it: gives curl an absolute URL, which it will not infer the way httpie did
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      cronjobs:
+        enabled: true
+        jobs:
+          - name: reschedule
+            endpoint: "jobs/reschedule?status=incomplete"
+    asserts:
+      - contains:
+          path: spec.jobTemplate.spec.template.spec.containers[0].args
+          content: "http://api-svc.NAMESPACE.svc/api/jobs/reschedule?status=incomplete"
 
   - it: skips a job marked enabled false and keeps a job that omits the key
     set:
