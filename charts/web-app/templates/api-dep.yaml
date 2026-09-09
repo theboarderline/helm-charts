@@ -52,7 +52,7 @@ spec:
           - 150
 
       volumes:
-        {{- if .Values.google.key }}
+        {{- if include "google_credentials_file" . }}
         - name: json-credentials
           secret:
             secretName: json-credentials
@@ -104,7 +104,7 @@ spec:
             cpu: {{ required "REQUIRED: api.cpu.limit" .Values.api.cpu.limit }}
 
         volumeMounts:
-          {{- if .Values.google.key }}
+          {{- if include "google_credentials_file" . }}
           - mountPath: /backend/secrets
             name: json-credentials
           {{- end }}
@@ -309,7 +309,7 @@ spec:
           value: /backend/secrets/google-oauth-creds
         {{- end }}
 
-        {{- if .Values.google.key }}
+        {{- if include "google_credentials_file" . }}
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /backend/secrets/credentials.json
         {{- end }}

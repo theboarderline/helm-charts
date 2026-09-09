@@ -56,7 +56,8 @@ nginx:
 google:
   key: false
   # Off GKE there is no metadata server, so the KSA annotation resolves to nothing and ADC fails.
-  # Setting an audience projects a token the credentials.json in `key` can federate with instead.
+  # An audience projects a token and writes the credentials.json that federates it, which carries no
+  # key material. Leave empty on GKE, where `key` means an externally supplied key of that name.
   federation:
     audience: ""
   maps:

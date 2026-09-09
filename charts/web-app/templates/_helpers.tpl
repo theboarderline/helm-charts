@@ -151,6 +151,11 @@ default so existing releases render unchanged.
 {{- end -}}
 
 
+{{- define "google_credentials_file" -}}
+  {{- if or .Values.google.key .Values.google.federation.audience -}}true{{- end -}}
+{{- end -}}
+
+
 {{- define "bucket" -}}
   {{- include "app_label" $ -}}-v2-web-static
 {{- end -}}
