@@ -192,3 +192,67 @@ tests:
       - equal:
           path: spec.template.spec.terminationGracePeriodSeconds
           value: 90
+
+  - it: carries no projected token when nothing asks it to federate
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      google:
+        region: us-central1
+      api:
+        enabled: true
+        tag: latest
+    asserts:
+      - notContains:
+          path: spec.template.spec.volumes
+          content:
+            name: gcp-token
+          any: true
+
+  - it: projects a token for the audience it is given, so credentials need no key
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      google:
+        region: us-central1
+        federation:
+          audience: //iam.googleapis.com/projects/1/locations/global/workloadIdentityPools/p/providers/v
+      api:
+        enabled: true
+        tag: latest
+    asserts:
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: gcp-token
+            projected:
+              sources:
+                - serviceAccountToken:
+                    path: token
+                    audience: //iam.googleapis.com/projects/1/locations/global/workloadIdentityPools/p/providers/v
+                    expirationSeconds: 3600
+
+  - it: mounts that token read-only where a credentials file can point at it
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      google:
+        region: us-central1
+        federation:
+          audience: //iam.googleapis.com/projects/1/locations/global/workloadIdentityPools/p/providers/v
+      api:
+        enabled: true
+        tag: latest
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            mountPath: /var/run/secrets/gcp
+            name: gcp-token
+            readOnly: true

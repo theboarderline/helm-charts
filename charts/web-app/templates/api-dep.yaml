@@ -57,6 +57,15 @@ spec:
           secret:
             secretName: json-credentials
         {{- end }}
+        {{- with .Values.google.federation.audience }}
+        - name: gcp-token
+          projected:
+            sources:
+              - serviceAccountToken:
+                  path: token
+                  audience: {{ . | quote }}
+                  expirationSeconds: 3600
+        {{- end }}
         - name: tmp-dir
           emptyDir: {}
         - name: usr-tmp-dir
@@ -98,6 +107,11 @@ spec:
           {{- if .Values.google.key }}
           - mountPath: /backend/secrets
             name: json-credentials
+          {{- end }}
+          {{- if .Values.google.federation.audience }}
+          - mountPath: /var/run/secrets/gcp
+            name: gcp-token
+            readOnly: true
           {{- end }}
           {{- if .Values.api.use_pd }}
           - mountPath: /backend/var
