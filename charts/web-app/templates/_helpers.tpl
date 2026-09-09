@@ -156,6 +156,19 @@ default so existing releases render unchanged.
 {{- end -}}
 
 
+{{/*
+Buckets are named for the environment that owns them. An environment that comes and goes with a
+pull request owns none, and borrows another lifecycle's instead.
+*/}}
+{{- define "bucket_label" -}}
+  {{- with .Values.google.storage.lifecycle -}}
+    {{ . }}-{{ required "REQUIRED: app_code" $.Values.app_code }}
+  {{- else -}}
+    {{- include "app_label" . -}}
+  {{- end -}}
+{{- end -}}
+
+
 {{- define "bucket" -}}
   {{- include "app_label" $ -}}-v2-web-static
 {{- end -}}

@@ -193,6 +193,44 @@ tests:
           path: spec.template.spec.terminationGracePeriodSeconds
           value: 90
 
+  - it: names buckets after its own environment by default
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+      google:
+        region: us-central1
+      api:
+        enabled: true
+        tag: latest
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: PUBLIC_BUCKET
+            value: dev-test-v3-public-content
+
+  - it: borrows another lifecycle's buckets when it owns none
+    set:
+      enabled: true
+      lifecycle: test-42
+      app_code: test
+      domain: example.com
+      google:
+        region: us-central1
+        storage:
+          lifecycle: dev
+      api:
+        enabled: true
+        tag: latest
+    asserts:
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: PUBLIC_BUCKET
+            value: dev-test-v3-public-content
+
   - it: carries no projected token when nothing asks it to federate
     set:
       enabled: true

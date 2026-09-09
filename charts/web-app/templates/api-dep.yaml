@@ -156,7 +156,7 @@ spec:
         {{- if .Values.google.storage.enabled }}
         {{- range .Values.google.storage.bucket_list }}
         - name: {{ .key }}
-          value: {{ include "app_label" $ -}}-{{- .name }}
+          value: {{ include "bucket_label" $ -}}-{{- .name }}
         {{- end }}
         {{- end }}
 

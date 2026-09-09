@@ -84,6 +84,9 @@ google:
   storage:
     enabled: true
     create: false
+    # Whose buckets to use. Empty means this environment's own, which is what a long-lived one has.
+    # An environment created with a pull request has none, and names another lifecycle here.
+    lifecycle: ""
     bucket_list:
       - name: v3-public-content
         key: PUBLIC_BUCKET
