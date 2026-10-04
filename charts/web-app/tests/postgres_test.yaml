@@ -125,6 +125,39 @@ tests:
           path: spec.backups.pgbackrest.repos[0].schedules.differential
           value: "0 */6 * * *"
 
+  - it: leaves the data and backup volumes on the cluster's default storage class
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      google:
+        region: us-central1
+      postgres:
+        enabled: true
+    asserts:
+      - notExists:
+          path: spec.instances[0].dataVolumeClaimSpec.storageClassName
+      - notExists:
+          path: spec.backups.pgbackrest.repos[0].volume.volumeClaimSpec.storageClassName
+
+  - it: puts the data and backup volumes on the storage class it is given
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      google:
+        region: us-central1
+      postgres:
+        enabled: true
+        storageClassName: nfs-ephemeral
+    asserts:
+      - equal:
+          path: spec.instances[0].dataVolumeClaimSpec.storageClassName
+          value: nfs-ephemeral
+      - equal:
+          path: spec.backups.pgbackrest.repos[0].volume.volumeClaimSpec.storageClassName
+          value: nfs-ephemeral
+
   - it: gcs enabled without bucket fails rendering
     set:
       enabled: true

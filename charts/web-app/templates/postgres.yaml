@@ -26,6 +26,9 @@ spec:
           linkerd.io/inject: enabled
       {{- end }}
       dataVolumeClaimSpec:
+        {{- with .Values.postgres.storageClassName }}
+        storageClassName: {{ . }}
+        {{- end }}
         accessModes:
         - "ReadWriteOnce"
         resources:
@@ -63,6 +66,9 @@ spec:
       - name: repo1
         volume:
           volumeClaimSpec:
+            {{- with .Values.postgres.storageClassName }}
+            storageClassName: {{ . }}
+            {{- end }}
             accessModes:
             - "ReadWriteOnce"
             resources:
