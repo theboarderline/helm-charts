@@ -72,6 +72,18 @@ tests:
           path: data["api.conf"]
           pattern: "proxy_pass http://api-svc"
 
+  - it: makes browsers revalidate html, so a deploy is seen on the next load
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      domain: example.com
+    asserts:
+      - documentIndex: 1
+        matchRegex:
+          path: data["api.conf"]
+          pattern: 'location ~ \\\.html\$ \{\s+root /var/www/html;\s+add_header Cache-Control "no-cache";'
+
   - it: django admin and accounts locations present when django enabled
     set:
       enabled: true
