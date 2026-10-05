@@ -140,7 +140,10 @@ external_secrets:
   refresh_interval: 0
   secret_prefix: ""   # prepended to every remoteRef.key; e.g. "lswingz-42-" for ephemeral envs
   extra_keys: []      # arbitrary GCP SM key names; no chart change needed for new integrations
-  credentials_secret: ""              # Secret holding a GCP SA key; unused when google.gke_project is set
+  # Secret holding a GCP SA key, and the last resort: the store authenticates by
+  # google.gke_project on GKE, by google.federation.audience anywhere else, and only
+  # falls back to this key when neither is set.
+  credentials_secret: ""
   credentials_key: credentials.json
 
 cert_manager:
