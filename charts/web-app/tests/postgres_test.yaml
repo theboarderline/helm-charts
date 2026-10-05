@@ -158,6 +158,21 @@ tests:
           path: spec.backups.pgbackrest.repos[0].volume.volumeClaimSpec.storageClassName
           value: nfs-ephemeral
 
+  - it: exports metrics with the exporter the operator pairs with its own images
+    set:
+      enabled: true
+      lifecycle: dev
+      app_code: test
+      google:
+        region: us-central1
+      postgres:
+        enabled: true
+        monitoring: true
+    asserts:
+      - equal:
+          path: spec.monitoring.pgmonitor.exporter
+          value: {}
+
   - it: gcs enabled without bucket fails rendering
     set:
       enabled: true

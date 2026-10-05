@@ -243,6 +243,7 @@ postgres:
   replicas: 1
   disk_size: 10Gi
   storageClassName: ""
+  monitoring: false
   # these tags are amd64-only; arm64 needs a pair from one PGO release, e.g. ubi9-17.11-2633 with pgbackrest ubi9-2.59.0-2633
   image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-14.6-2
   version: 14
